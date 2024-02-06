@@ -35,6 +35,14 @@ A \code{question_category}.
 \description{
 Define the question and the possible answers. The type of question is deduced.
 }
+\details{
+If we include an image in the question, we must also include text in the \code{alt}
+field associated with it.
+
+After the correct answer, we can indicate as many answers as we want, if we do
+not indicate all the parameters, we have to give each answer a parameter name
+different from the rest of the parameter names.
+}
 \examples{
 
 qc <- question_category(category = 'Initial test') |>

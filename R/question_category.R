@@ -4,6 +4,14 @@
 #'
 #' Defines a category of questions to be included in the *Moodle* question bank.
 #'
+#' It allows us to define the name of the category, the copyright and license
+#' literals that will be added to each question, and the feedback literals for
+#' correct, partially correct and incorrect questions.
+#'
+#' Each question can include an image after the text. We can also configure if
+#' we want to automatically transform the images so that they have a standard
+#' size that we can also indicate.
+#'
 #' @param category A string, category name.
 #' @param copyright A string, copyright text to be included in each question that
 #' is defined.
@@ -28,12 +36,12 @@
 #' @export
 question_category <-
   function(category = 'Default category',
-           copyright = NULL,
-           license = NULL,
+           copyright = '',
+           license = '',
            correct_feedback = 'Correct.',
            partially_correct_feedback = 'Partially correct.',
            incorrect_feedback = 'Incorrect.',
-           adapt_images = TRUE,
+           adapt_images = FALSE,
            width = 800,
            height = 600) {
     questions <-  data.frame(
@@ -78,6 +86,13 @@ question_category <-
 #'
 #' Define the question and the possible answers. The type of question is deduced.
 #'
+#' If we include an image in the question, we must also include text in the `alt`
+#' field associated with it.
+#'
+#' After the correct answer, we can indicate as many answers as we want, if we do
+#' not indicate all the parameters, we have to give each answer a parameter name
+#' different from the rest of the parameter names.
+#'
 #' @param qc A `question_category` object.
 #' @param question A string, statement of the question.
 #' @param image A string, optional, image file to include in the question.
@@ -117,6 +132,10 @@ define_question.question_category <- function(qc,
                                               image_alt = '',
                                               answer = '',
                                               ...) {
+  if (image != '') {
+    stopifnot('If an image is included, the associated alt field must also be defined.' = image_alt != '')
+  }
+
   others <- list(...)
   wrong <- NULL
   for (s in seq_along(others)) {
@@ -156,12 +175,19 @@ define_question.question_category <- function(qc,
       nq[1, paste0('wrong_', i)] <- ''
     }
   }
-  if (n > qc$wrong_n) {
-    for (i in (qc$wrong_n + 1):n) {
-      qc$questions[, paste0('wrong_', i)] <- ''
+  if (nrow(qc$questions) > 0) {
+    if (n > qc$wrong_n) {
+      for (i in (qc$wrong_n + 1):n) {
+        qc$questions[, paste0('wrong_', i)] <- ''
+      }
+      qc$wrong_n <- n
     }
-    qc$wrong_n <- n
+    qc$questions <- rbind(qc$questions, nq)
+  } else {
+    if (n > qc$wrong_n) {
+      qc$wrong_n <- n
+    }
+    qc$questions <- nq
   }
-  qc$questions <- rbind(qc$questions, nq)
   qc
 }

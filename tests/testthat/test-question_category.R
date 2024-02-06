@@ -1,3 +1,97 @@
 test_that("question_category", {
-  expect_equal(2 * 2, 4)
+  qc <- question_category(category = 'Initial test') |>
+    define_question(
+      question = 'What are the basic arithmetic operations?',
+      answer = 'Addition, subtraction, multiplication and division.',
+      w_1 = 'Addition and subtraction.',
+      w_2 = 'Addition, subtraction, multiplication, division and square root.'
+    )
+
+  qc2 <- question_category(category = 'Initial test') |>
+    define_question(
+      question = 'What are the basic arithmetic operations?',
+      answer = 'Addition, subtraction, multiplication and division.',
+      w_1 = 'Addition and subtraction.',
+      w_2 = 'Addition, subtraction, multiplication, division and square root.',
+      w_3 = 'Addition, subtraction, multiplication, division and square root 2.',
+      w_4 = 'Addition, subtraction, multiplication, division and square root 3.'
+    )
+
+
+  expect_equal(qc,
+               structure(
+                 list(
+                   category = "Initial test",
+                   copyright = "",
+                   license = "",
+                   correct_feedback = "Correct.",
+                   partially_correct_feedback = "Partially correct.",
+                   incorrect_feedback = "Incorrect.",
+                   adapt_images = FALSE,
+                   width = 800,
+                   height = 600,
+                   wrong_n = 3,
+                   questions = structure(
+                     list(
+                       copyright = "",
+                       license = "",
+                       correct_feedback = "Correct.",
+                       partially_correct_feedback = "Partially correct.",
+                       incorrect_feedback = "Incorrect.",
+                       adapt_images = FALSE,
+                       width = 800,
+                       height = 600,
+                       question = "What are the basic arithmetic operations?",
+                       image = "",
+                       alt = "",
+                       answer = "Addition, subtraction, multiplication and division.",
+                       wrong_1 = "Addition and subtraction.",
+                       wrong_2 = "Addition, subtraction, multiplication, division and square root.",
+                       wrong_3 = ""
+                     ),
+                     row.names = c(NA,-1L),
+                     class = "data.frame"
+                   )
+                 ),
+                 class = "question_category"
+               ))
+
+  expect_equal(qc2,
+               structure(
+                 list(
+                   category = "Initial test",
+                   copyright = "",
+                   license = "",
+                   correct_feedback = "Correct.",
+                   partially_correct_feedback = "Partially correct.",
+                   incorrect_feedback = "Incorrect.",
+                   adapt_images = FALSE,
+                   width = 800,
+                   height = 600,
+                   wrong_n = 4L,
+                   questions = structure(
+                     list(
+                       copyright = "",
+                       license = "",
+                       correct_feedback = "Correct.",
+                       partially_correct_feedback = "Partially correct.",
+                       incorrect_feedback = "Incorrect.",
+                       adapt_images = FALSE,
+                       width = 800,
+                       height = 600,
+                       question = "What are the basic arithmetic operations?",
+                       image = "",
+                       alt = "",
+                       answer = "Addition, subtraction, multiplication and division.",
+                       wrong_1 = "Addition and subtraction.",
+                       wrong_2 = "Addition, subtraction, multiplication, division and square root.",
+                       wrong_3 = "Addition, subtraction, multiplication, division and square root 2.",
+                       wrong_4 = "Addition, subtraction, multiplication, division and square root 3."
+                     ),
+                     row.names = c(NA,-1L),
+                     class = "data.frame"
+                   )
+                 ),
+                 class = "question_category"
+               ))
 })

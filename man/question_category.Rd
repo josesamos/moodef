@@ -6,12 +6,12 @@
 \usage{
 question_category(
   category = "Default category",
-  copyright = NULL,
-  license = NULL,
+  copyright = "",
+  license = "",
   correct_feedback = "Correct.",
   partially_correct_feedback = "Partially correct.",
   incorrect_feedback = "Incorrect.",
-  adapt_images = TRUE,
+  adapt_images = FALSE,
   width = 800,
   height = 600
 )
@@ -46,6 +46,14 @@ Creates a \code{question_category} object.
 }
 \details{
 Defines a category of questions to be included in the \emph{Moodle} question bank.
+
+It allows us to define the name of the category, the copyright and license
+literals that will be added to each question, and the feedback literals for
+correct, partially correct and incorrect questions.
+
+Each question can include an image after the text. We can also configure if
+we want to automatically transform the images so that they have a standard
+size that we can also indicate.
 }
 \examples{
 
