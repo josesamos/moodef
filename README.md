@@ -6,11 +6,14 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of moodef is to …
+The goal of `moodef` is to support the definition of
+[*Moodle*](https://moodle.org/) elements taking advantage of the power
+that R offers. In particular, in this first version, it allows the
+definition of questions to be included in the question bank.
 
 ## Installation
 
-You can install the development version of moodef from
+You can install the development version of `moodef` from
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -23,7 +26,7 @@ devtools::install_github("josesamos/moodef")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
-# library(moodef)
+library(moodef)
 ## basic example code
 ```
 
