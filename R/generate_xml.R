@@ -184,6 +184,14 @@ generate_question <- function(first_question_number,
         } else {
           if (type == '') {
             type <- 'ddwtos'
+            question_type <- '<question type="ddwtos">
+'
+            question_body <- generate_ddwtos(answer,
+                                             n,
+                                             rest,
+                                             correct_feedback,
+                                             partially_correct_feedback,
+                                             incorrect_feedback)
           } else {
             type <- 'gapselect'
           }
