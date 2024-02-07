@@ -194,6 +194,14 @@ generate_question <- function(first_question_number,
                                              incorrect_feedback)
           } else {
             type <- 'gapselect'
+            question_type <- '<question type="gapselect">
+'
+            question_body <- generate_gapselect(answer,
+                                             n,
+                                             rest,
+                                             correct_feedback,
+                                             partially_correct_feedback,
+                                             incorrect_feedback)
           }
         }
       } else {
