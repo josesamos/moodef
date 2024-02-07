@@ -53,3 +53,14 @@ adapt_image <- function(image_file, width = 800, height = 600) {
   file
 }
 
+# is numeric  ----------------------------------------------------
+
+#' Check if it is numerica.
+#'
+#' @param str A string.
+#'
+#' @return A boolean.
+#' @keywords internal
+is_numeric <- function(str) {
+  all(!is.na(suppressWarnings(as.numeric(str))))
+}

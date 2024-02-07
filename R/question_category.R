@@ -53,6 +53,7 @@ question_category <-
       adapt_images = logical(),
       width = integer(),
       height = integer(),
+      type = character(),
       question = character(),
       image = character(),
       alt = character(),
@@ -94,6 +95,7 @@ question_category <-
 #' different from the rest of the parameter names.
 #'
 #' @param qc A `question_category` object.
+#' @param type A string, question type (if needed).
 #' @param question A string, statement of the question.
 #' @param image A string, optional, image file to include in the question.
 #' @param image_alt A string, description of the image to include in the question.
@@ -116,6 +118,7 @@ question_category <-
 #'
 #' @export
 define_question <- function(qc,
+                            type,
                             question,
                             image,
                             image_alt,
@@ -127,6 +130,7 @@ define_question <- function(qc,
 #' @rdname define_question
 #' @export
 define_question.question_category <- function(qc,
+                                              type = '',
                                               question = '',
                                               image = '',
                                               image_alt = '',
@@ -160,6 +164,7 @@ define_question.question_category <- function(qc,
     adapt_images = qc$adapt_images,
     width = qc$width,
     height = qc$height,
+    type = type,
     question = question,
     image = image,
     alt = image_alt,

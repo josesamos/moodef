@@ -66,6 +66,7 @@ generate_question <- function(copyright,
                               adapt_images,
                               width,
                               height,
+                              type,
                               question,
                               image,
                               alt,
@@ -90,22 +91,29 @@ generate_question <- function(copyright,
     }
   }
   n <- length(rest)
-  if (n > 0) {
-    answer <- string_to_vector(answer)
-    if (length(answer) == 1) {
-      # multichoice
+  answer <- string_to_vector(answer)
+  if (type == '') {
+    if (is_numeric(answer)) {
+      # numerical
     } else {
-      # matching
+      if (n > 0) {
+        if (length(answer) == 1) {
+          # multichoice
+        } else {
+          # matching
+        }
+      } else {
+        value <- tolower(answer)
+        if (value %in% c('true', 'false')) {
+          # truefalse
+        } else {
+          # shortanswer
+        }
+      }
     }
   } else {
-    value <- tolower(answer)
-    if (value %in% c('true', 'false')) {
-      # truefalse
-    } else {
-      # shortanswer
-    }
-  }
 
+  }
 }
 
 

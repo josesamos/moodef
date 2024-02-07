@@ -5,10 +5,11 @@
 \alias{define_question.question_category}
 \title{Define a question from the category}
 \usage{
-define_question(qc, question, image, image_alt, answer, ...)
+define_question(qc, type, question, image, image_alt, answer, ...)
 
 \method{define_question}{question_category}(
   qc,
+  type = "",
   question = "",
   image = "",
   image_alt = "",
@@ -18,6 +19,8 @@ define_question(qc, question, image, image_alt, answer, ...)
 }
 \arguments{
 \item{qc}{A \code{question_category} object.}
+
+\item{type}{A string, question type (if needed).}
 
 \item{question}{A string, statement of the question.}
 
