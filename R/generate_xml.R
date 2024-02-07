@@ -1,5 +1,6 @@
 
 
+
 #' generate `questiontext` node
 #'
 #' @param copyright A string, copyright text to be included in each question that
@@ -56,18 +57,18 @@ generate_questiontext <- function(copyright,
     fimg <- ''
   }
 
-  questiontext <- glue::glue('
+  questiontext <- glue::glue(
+    '
 
     <questiontext format="html">
       <text><![CDATA[
          <!-- {copyright} -->
          <!-- {license} -->
          <p>{question}</p>{img}]]></text>
-{fimg}
+         {fimg}
     </questiontext>
-    <generalfeedback format="html"> <text></text> </generalfeedback>
-
-')
+    <generalfeedback format="html"> <text></text> </generalfeedback>'
+  )
   questiontext
 }
 
@@ -82,21 +83,21 @@ generate_questiontext <- function(copyright,
 #'
 #' @return A string.
 #' @keywords internal
-generate_name <- function(first_question_number, type, position, question) {
-  name <-
-    sprintf("q%03d_%s_%s_%s",
-            first_question_number,
-            type,
-            position,
-            substr(question, 1, 20))
-  name <- snakecase::to_snake_case(name)
-  name <- glue::glue('
-
-   <name> <text>{name}</text> </name>
-
-')
-  name
-}
+generate_name <-
+  function(first_question_number,
+           type,
+           position,
+           question) {
+    name <-
+      sprintf("q%03d_%s_%s_%s",
+              first_question_number,
+              type,
+              position,
+              substr(question, 1, 40))
+    name <- snakecase::to_snake_case(name)
+    name <- glue::glue('<name> <text>{name}</text> </name>')
+    name
+  }
 
 
 #' Generate question
@@ -138,7 +139,6 @@ generate_question <- function(first_question_number,
                               image_alt,
                               answer,
                               ...) {
-
   questiontext <- generate_questiontext(copyright,
                                         license,
                                         adapt_images,
@@ -167,6 +167,13 @@ generate_question <- function(first_question_number,
         if (!has_gaps(question)) {
           if (type == '') {
             type <- 'multichoice'
+            question_type <- '  <question type="multichoice">
+'
+            question_body <- generate_multichoice(answer,
+                                                  n,
+                                                  rest,
+                                                  correct_feedback,
+                                                  incorrect_feedback)
           } else if (type == 'H' | type == 'h') {
             type <- 'ordering'
             position = 'h'
@@ -183,25 +190,83 @@ generate_question <- function(first_question_number,
         }
       } else {
         type <- 'matching'
+        question_type <- '<question type="matching">
+'
+        question_body <- generate_matching(answer,
+                                           n,
+                                           rest,
+                                           correct_feedback,
+                                           partially_correct_feedback,
+                                           incorrect_feedback)
       }
     } else {
       value <- tolower(answer)
       if (value %in% c('true', 'false')) {
         type <- 'truefalse'
+        question_type <- '<question type="truefalse">
+'
+        question_body <- generate_truefalse(answer)
       } else {
         type <- 'shortanswer'
+        question_type <- '<question type="shortanswer">
+'
+        question_body <- generate_shortanswer(answer)
       }
     }
   }
 
-  name <- generate_name(first_question_number, type, position, question)
+  name <-
+    generate_name(first_question_number, type, position, question)
 
+  question <-
+    paste0(question_type,
+           name,
+           questiontext,
+           question_body,
+           '
+</question>')
+
+  question
 }
 
 
 
+#' Format all questions in the data frame
+#'
+#' @param questions A question data frame.
+#'
+#' @return A string.
+#' @keywords internal
+format_questions <- function(questions) {
+  paste(unlist(purrr::pmap(questions, generate_question)), collapse = "\n")
+}
 
-#' Generar preguntas
+
+#' Define the category of questions
+#'
+#' @param category A string, category name.
+#' @param questions A string, formatted questions.
+#'
+#' @return A string.
+#' @keywords internal
+category_question <- function(category, questions) {
+  glue::glue(
+    '<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category> <text>$course$/top/{category}</text> </category>
+    <info format="html"> <text></text> </info>
+    <idnumber></idnumber>
+  </question>
+',
+    questions,
+    '
+</quiz>'
+  )
+}
+
+
+#' Generate the questions xml file
 #'
 #' @param qc A `question_category` object.
 #' @param file A string, file name.
@@ -218,8 +283,8 @@ generate_xml <- function(qc, file)
 #' @rdname generate_xml
 #' @export
 generate_xml.question_category <- function(qc, file = NULL) {
-  # questions <- format_questions(qc$questions)
-  # category <- category_question(qc$category, questions)
-  # cat(category, file = file)
+  questions <- format_questions(qc$questions)
+  category <- category_question(qc$category, questions)
+  cat(category, file = file)
   qc
 }

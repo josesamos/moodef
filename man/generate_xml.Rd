@@ -3,7 +3,7 @@
 \name{generate_xml}
 \alias{generate_xml}
 \alias{generate_xml.question_category}
-\title{Generar preguntas}
+\title{Generate the questions xml file}
 \usage{
 generate_xml(qc, file)
 
@@ -18,7 +18,7 @@ generate_xml(qc, file)
 A \code{question_category}.
 }
 \description{
-Generar preguntas
+Generate the questions xml file
 }
 \seealso{
 Other question definition: 

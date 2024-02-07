@@ -60,7 +60,7 @@ question_category <-
       type = character(),
       question = character(),
       image = character(),
-      alt = character(),
+      image_alt = character(),
       answer = character(),
       wrong_1 = character(),
       wrong_2 = character(),
@@ -173,7 +173,7 @@ define_question.question_category <- function(qc,
     type = type,
     question = question,
     image = image,
-    alt = image_alt,
+    image_alt = image_alt,
     answer = answer
   )
   if (n > 0) {
