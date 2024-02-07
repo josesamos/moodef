@@ -22,6 +22,7 @@ test_that("question_category", {
                structure(
                  list(
                    category = "Initial test",
+                   first_question_number = 2,
                    copyright = "",
                    license = "",
                    correct_feedback = "Correct.",
@@ -33,6 +34,7 @@ test_that("question_category", {
                    wrong_n = 3,
                    questions = structure(
                      list(
+                       first_question_number = 1,
                        copyright = "",
                        license = "",
                        correct_feedback = "Correct.",
@@ -61,6 +63,7 @@ test_that("question_category", {
                structure(
                  list(
                    category = "Initial test",
+                   first_question_number = 2,
                    copyright = "",
                    license = "",
                    correct_feedback = "Correct.",
@@ -72,6 +75,7 @@ test_that("question_category", {
                    wrong_n = 4L,
                    questions = structure(
                      list(
+                       first_question_number = 1,
                        copyright = "",
                        license = "",
                        correct_feedback = "Correct.",

@@ -1,5 +1,20 @@
 
 
+#' generate `questiontext` node
+#'
+#' @param copyright A string, copyright text to be included in each question that
+#' is defined.
+#' @param license A string, license text to be included in each question that is
+#' defined.
+#' @param adapt_images A boolean, adapt the images so that they are a similar size.
+#' @param width A integer, width of each image.
+#' @param height A integer, height of each image.
+#' @param question A string, statement of the question.
+#' @param image A string, optional, image file to include in the question.
+#' @param image_alt A string, description of the image to include in the question.
+#'
+#' @return A string.
+#' @keywords internal
 generate_questiontext <- function(copyright,
                                   license,
                                   adapt_images,
@@ -7,10 +22,10 @@ generate_questiontext <- function(copyright,
                                   height,
                                   question,
                                   image,
-                                  alt) {
+                                  image_alt) {
   image <- trimws(image)
   if (nchar(image) > 0) {
-    alt <- trimws(alt)
+    image_alt <- trimws(image_alt)
     file <- basename(image)
     if (adapt_images) {
       image <-
@@ -32,7 +47,7 @@ generate_questiontext <- function(copyright,
 
     img <-
       glue::glue(
-        '<p><img src="@@PLUGINFILE@@/{file}" alt="{alt}" width="{width}" height="{height}" class="img-fluid atto_image_button_text-bottom"></p>'
+        '<p><img src="@@PLUGINFILE@@/{file}" alt="{image_alt}" width="{width}" height="{height}" class="img-fluid atto_image_button_text-bottom"></p>'
       )
     fimg <-
       glue::glue('<file name="{file}" path="/" encoding="base64">{value}</file>')
@@ -41,9 +56,8 @@ generate_questiontext <- function(copyright,
     fimg <- ''
   }
 
-  questiontext <- glue::glue(
-    '
-    <name> <text>{question}</text> </name>
+  questiontext <- glue::glue('
+
     <questiontext format="html">
       <text><![CDATA[
          <!-- {copyright} -->
@@ -52,13 +66,65 @@ generate_questiontext <- function(copyright,
 {fimg}
     </questiontext>
     <generalfeedback format="html"> <text></text> </generalfeedback>
-                         '
-  )
+
+')
   questiontext
 }
 
 
-generate_question <- function(copyright,
+#' generate `name` node
+#'
+#' @param first_question_number An integer, first number to compose the question
+#' names.
+#' @param type A string, question type (if needed).
+#' @param position A string, 'h' or 'v'.
+#' @param question A string, statement of the question.
+#'
+#' @return A string.
+#' @keywords internal
+generate_name <- function(first_question_number, type, position, question) {
+  name <-
+    sprintf("q%03d_%s_%s_%s",
+            first_question_number,
+            type,
+            position,
+            substr(question, 1, 20))
+  name <- snakecase::to_snake_case(name)
+  name <- glue::glue('
+
+   <name> <text>{name}</text> </name>
+
+')
+  name
+}
+
+
+#' Generate question
+#'
+#' @param first_question_number An integer, first number to compose the question
+#' names.
+#' @param copyright A string, copyright text to be included in each question that
+#' is defined.
+#' @param license A string, license text to be included in each question that is
+#' defined.
+#' @param correct_feedback A string, feedback on correct answers to each question.
+#' @param partially_correct_feedback A string, feedback on partially correct answers
+#' to each question.
+#' @param incorrect_feedback A string, feedback on incorrect answers to each question.
+#' @param adapt_images A boolean, adapt the images so that they are a similar size.
+#' @param width A integer, width of each image.
+#' @param height A integer, height of each image.
+#' @param type A string, question type (if needed).
+#' @param question A string, statement of the question.
+#' @param image A string, optional, image file to include in the question.
+#' @param image_alt A string, description of the image to include in the question.
+#' @param answer A string, correct answer to the question.
+#' @param ... A string, rest of the answers to the question.
+#'
+#' @return A string.
+#' @keywords internal
+generate_question <- function(first_question_number,
+                              copyright,
                               license,
                               correct_feedback,
                               partially_correct_feedback,
@@ -69,7 +135,7 @@ generate_question <- function(copyright,
                               type,
                               question,
                               image,
-                              alt,
+                              image_alt,
                               answer,
                               ...) {
 
@@ -80,7 +146,7 @@ generate_question <- function(copyright,
                                         height,
                                         question,
                                         image,
-                                        alt)
+                                        image_alt)
 
   others <- list(...)
   rest <- NULL
@@ -92,28 +158,44 @@ generate_question <- function(copyright,
   }
   n <- length(rest)
   answer <- string_to_vector(answer)
-  if (type == '') {
-    if (is_numeric(answer)) {
-      # numerical
-    } else {
-      if (n > 0) {
-        if (length(answer) == 1) {
-          # multichoice
+  position = ''
+  if (is_numeric(answer)) {
+    type <- 'numerical'
+  } else {
+    if (n > 0) {
+      if (length(answer) == 1) {
+        if (!has_gaps(question)) {
+          if (type == '') {
+            type <- 'multichoice'
+          } else if (type == 'H' | type == 'h') {
+            type <- 'ordering'
+            position = 'h'
+          } else {
+            type <- 'ordering'
+            position = 'v'
+          }
         } else {
-          # matching
+          if (type == '') {
+            type <- 'ddwtos'
+          } else {
+            type <- 'gapselect'
+          }
         }
       } else {
-        value <- tolower(answer)
-        if (value %in% c('true', 'false')) {
-          # truefalse
-        } else {
-          # shortanswer
-        }
+        type <- 'matching'
+      }
+    } else {
+      value <- tolower(answer)
+      if (value %in% c('true', 'false')) {
+        type <- 'truefalse'
+      } else {
+        type <- 'shortanswer'
       }
     }
-  } else {
-
   }
+
+  name <- generate_name(first_question_number, type, position, question)
+
 }
 
 
@@ -121,8 +203,12 @@ generate_question <- function(copyright,
 
 #' Generar preguntas
 #'
-#' @param qc
-#' @param file
+#' @param qc A `question_category` object.
+#' @param file A string, file name.
+#'
+#' @return A `question_category`.
+#'
+#' @family question definition
 #'
 #' @export
 generate_xml <- function(qc, file)
@@ -132,8 +218,8 @@ generate_xml <- function(qc, file)
 #' @rdname generate_xml
 #' @export
 generate_xml.question_category <- function(qc, file = NULL) {
-  questions <- format_questions(qc$questions)
-  category <- category_question(qc$category, questions)
-  cat(category, file = file)
+  # questions <- format_questions(qc$questions)
+  # category <- category_question(qc$category, questions)
+  # cat(category, file = file)
   qc
 }

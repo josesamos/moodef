@@ -13,6 +13,8 @@
 #' size that we can also indicate.
 #'
 #' @param category A string, category name.
+#' @param first_question_number An integer, first number to compose the question
+#' names.
 #' @param copyright A string, copyright text to be included in each question that
 #' is defined.
 #' @param license A string, license text to be included in each question that is
@@ -36,6 +38,7 @@
 #' @export
 question_category <-
   function(category = 'Default category',
+           first_question_number = 1,
            copyright = '',
            license = '',
            correct_feedback = 'Correct.',
@@ -45,6 +48,7 @@ question_category <-
            width = 800,
            height = 600) {
     questions <-  data.frame(
+      first_question_number = integer(),
       copyright = character(),
       license = character(),
       correct_feedback = character(),
@@ -67,6 +71,7 @@ question_category <-
     structure(
       list(
         category = category,
+        first_question_number = first_question_number,
         copyright = copyright,
         license = license,
         correct_feedback = correct_feedback,
@@ -156,6 +161,7 @@ define_question.question_category <- function(qc,
   }
   n <- length(wrong)
   nq <- data.frame(
+    first_question_number = qc$first_question_number,
     copyright = qc$copyright,
     license = qc$license,
     correct_feedback = qc$correct_feedback,
@@ -194,5 +200,6 @@ define_question.question_category <- function(qc,
     }
     qc$questions <- nq
   }
+  qc$first_question_number <- qc$first_question_number + 1
   qc
 }

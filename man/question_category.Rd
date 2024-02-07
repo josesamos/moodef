@@ -6,6 +6,7 @@
 \usage{
 question_category(
   category = "Default category",
+  first_question_number = 1,
   copyright = "",
   license = "",
   correct_feedback = "Correct.",
@@ -18,6 +19,9 @@ question_category(
 }
 \arguments{
 \item{category}{A string, category name.}
+
+\item{first_question_number}{An integer, first number to compose the question
+names.}
 
 \item{copyright}{A string, copyright text to be included in each question that
 is defined.}
@@ -62,6 +66,7 @@ qc <- question_category(category = 'Initial test')
 }
 \seealso{
 Other question definition: 
-\code{\link{define_question}()}
+\code{\link{define_question}()},
+\code{\link{generate_xml}()}
 }
 \concept{question definition}

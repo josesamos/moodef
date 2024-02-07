@@ -55,7 +55,7 @@ adapt_image <- function(image_file, width = 800, height = 600) {
 
 # is numeric  ----------------------------------------------------
 
-#' Check if it is numerica.
+#' Check if it is numeric.
 #'
 #' @param str A string.
 #'
@@ -63,4 +63,16 @@ adapt_image <- function(image_file, width = 800, height = 600) {
 #' @keywords internal
 is_numeric <- function(str) {
   all(!is.na(suppressWarnings(as.numeric(str))))
+}
+
+# has gaps  ----------------------------------------------------
+
+#' Check if it has gaps.
+#'
+#' @param str A string.
+#'
+#' @return A boolean.
+#' @keywords internal
+has_gaps <- function(str) {
+  grepl('[[1]]', str, fixed = TRUE) & grepl('[[2]]', str, fixed = TRUE)
 }

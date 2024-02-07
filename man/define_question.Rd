@@ -59,6 +59,7 @@ qc <- question_category(category = 'Initial test') |>
 }
 \seealso{
 Other question definition: 
+\code{\link{generate_xml}()},
 \code{\link{question_category}()}
 }
 \concept{question definition}

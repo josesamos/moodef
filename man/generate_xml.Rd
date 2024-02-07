@@ -10,8 +10,19 @@ generate_xml(qc, file)
 \method{generate_xml}{question_category}(qc, file = NULL)
 }
 \arguments{
-\item{file}{}
+\item{qc}{A \code{question_category} object.}
+
+\item{file}{A string, file name.}
+}
+\value{
+A \code{question_category}.
 }
 \description{
 Generar preguntas
 }
+\seealso{
+Other question definition: 
+\code{\link{define_question}()},
+\code{\link{question_category}()}
+}
+\concept{question definition}

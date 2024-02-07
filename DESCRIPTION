@@ -12,16 +12,25 @@ Description: The main objective of this package is to support the
     offers. In this first version, it allows the definition of questions
     to be included in the question bank.
 License: MIT + file LICENSE
-URL: https://josesamos.github.io/moodef/, https://github.com/josesamos/moodef
+URL: https://josesamos.github.io/moodef/,
+    https://github.com/josesamos/moodef
 BugReports: https://github.com/josesamos/moodef/issues
+Imports: 
+    blastula,
+    glue,
+    magick,
+    snakecase,
+    tools,
+    xml2
 Suggests: 
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-GB
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
-VignetteBuilder: knitr
