@@ -1,5 +1,4 @@
 
-
 #' Define questions from a data frame
 #'
 #' Each row in the text data frame is interpreted as a question. We only have to define
@@ -17,7 +16,10 @@
 #'
 #' @examples
 #'
-#' qc <- question_category(category = 'Initial test')
+#' file <- system.file("extdata", "questions.csv", package = "moodef")
+#' qc <-
+#'   question_category(category = 'Initial test', adapt_images = TRUE) |>
+#'   define_questions_from_csv(file = file)
 #'
 #' @export
 define_questions_from_data_frame <- function(qc, df)

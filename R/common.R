@@ -1,19 +1,3 @@
-# vector to string ----------------------------------------------------
-
-#' Transforms a vector of strings into a string.
-#'
-#' @param vector A vector of strings.
-#'
-#' @return A string.
-#' @keywords internal
-vector_to_string <- function(vector) {
-  if (is.null(vector)) {
-    res <- ""
-  } else {
-    res <- paste(vector, collapse = "<|>")
-  }
-  res
-}
 
 # string to vector ----------------------------------------------------
 
