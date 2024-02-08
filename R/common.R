@@ -32,6 +32,30 @@ string_to_vector <- function(str) {
   res
 }
 
+
+# string to string vector ----------------------------------------------
+
+#' Transforms string into a vector in string format.
+#'
+#' @param str A string.
+#'
+#' @return A vector of strings.
+#' @keywords internal
+string_to_string_vector <- function(str) {
+  if (str == "") {
+    res <- "''"
+  } else {
+    res <- unlist(strsplit(str, "<|>", fixed = TRUE))
+    if (length(res) > 1) {
+      res <- paste(res, collapse = "', '")
+      res <- paste0("c('", res, "')")
+    } else {
+      res <- paste0("'", res, "'")
+    }
+  }
+  res
+}
+
 # adapt_image ----------------------------------------------------
 
 #' Fits an image to the given size.

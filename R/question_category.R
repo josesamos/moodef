@@ -62,9 +62,9 @@ question_category <-
       image = character(),
       image_alt = character(),
       answer = character(),
-      wrong_1 = character(),
-      wrong_2 = character(),
-      wrong_3 = character(),
+      a_1 = character(),
+      a_2 = character(),
+      a_3 = character(),
       stringsAsFactors = FALSE
     )
 
@@ -80,7 +80,7 @@ question_category <-
         adapt_images = adapt_images,
         width = width,
         height = height,
-        wrong_n = 3,
+        a_n = 3,
         questions = questions
       ),
       class = "question_category"
@@ -178,25 +178,25 @@ define_question.question_category <- function(qc,
   )
   if (n > 0) {
     for (i in 1:n) {
-      nq[1, paste0('wrong_', i)] <- wrong[i]
+      nq[1, paste0('a_', i)] <- wrong[i]
     }
   }
-  if (n < qc$wrong_n) {
-    for (i in (n + 1):qc$wrong_n) {
-      nq[1, paste0('wrong_', i)] <- ''
+  if (n < qc$a_n) {
+    for (i in (n + 1):qc$a_n) {
+      nq[1, paste0('a_', i)] <- ''
     }
   }
   if (nrow(qc$questions) > 0) {
-    if (n > qc$wrong_n) {
-      for (i in (qc$wrong_n + 1):n) {
-        qc$questions[, paste0('wrong_', i)] <- ''
+    if (n > qc$a_n) {
+      for (i in (qc$a_n + 1):n) {
+        qc$questions[, paste0('a_', i)] <- ''
       }
-      qc$wrong_n <- n
+      qc$a_n <- n
     }
     qc$questions <- rbind(qc$questions, nq)
   } else {
-    if (n > qc$wrong_n) {
-      qc$wrong_n <- n
+    if (n > qc$a_n) {
+      qc$a_n <- n
     }
     qc$questions <- nq
   }

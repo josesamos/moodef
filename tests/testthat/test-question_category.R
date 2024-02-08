@@ -31,7 +31,7 @@ test_that("question_category", {
                    adapt_images = FALSE,
                    width = 800,
                    height = 600,
-                   wrong_n = 3,
+                   a_n = 3,
                    questions = structure(
                      list(
                        first_question_number = 1,
@@ -48,9 +48,9 @@ test_that("question_category", {
                        image = "",
                        image_alt = "",
                        answer = "Addition, subtraction, multiplication and division.",
-                       wrong_1 = "Addition and subtraction.",
-                       wrong_2 = "Addition, subtraction, multiplication, division and square root.",
-                       wrong_3 = ""
+                       a_1 = "Addition and subtraction.",
+                       a_2 = "Addition, subtraction, multiplication, division and square root.",
+                       a_3 = ""
                      ),
                      row.names = c(NA,-1L),
                      class = "data.frame"
@@ -72,7 +72,7 @@ test_that("question_category", {
                    adapt_images = FALSE,
                    width = 800,
                    height = 600,
-                   wrong_n = 4L,
+                   a_n = 4L,
                    questions = structure(
                      list(
                        first_question_number = 1,
@@ -89,10 +89,10 @@ test_that("question_category", {
                        image = "",
                        image_alt = "",
                        answer = "Addition, subtraction, multiplication and division.",
-                       wrong_1 = "Addition and subtraction.",
-                       wrong_2 = "Addition, subtraction, multiplication, division and square root.",
-                       wrong_3 = "Addition, subtraction, multiplication, division and square root 2.",
-                       wrong_4 = "Addition, subtraction, multiplication, division and square root 3."
+                       a_1 = "Addition and subtraction.",
+                       a_2 = "Addition, subtraction, multiplication, division and square root.",
+                       a_3 = "Addition, subtraction, multiplication, division and square root 2.",
+                       a_4 = "Addition, subtraction, multiplication, division and square root 3."
                      ),
                      row.names = c(NA,-1L),
                      class = "data.frame"
