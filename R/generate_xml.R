@@ -139,6 +139,7 @@ generate_question <- function(first_question_number,
                               image_alt,
                               answer,
                               ...) {
+
   questiontext <- generate_questiontext(copyright,
                                         license,
                                         adapt_images,
@@ -161,6 +162,13 @@ generate_question <- function(first_question_number,
   orientation = ''
   if (is_numeric(answer)) {
     type <- 'numerical'
+    question_type <- '<question type="numerical">
+'
+    question_body <- generate_numerical(
+      answer,
+      n,
+      rest
+    )
   } else {
     if (n > 0) {
       if (length(answer) == 1) {
