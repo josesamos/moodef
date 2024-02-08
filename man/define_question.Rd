@@ -60,6 +60,7 @@ qc <- question_category(category = 'Initial test') |>
 \seealso{
 Other question definition: 
 \code{\link{define_questions_from_csv}()},
+\code{\link{define_questions_from_data_frame}()},
 \code{\link{generate_xml}()},
 \code{\link{question_category}()}
 }

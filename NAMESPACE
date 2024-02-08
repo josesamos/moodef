@@ -2,8 +2,10 @@
 
 S3method(define_question,question_category)
 S3method(define_questions_from_csv,question_category)
+S3method(define_questions_from_data_frame,question_category)
 S3method(generate_xml,question_category)
 export(define_question)
 export(define_questions_from_csv)
+export(define_questions_from_data_frame)
 export(generate_xml)
 export(question_category)
