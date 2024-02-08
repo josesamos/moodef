@@ -78,7 +78,7 @@ generate_questiontext <- function(copyright,
 #' @param first_question_number An integer, first number to compose the question
 #' names.
 #' @param type A string, question type (if needed).
-#' @param position A string, 'h' or 'v'.
+#' @param orientation A string, 'h' or 'v'.
 #' @param question A string, statement of the question.
 #'
 #' @return A string.
@@ -86,13 +86,13 @@ generate_questiontext <- function(copyright,
 generate_name <-
   function(first_question_number,
            type,
-           position,
+           orientation,
            question) {
     name <-
       sprintf("q%03d_%s_%s_%s",
               first_question_number,
               type,
-              position,
+              orientation,
               substr(question, 1, 40))
     name <- snakecase::to_snake_case(name)
     name <- glue::glue('<name> <text>{name}</text> </name>')
@@ -158,7 +158,7 @@ generate_question <- function(first_question_number,
   }
   n <- length(rest)
   answer <- string_to_vector(answer)
-  position = ''
+  orientation = ''
   if (is_numeric(answer)) {
     type <- 'numerical'
   } else {
@@ -174,46 +174,64 @@ generate_question <- function(first_question_number,
                                                   rest,
                                                   correct_feedback,
                                                   incorrect_feedback)
-          } else if (type == 'H' | type == 'h') {
-            type <- 'ordering'
-            position = 'h'
           } else {
+            if (type == 'H' | type == 'h') {
+              orientation <- 'h'
+            }else {
+              orientation <- 'v'
+            }
             type <- 'ordering'
-            position = 'v'
+            question_type <- '<question type="ordering">
+'
+            question_body <- generate_ordering(
+              answer,
+              n,
+              rest,
+              correct_feedback,
+              partially_correct_feedback,
+              incorrect_feedback,
+              orientation
+            )
           }
         } else {
           if (type == '') {
             type <- 'ddwtos'
             question_type <- '<question type="ddwtos">
 '
-            question_body <- generate_ddwtos(answer,
-                                             n,
-                                             rest,
-                                             correct_feedback,
-                                             partially_correct_feedback,
-                                             incorrect_feedback)
+            question_body <- generate_ddwtos(
+              answer,
+              n,
+              rest,
+              correct_feedback,
+              partially_correct_feedback,
+              incorrect_feedback
+            )
           } else {
             type <- 'gapselect'
             question_type <- '<question type="gapselect">
 '
-            question_body <- generate_gapselect(answer,
-                                             n,
-                                             rest,
-                                             correct_feedback,
-                                             partially_correct_feedback,
-                                             incorrect_feedback)
+            question_body <- generate_gapselect(
+              answer,
+              n,
+              rest,
+              correct_feedback,
+              partially_correct_feedback,
+              incorrect_feedback
+            )
           }
         }
       } else {
         type <- 'matching'
         question_type <- '<question type="matching">
 '
-        question_body <- generate_matching(answer,
-                                           n,
-                                           rest,
-                                           correct_feedback,
-                                           partially_correct_feedback,
-                                           incorrect_feedback)
+        question_body <- generate_matching(
+          answer,
+          n,
+          rest,
+          correct_feedback,
+          partially_correct_feedback,
+          incorrect_feedback
+        )
       }
     } else {
       value <- tolower(answer)
@@ -232,7 +250,7 @@ generate_question <- function(first_question_number,
   }
 
   name <-
-    generate_name(first_question_number, type, position, question)
+    generate_name(first_question_number, type, orientation, question)
 
   question <-
     paste0(question_type,

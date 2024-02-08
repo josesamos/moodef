@@ -4,7 +4,7 @@
 \alias{generate_name}
 \title{generate \code{name} node}
 \usage{
-generate_name(first_question_number, type, position, question)
+generate_name(first_question_number, type, orientation, question)
 }
 \arguments{
 \item{first_question_number}{An integer, first number to compose the question
@@ -12,7 +12,7 @@ names.}
 
 \item{type}{A string, question type (if needed).}
 
-\item{position}{A string, 'h' or 'v'.}
+\item{orientation}{A string, 'h' or 'v'.}
 
 \item{question}{A string, statement of the question.}
 }
