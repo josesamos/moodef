@@ -88,9 +88,9 @@ question_category <-
   }
 
 
-#' Define a question from the category
+#' Define question
 #'
-#' Define the question and the possible answers. The type of question is deduced.
+#' Define a question and the possible answers. The type of question is deduced.
 #'
 #' If we include an image in the question, we must also include text in the `alt`
 #' field associated with it.
@@ -117,8 +117,8 @@ question_category <-
 #'   define_question(
 #'     question = 'What are the basic arithmetic operations?',
 #'     answer = 'Addition, subtraction, multiplication and division.',
-#'     w_1 = 'Addition and subtraction.',
-#'     w_2 = 'Addition, subtraction, multiplication, division and square root.'
+#'     a_1 = 'Addition and subtraction.',
+#'     a_2 = 'Addition, subtraction, multiplication, division and square root.'
 #'   )
 #'
 #' @export

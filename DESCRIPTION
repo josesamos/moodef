@@ -20,7 +20,9 @@ Imports:
     glue,
     magick,
     purrr,
+    readr,
     snakecase,
+    tidyr,
     tools,
     xml2
 Suggests: 

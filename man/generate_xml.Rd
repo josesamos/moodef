@@ -23,6 +23,7 @@ Generate the questions xml file
 \seealso{
 Other question definition: 
 \code{\link{define_question}()},
+\code{\link{define_questions_from_csv}()},
 \code{\link{question_category}()}
 }
 \concept{question definition}

@@ -1,6 +1,32 @@
 
 
-define_questions_from_csv <- function(qc, file, sep = ',') {
+#' Define questions from a csv file
+#'
+#' Each row in the text file is interpreted as a question. We only have to define
+#' the columns that we are going to use, the rest of the columns are taken by default.
+#'
+#' For answers where a vector is required, "<|>" is used as a separator of the vector
+#' elements.
+#'
+#' @param qc A `question_category` object.
+#' @param file A string, name of a text file.
+#' @param sep Column separator character.
+#'
+#' @return A `question_category`.
+#'
+#' @family question definition
+#'
+#' @examples
+#'
+#' qc <- question_category(category = 'Initial test')
+#'
+#' @export
+define_questions_from_csv <- function(qc, file, sep)
+  UseMethod("define_questions_from_csv")
+
+#' @rdname define_questions_from_csv
+#' @export
+define_questions_from_csv.question_category <- function(qc, file, sep = ',') {
   table <- readr::read_delim(
     file,
     delim = sep,

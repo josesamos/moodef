@@ -3,7 +3,7 @@
 \name{define_question}
 \alias{define_question}
 \alias{define_question.question_category}
-\title{Define a question from the category}
+\title{Define question}
 \usage{
 define_question(qc, type, question, image, image_alt, answer, ...)
 
@@ -36,7 +36,7 @@ define_question(qc, type, question, image, image_alt, answer, ...)
 A \code{question_category}.
 }
 \description{
-Define the question and the possible answers. The type of question is deduced.
+Define a question and the possible answers. The type of question is deduced.
 }
 \details{
 If we include an image in the question, we must also include text in the \code{alt}
@@ -52,13 +52,14 @@ qc <- question_category(category = 'Initial test') |>
   define_question(
     question = 'What are the basic arithmetic operations?',
     answer = 'Addition, subtraction, multiplication and division.',
-    w_1 = 'Addition and subtraction.',
-    w_2 = 'Addition, subtraction, multiplication, division and square root.'
+    a_1 = 'Addition and subtraction.',
+    a_2 = 'Addition, subtraction, multiplication, division and square root.'
   )
 
 }
 \seealso{
 Other question definition: 
+\code{\link{define_questions_from_csv}()},
 \code{\link{generate_xml}()},
 \code{\link{question_category}()}
 }
