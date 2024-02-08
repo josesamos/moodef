@@ -159,7 +159,11 @@ generate_question <- function(first_question_number,
   }
   n <- length(rest)
   answer <- string_to_vector(answer)
-  orientation = ''
+  if (is.null(answer)) {
+    answer <- ''
+  }
+  orientation <- ''
+
   if (is_numeric(answer)) {
     type <- 'numerical'
     question_type <- '<question type="numerical">
@@ -242,17 +246,24 @@ generate_question <- function(first_question_number,
         )
       }
     } else {
-      value <- tolower(answer)
-      if (value %in% c('true', 'false')) {
-        type <- 'truefalse'
-        question_type <- '<question type="truefalse">
+      if (answer == '') {
+        type <- 'essay'
+        question_type <- '<question type="essay">
 '
-        question_body <- generate_truefalse(answer)
+        question_body <- generate_essay()
       } else {
-        type <- 'shortanswer'
-        question_type <- '<question type="shortanswer">
+        value <- tolower(answer)
+        if (value %in% c('true', 'false')) {
+          type <- 'truefalse'
+          question_type <- '<question type="truefalse">
 '
-        question_body <- generate_shortanswer(answer)
+          question_body <- generate_truefalse(answer)
+        } else {
+          type <- 'shortanswer'
+          question_type <- '<question type="shortanswer">
+'
+          question_body <- generate_shortanswer(answer)
+        }
       }
     }
   }
