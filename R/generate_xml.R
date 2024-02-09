@@ -319,7 +319,41 @@ category_question <- function(category, questions) {
 }
 
 
-#' Generate the questions xml file
+#' Generate questions xml string
+#'
+#' @param qc A `question_category` object.
+#'
+#' @return A string.
+#'
+#' @family question definition
+#'
+#' @examples
+#'
+#' qc <- question_category(category = 'Initial test') |>
+#'   define_question(
+#'     question = 'What are the basic arithmetic operations?',
+#'     answer = 'Addition, subtraction, multiplication and division.',
+#'     a_1 = 'Addition and subtraction.',
+#'     a_2 = 'Addition, subtraction, multiplication, division and square root.'
+#'   )
+#'
+#' xml <- qc |>
+#'   generate_xml()
+#'
+#' @export
+generate_xml <- function(qc)
+  UseMethod("generate_xml")
+
+#' @rdname generate_xml
+#' @export
+generate_xml.question_category <- function(qc) {
+  questions <- format_questions(qc$questions)
+  xml <- category_question(qc$category, questions)
+  xml
+}
+
+
+#' Generate questions xml file
 #'
 #' @param qc A `question_category` object.
 #' @param file A string, file name.
@@ -328,16 +362,25 @@ category_question <- function(category, questions) {
 #'
 #' @family question definition
 #'
+#' @examples
+#'
+#' qc <- question_category(category = 'Initial test') |>
+#'   define_question(
+#'     question = 'What are the basic arithmetic operations?',
+#'     answer = 'Addition, subtraction, multiplication and division.',
+#'     a_1 = 'Addition and subtraction.',
+#'     a_2 = 'Addition, subtraction, multiplication, division and square root.'
+#'   ) |>
+#'   generate_xml_file(file = tempfile(fileext = '.xml'))
+#'
 #' @export
-generate_xml <- function(qc, file)
-  UseMethod("generate_xml")
+generate_xml_file <- function(qc, file)
+  UseMethod("generate_xml_file")
 
-
-#' @rdname generate_xml
+#' @rdname generate_xml_file
 #' @export
-generate_xml.question_category <- function(qc, file = NULL) {
-  questions <- format_questions(qc$questions)
-  category <- category_question(qc$category, questions)
-  cat(category, file = file)
+generate_xml_file.question_category <- function(qc, file = NULL) {
+  xml <- generate_xml(qc)
+  cat(xml, file = file)
   qc
 }

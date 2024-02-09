@@ -99,5 +99,12 @@ read_question_csv <- function(file, sep = ',') {
     delim = sep,
     col_types = readr::cols(.default = readr::col_character())
   )
+  attributes <- names(df)
+  df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
+  df[, attributes] <-
+    apply(df[, attributes, drop = FALSE], 2, function(x)
+      tidyr::replace_na(x, ''))
+  attributes <- snakecase::to_snake_case(attributes)
+  names(df) <- attributes
   df
 }
