@@ -29,7 +29,10 @@ elements.
 }
 \examples{
 
-qc <- question_category(category = 'Initial test')
+file <- system.file("extdata", "questions.csv", package = "moodef")
+qc <-
+  question_category(category = 'Initial test', adapt_images = TRUE) |>
+  define_questions_from_csv(file = file)
 
 }
 \seealso{

@@ -23,19 +23,19 @@ vector_to_string <- function(vector) {
 }
 
 
-#' Define a question data frame
+#' Create a question data frame
 #'
-#' Defines an empty question data frame.
+#' Creates an empty question data frame.
 #'
 #' @family support functions
 #'
 #' @examples
 #'
-#' df <- define_question_data_frame()
+#' df <- create_question_data_frame()
 #'
 #' @return A data frame.
 #' @export
-define_question_data_frame <- function() {
+create_question_data_frame <- function() {
   questions <-  data.frame(
     type = character(),
     question = character(),
@@ -51,9 +51,9 @@ define_question_data_frame <- function() {
 }
 
 
-#' Define a question csv file
+#' Create a question csv file
 #'
-#' Defines an empty question csv file.
+#' Creates an empty question csv file.
 #'
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
@@ -62,16 +62,42 @@ define_question_data_frame <- function() {
 #'
 #' @examples
 #'
-#' file <- define_question_csv(file = tempfile(fileext = '.csv'))
+#' file <- create_question_csv(file = tempfile(fileext = '.csv'))
 #'
 #' @return A string.
 #' @export
-define_question_csv <- function(file, sep = ',') {
-  questions <- define_question_data_frame()
+create_question_csv <- function(file, sep = ',') {
+  questions <- create_question_data_frame()
   if (sep == ',') {
     utils::write.csv(questions, file = file, row.names = FALSE)
   } else {
     utils::write.csv2(questions, file = file, row.names = FALSE)
   }
   invisible(file)
+}
+
+
+#' Read a question csv file
+#'
+#' Reads a csv file of questions and returns a data frame.
+#'
+#' @param file A string, name of a text file.
+#' @param sep Column separator character.
+#'
+#' @family support functions
+#'
+#' @examples
+#'
+#' file <- system.file("extdata", "questions.csv", package = "moodef")
+#' df <- read_question_csv(file = file)
+#'
+#' @return A data frame.
+#' @export
+read_question_csv <- function(file, sep = ',') {
+  df <- readr::read_delim(
+    file,
+    delim = sep,
+    col_types = readr::cols(.default = readr::col_character())
+  )
+  df
 }

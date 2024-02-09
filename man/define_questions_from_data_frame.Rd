@@ -28,9 +28,11 @@ elements.
 \examples{
 
 file <- system.file("extdata", "questions.csv", package = "moodef")
+df <- read_question_csv(file = file)
+
 qc <-
   question_category(category = 'Initial test', adapt_images = TRUE) |>
-  define_questions_from_csv(file = file)
+  define_questions_from_data_frame(df)
 
 }
 \seealso{

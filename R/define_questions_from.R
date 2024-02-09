@@ -17,9 +17,11 @@
 #' @examples
 #'
 #' file <- system.file("extdata", "questions.csv", package = "moodef")
+#' df <- read_question_csv(file = file)
+#'
 #' qc <-
 #'   question_category(category = 'Initial test', adapt_images = TRUE) |>
-#'   define_questions_from_csv(file = file)
+#'   define_questions_from_data_frame(df)
 #'
 #' @export
 define_questions_from_data_frame <- function(qc, df)
@@ -88,7 +90,10 @@ define_questions_from_data_frame.question_category <- function(qc, df) {
 #'
 #' @examples
 #'
-#' qc <- question_category(category = 'Initial test')
+#' file <- system.file("extdata", "questions.csv", package = "moodef")
+#' qc <-
+#'   question_category(category = 'Initial test', adapt_images = TRUE) |>
+#'   define_questions_from_csv(file = file)
 #'
 #' @export
 define_questions_from_csv <- function(qc, file, sep)
