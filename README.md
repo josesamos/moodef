@@ -6,29 +6,27 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `moodef` is to support the definition of
+The goal of the `moodef` package is to support the definition of
 [*Moodle*](https://moodle.org/) elements taking advantage of the power
 that R offers. In particular, in this first version, it allows the
 definition of questions to be included in the question bank to define
 quizzes.
 
 To define the questions for the quizzes we can use the component for
-this purpose that includes [*Moodle*](https://moodle.org/), based on
-entering data through screens. It allows the import and export of
-questions in various formats, including xml.
+this purpose that includes *Moodle*, based on entering data through
+screens. It allows the import and export of questions in various
+formats, including xml.
 
 Complementary, using the `moodef` package, we can define questionnaires
 from R. We have generalized 9 types of questions and simplified their
-definition, so that all the types are defined the same, the type is
-deduced from the definition. So, we define a question by calling a
-function or simply including a row in a data frame or a csv file. The
-result is an xml file that we import into
-[*Moodle*](https://moodle.org/). If necessary, some parameter not
+definition. So, we define a question by calling a function or simply
+including a row in a data frame or a csv file. The result is an xml file
+that we import into *Moodle*. If necessary, some parameter not
 considered in the generalization can be defined or adjusted there.
 
 Although not shown in the next example, in each question we can include
-images that are embedded in xml. We can set up the size of the images so
-that they are homogeneous when displayed in quizzes.
+an image that is embedded in xml. We can set up the size of the images
+so that they are homogeneous when displayed in quizzes.
 
 In addition to facilitating the definition of questions manually, the
 infrastructure offered by this package can be used to generate questions
@@ -130,7 +128,7 @@ Below is the content of a csv file.
 ,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
 ,"Match each operation with its symbol.",,,"Addition<|>+","Subtraction<|>-","Multiplication<|>*",
 ,"The square root is a basic arithmetic operation.",,,"False",,,
-,"What basic operation does it have as a + symbol?",,,"Addition",,,
+,"What basic operation does it have as a ""+"" symbol?",,,"Addition",,,
 ,"The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
 "x","The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
 "h","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"

@@ -1,8 +1,9 @@
 ---
-title: "moodef"
+title: "moodef: Defining Moodle Elements from R"
+date: "2024-02-09"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{moodef}
+  %\VignetteIndexEntry{moodef: Defining Moodle Elements from R}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,6 +15,63 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Introduction
+
+[*Moodle*](https://moodle.org/) is a widespread open source learning platform. It is the official teaching support platform of the University of Granada (Spain), where we develop this package.
+
+The goal of the `moodef` package is to harness the power of R to make defining *Moodle* elements easier. In particular, this first version is focused on the definition of questions for quizzes.
+
+The process is as follows: we define the questions in R, from the definition, we generate an xml file that we can import directly into *Moodle*.
+
+What does this package provide? On the one hand, we have simplified the process of manually defining the questions, considering only the essential parameters for each type. On the other hand, the package offers an infrastructure that allows the automatic or semi-automatic generation of questions from R: to define a question we simply need to include a row in a data frame or csv file.
+
+The rest of this document is structured as follows: First, the general process of defining questions is presented. Next, we show the types of questions considered and how to define them. Finally, the document ends with conclusions.
+
+# Question definition process
+
+One of the main objectives considered in the package design has been to simplify the definition of the questions. To do this, we have considered for each question the default values that we use most frequently and we only have to define the specific components of the question: 
+
+- statement, 
+- an optional image and 
+- answers. 
+
+We do not even have to define the type, only, in some cases, indicate some additional detail, such as the orientation of the presentation of the answers. The type is deduced from the definition.
+
+Questions are defined within the framework of a *category* (*Moodle* concept). In its definition we have included the general configuration parameters for all questions.
+
+Therefore, the definition process is as follows:
+
+1. Define the category.
+
+1. Define questions.
+
+1. Generate the xml file with the result.
+
+1. Import the xml file from *Moodle*.
+
+As a result, the questions are added to the question bank within the category and can be used directly in the definition of quizzes. If we need to configure a specific aspect of a question, it can be done there.
+
+In this section we are going to show the first three points of this process.
+
+## Define the category
+
+
 ```{r setup}
 library(moodef)
 ```
+
+
+## Define questions
+
+## Generate the xml file with the result
+
+
+
+# Kind of questions
+
+
+We have simplified and generalized the definition process for 9 types of questions, so that we do not even have to indicate the type to define them, it is deduced from the definition. The definition can be done by calling a function or by including a line in a csv file or data frame for each question.
+
+As a result, we generate an xml file with the questions that we can import directly into *Moodle*.
+
+# Conclusions
