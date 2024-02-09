@@ -1,6 +1,6 @@
 Type: Package
 Package: moodef
-Title: Definition of Moodle Question Bank
+Title: Defining Moodle Elements from R
 Version: 0.1.0
 Authors@R: c(
     person("Jose", "Samos", , "jsamos@ugr.es", role = c("aut", "cre"),

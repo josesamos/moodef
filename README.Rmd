@@ -22,9 +22,11 @@ The goal of `moodef` is to support the definition of [*Moodle*](https://moodle.o
 
 To define the questions for the quizzes we can use the component for this purpose that includes [*Moodle*](https://moodle.org/), based on entering data through screens. It allows the import and export of questions in various formats, including xml.
 
-Using the `moodef` package we can define the questionnaires from R. We have generalized 9 types of questions and simplified their definition, so that all the types considered in this version are defined the same and the type is deduced from the definition.
+Complementary, using the `moodef` package, we can define questionnaires from R. We have generalized 9 types of questions and simplified their definition, so that all the types are defined the same, the type is deduced from the definition. So, we define a question by calling a function or simply including a row in a data frame or a csv file. The result is an xml file that we import into [*Moodle*](https://moodle.org/). If necessary, some parameter not considered in the generalization can be defined or adjusted there.
 
-We define the questions using a function for each one or by including a row in a data frame or csv file and interpreting them together. The result is an xml file that we import into [*Moodle*](https://moodle.org/).
+Although not shown in the next example, in each question we can include images that are embedded in xml. We can set up the size of the images so that they are homogeneous when displayed in quizzes.
+
+In addition to facilitating the definition of questions manually, the infrastructure offered by this package can be used to generate questions automatically or semi-automatically from R.
 
 ## Installation
 
@@ -57,9 +59,7 @@ qc <- qc |>
   generate_xml_file(file)
 ```
 
-First, we create an object using the `question_category` function and configure general aspects of the definition in it. Next, we define the questions, as many as we need, using the `define_question` function. The type of the questions is deduced from the definition.
-
-Finally, we generate the questions in xml format, in the form of a string or file. We show the result below.
+First, we create an object using the `question_category` function and configure general aspects of the definition in it. Next, we define the questions, as many as we need, using the `define_question` function (the type of the questions is deduced from the definition). Finally, we generate the questions in xml format, in the form of a string or file. We show the result below.
 
 ````{verbatim, lang = "xml"}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -106,4 +106,35 @@ Finally, we generate the questions in xml format, in the form of a string or fil
 </quiz>
 ````
 
-In each question we can include images that are embedded in xml. We can define the size of the images so that they are homogeneous when displayed in quizzes: they are automatically adapted before being embedded in xml.
+We can call the `define_question` function for each question to be defined, with the same parameters. Alternatively, we can create a data frame or a csv file (with the functions available in the package) and include in them a row for each question, a column for each parameter. Below is the content of a csv file.
+
+````{verbatim, lang = "csv"}
+"type","question","image","image_alt","answer",,,
+,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
+,"Match each operation with its symbol.",,,"Addition<|>+","Subtraction<|>-","Multiplication<|>*",
+,"The square root is a basic arithmetic operation.",,,"False",,,
+,"What basic operation does it have as a + symbol?",,,"Addition",,,
+,"The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
+"x","The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
+"h","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
+"x","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
+,"What is the result of SQRT(4)?",,,"2","-2",,
+,"What is the result of 4/3?",,,"1.33<|>0.03",,,
+,"Describe the addition operation.",,,,,,
+````
+
+The generation of the questions would be similar, as shown below.
+
+```{r csv}
+file <- system.file("extdata", "questions.csv", package = "moodef")
+qc <- question_category(category = 'Initial test',
+                        copyright = 'Copyright © 2024 Universidad de Granada',
+                        license = 'License Creative Commons Attribution-ShareAlike 4.0') |>
+  define_questions_from_csv(file = file)
+
+file <- tempfile(fileext = '.xml')
+qc <- qc |>
+  generate_xml_file(file)
+```
+
+We do not show the content of the xml file obtained because in that example there are several questions defined.
