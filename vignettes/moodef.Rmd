@@ -55,15 +55,119 @@ In this section we are going to show the first three points of this process.
 
 ## Define the category
 
+To define a category we use the function `question_category` and we have to indicate its name: it creates an object of class `question_category`.
+
+Below is a call to the function with the values of the parameters that we usually define.
 
 ```{r setup}
 library(moodef)
+
+qc <- question_category(category = 'Initial test',
+                        copyright = 'Copyright © 2024 Universidad de Granada',
+                        license = 'License Creative Commons Attribution-ShareAlike 4.0',
+                        adapt_images = TRUE)
 ```
+
+In addition to the category name in the `category` parameter, we define the `copyright` and `license` parameters that will appear between comments in the xml file associated with each question, as can be seen below.
+
+````{verbatim, lang = "xml"}
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category> <text>$course$/top/Initial test</text> </category>
+    <info format="html"> <text></text> </info>
+    <idnumber></idnumber>
+  </question>
+<question type="...">
+...
+<questiontext format="html">
+  <text><![CDATA[
+     <!-- Copyright © 2024 Universidad de Granada -->
+     <!-- License Creative Commons Attribution-ShareAlike 4.0 -->
+     ... ]]></text>
+...
+</questiontext>
+...
+</question>
+</quiz>
+````
+
+Below is the function call that is being made including the default values of the rest of the parameters.
+
+```{r}
+qc <- question_category(category = 'Initial test',
+                        first_question_number = 1,
+                        copyright = 'Copyright © 2024 Universidad de Granada',
+                        license = 'License Creative Commons Attribution-ShareAlike 4.0',
+                        correct_feedback = 'Correct.',
+                        partially_correct_feedback = 'Partially correct.',
+                        incorrect_feedback = 'Incorrect.',
+                        adapt_images = TRUE,
+                        width = 800,
+                        height = 600)
+```
+
+We are going to discuss the use of each parameter. 
+
+Questions have a name, which is displayed as a summary in the *Moodle* question bank. We compose the name from the number of the question, the type of question that we have deduced and the beginning of its statement. For example, below is a generated question name.
+
+````{verbatim, lang = "xml"}
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+...  
+<question type="multichoice">
+<name> <text>q_001_multichoice_what_are_the_basic_arithmetic_operations</text> </name>
+...
+</question>
+</quiz>
+````
+
+Using the parameter `first_question_number`, the number that will be assigned to the first question is defined, with a three-digit format. This number will increase for each question.
+
+For each question we can indicate feedback text for cases in which the answer is correct, partially correct or incorrect: The corresponding values are provided by the `correct_feedback`, `partially_correct_feedback` and `incorrect_feedback` parameters.
+
+Finally, each question stem can include an image. Sometimes the images we use have very different sizes and require a prior transformation to homogenize their presentation. This transformation can be carried out automatically by indicating it using the parameter `adapt_images` (default is `FALSE`). Using the parameters `width` and `height` we indicate the size of the resulting image. It is advisable to test this functionality and adjust the size accordingly by viewing the result when defining a questionnaire in *Moodle*. **The original images are not modified**, only those that are embedded in the xml file.
 
 
 ## Define questions
 
-## Generate the xml file with the result
+Once we have an `question_category` object created, we can define questions that are added to it.
+
+The minimum we have to define about a question is its statement. Here's how to define a question using the `define_question` function.
+
+```{r example1}
+qc <- qc |>
+  define_question(
+    question = 'Describe the addition operation.'
+  )
+```
+
+Below is the definition of a question with all possible parameters, which we explain below.
+
+```{r example2}
+qc <- qc |>
+  define_question(
+    type = 'x',
+    question = 'Place the name of the operations as they appear in the figure.',
+    image = system.file("extdata", "ops.png", package = "moodef"),
+    image_alt = 'Operations',
+    answer = 'Addition',
+    a_1 = 'Multiplication',
+    a_2 = 'Division',
+    a_3 = 'Subtraction'
+  )
+```
+
+The type of question is deduced from the statement and the answers. The `type` parameter is used to distinguish between two types of questions and also to indicate the presentation of the answers. It can have three values: empty, `h` or any other value different from those two. In the above example it is `x`, that is, the third case: As we will see in the next section, it indicates that it is not a `multichoice` question and that the values are not displayed horizontally (`h` value).
+
+The question statement is defined by the parameter `question`.
+
+An image can be shown after the statement. Using the parameter `image` we indicate the file that contains it: In the example we obtain the name of a file included in this package. Each image must have a description that is indicated by the `image_alt` parameter.
+
+Finally we define the answers to the question. Using the parameter `answer` we indicate the first one. We indicate the rest in a variable way with the parameter names we want (or without names, if we use all the defined parameters), as many as we need to include.
+
+
+## Generate the xml file
 
 
 
