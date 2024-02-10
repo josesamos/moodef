@@ -55,7 +55,7 @@ In this section we are going to show the first three points of this process.
 
 ## Define the category
 
-To define a category we use the function `question_category` and we have to indicate its name: it creates an object of class `question_category`.
+To define a category we use the function `question_category()` and we have to indicate its name: it creates an object of class `question_category`.
 
 Below is a call to the function with the values of the parameters that we usually define.
 
@@ -133,7 +133,11 @@ Finally, each question stem can include an image. Sometimes the images we use ha
 
 Once we have an `question_category` object created, we can define questions that are added to it.
 
-The minimum we have to define about a question is its statement. Here's how to define a question using the `define_question` function.
+We can define the questions one by one using a definition function or in bulk using a data frame or a csv file. Below we show the possibilities offered.
+
+### Definition function
+
+The minimum we have to define about a question is its statement. Here's how to define a question using the `define_question()` function.
 
 ```{r example1}
 qc <- qc |>
@@ -164,18 +168,160 @@ The question statement is defined by the parameter `question`.
 
 An image can be shown after the statement. Using the parameter `image` we indicate the file that contains it: In the example we obtain the name of a file included in this package. Each image must have a description that is indicated by the `image_alt` parameter.
 
-Finally we define the answers to the question. Using the parameter `answer` we indicate the first one. We indicate the rest in a variable way with the parameter names we want (or without names, if we use all the defined parameters), as many as we need to include.
+Finally we define the answers to the question. Using the parameter `answer` we indicate the first one. If necessary, we can indicate the rest in a variable way with the parameter names we want (or without names, if we use all the defined parameters), as many as we need to include.
+
+### Definition using a csv file
+
+We can create an empty csv file but with the necessary columns using the `create_question_csv()` function. In addition to the file name, we can also indicate the separator to use (`,` or `;`).
+
+```{r}
+file <- create_question_csv(file = tempfile(fileext = '.csv'))
+```
+
+The content of the file is shown below.
+
+````{verbatim, lang = "csv"}
+"type","question","image","image_alt","answer","a_1","a_2","a_3"
+````
+
+We can add as many additional columns as we consider necessary. From that file, we can include rows using a text editor, R or some tool to edit csv files in spreadsheet format.
+
+Below is the content of a csv file included in this package.
+
+````{verbatim, lang = "csv"}
+"type","question","image","image_alt","answer",,,
+,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
+,"Match each operation with its symbol.",,,"Addition<|>+","Subtraction<|>-","Multiplication<|>*",
+,"The square root is a basic arithmetic operation.",,,"False",,,
+,"What basic operation does it have as a ""+"" symbol?",,,"Addition",,,
+,"The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
+"x","The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
+"h","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
+"x","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
+,"What is the result of SQRT(4)?",,,"2","-2",,
+,"What is the result of 4/3?",,,"1.33<|>0.03",,,
+,"Describe the addition operation.",,,,,,
+````
+
+Once available, we can generate all the questions using the `define_questions_from_csv()` function, as shown below.
+
+```{r}
+file <- system.file("extdata", "questions.csv", package = "moodef")
+qc <- qc |>
+  define_questions_from_csv(file)
+```
+
+There are types of questions in which two string values must be indicated for each answer. The criterion we have adopted to include two values in a cell is to use a separator and define them in a single string, the separator is `<|>`: It can be seen in the definition of some of the previous questions, for example, `Addition<|>+` or `1.33<|>0.03`.
+
+In this example, questions with images have not been included due to the difficulty of referencing the image files in the package from the csv file, but they can be included without any problem.
+
+### Definition using a data frame
+
+We can also massively define the questions using a data frame. We can create an empty one using the `create_question_data_frame()` function or read one from a csv file using the `read_question_csv()` function. In this case we are going to read one that contains images in the statements.
+
+```{r}
+file <- system.file("extdata", "questions_image.csv", package = "moodef")
+df <- read_question_csv(file = file)
+```
+
+The content of the data frame is shown below.
+
+```{r, results = "asis"}
+pander::pandoc.table(df, split.table = Inf)
+```
+
+In this case we are going to update the figure data with the files included in the package (in a local example, this is not necessary).
+
+```{r}
+df[1, 'image'] <- system.file("extdata", "divide.png", package = "moodef")
+df[2, 'image'] <- system.file("extdata", "ops.png", package = "moodef")
+```
+
+From R we can add new rows or modify existing ones. As we have explained in the previous section, there are questions in which we need to define two values in a cell using a separator: `<|>`. To facilitate the definition of these cells, we have defined the function `vector_to_string()` that, from a vector, generates a string including that separator, as shown in the following example.
+
+```{r}
+s <- vector_to_string(c('Addition', '+'))
+s
+```
+
+Once the definition of the questions in the data frame is finished, we can add it to the `question_category` object using the `define_questions_from_data_frame()` function, as it's shown in the following.
+
+```{r}
+qc <- qc |>
+  define_questions_from_data_frame(df)
+```
 
 
 ## Generate the xml file
 
+Once the questions we need have been defined, the next step is to generate the xml file. We use the `generate_xml_file()` function, to which we have to indicate a file name.
 
+```{r}
+file <- tempfile(fileext = '.xml')
+qc <- qc |>
+  generate_xml_file(file)
+```
+
+The generated file is the one that we can import from *Moodle* in the *Question Bank* section. 
+
+If we have included images, the file size increases considerably because they are embedded in xml (not referenced).
+
+```{r}
+file.size(file)
+```
+
+The definition file for a single question is shown below.
+
+````{verbatim, lang = "xml"}
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category> <text>$course$/top/Initial test</text> </category>
+    <info format="html"> <text></text> </info>
+    <idnumber></idnumber>
+  </question>
+  <question type="multichoice">
+<name> <text>q_001_multichoice_what_are_the_basic_arithmetic_operations</text> </name>
+<questiontext format="html">
+  <text><![CDATA[
+     <!-- Copyright © 2024 Universidad de Granada -->
+     <!-- License Creative Commons Attribution-ShareAlike 4.0 -->
+     <p>What are the basic arithmetic operations?</p>]]></text>
+     
+</questiontext>
+<generalfeedback format="html"> <text></text> </generalfeedback>
+<defaultgrade>1.0000000</defaultgrade>
+<penalty>0.5</penalty>
+<hidden>0</hidden>
+<idnumber></idnumber>
+<single>true</single>
+<shuffleanswers>true</shuffleanswers>
+<answernumbering>abc</answernumbering>
+<showstandardinstruction>0</showstandardinstruction>
+<correctfeedback format="moodle_auto_format"> <text>Correct.</text> </correctfeedback>
+<partiallycorrectfeedback format="moodle_auto_format"> <text></text> </partiallycorrectfeedback>
+<incorrectfeedback format="moodle_auto_format"> <text>Incorrect.</text> </incorrectfeedback>
+<answer fraction="100" format="html">
+   <text>Addition, subtraction, multiplication and division.</text>
+   <feedback format="html"> <text>Correct.</text> </feedback>
+</answer>
+<answer fraction="-50.000000000000000" format="html">
+   <text>Addition and subtraction.</text>
+   <feedback format="html"> <text>Incorrect.</text> </feedback>
+</answer>
+<answer fraction="-50.000000000000000" format="html">
+   <text>Addition, subtraction, multiplication, division and square root.</text>
+   <feedback format="html"> <text>Incorrect.</text> </feedback>
+</answer>
+</question>
+</quiz>
+````
 
 # Kind of questions
 
+We have simplified and generalized the definition process for 9 types of questions, so that we do not even have to indicate the type to define them, it is deduced from the definition. In some cases a character is used to distinguish between two types whose definition is identical or to indicate the orientation of the answers (horizontal or vertical), as we will see below.
 
-We have simplified and generalized the definition process for 9 types of questions, so that we do not even have to indicate the type to define them, it is deduced from the definition. The definition can be done by calling a function or by including a line in a csv file or data frame for each question.
 
-As a result, we generate an xml file with the questions that we can import directly into *Moodle*.
+
 
 # Conclusions
