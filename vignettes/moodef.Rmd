@@ -418,6 +418,48 @@ qc <- qc |>
 
 ## `ddwtos` and `gapselect`
 
+In questions of these types the objective is to fill in the gaps with the terms indicated. If the variable `type` has the default value (empty string), the values are filled by dragging and dropping. If we define a value other than empty in the variable `type`, they are filled by selecting from a list.
+
+Gaps in the statement are defined by numbers in double brackets, as shown in the following examples.
+
+```{r}
+qc <- qc |>
+  define_question(
+    question = 'The symbol for addition is [[1]], the symbol for subtraction is [[2]].',
+    answer = '+',
+    a_1 = '-'
+  ) |>
+  define_question(
+    type = 'x',
+    question = 'The symbol for addition is [[1]], the symbol for subtraction is [[2]].',
+    answer = '+',
+    a_1 = '-'
+  )
+```
+
+We have to indicate as many answers as gaps, in the correct order.
+
+## `matching`
+
+If the answers are made up of vectors of pairs of strings, we are in a type `matching` question. Below we show an example.
+
+```{r}
+qc <- qc |>
+  define_question(
+    question = 'Match each operation with its symbol.',
+    answer = c('Addition', '+'),
+    a_1 = c('Subtraction', '-'),
+    a_2 = c('Multiplication', '*')
+  )
+```
 
 
 # Conclusions
+
+The `moodef` package makes it easy to define questions for *Moodle* quizzes.
+
+We can define the questions one by one by calling a function or in bulk using a csv file or a data frame. We have simplified and generalized the definition so that the types considered are defined with the same parameters.
+
+The functionality offered by the package can be used to manually define the questions quickly or to define them automatically or semi-automatically from R.
+
+The result of the definition process is an xml file that can be imported directly into the *Moodle* question bank.
