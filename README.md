@@ -4,9 +4,8 @@
 # moodef <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 <!-- badges: start -->
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/moodef)](https://CRAN.R-project.org/package=moodef) -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/moodef)](https://CRAN.R-project.org/package=moodef)
 [![R-CMD-check](https://github.com/josesamos/moodef/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josesamos/moodef/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/josesamos/moodef/branch/main/graph/badge.svg)](https://app.codecov.io/gh/josesamos/moodef?branch=main)
