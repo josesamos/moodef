@@ -319,8 +319,104 @@ The definition file for a single question is shown below.
 
 # Kind of questions
 
-We have simplified and generalized the definition process for 9 types of questions, so that we do not even have to indicate the type to define them, it is deduced from the definition. In some cases a character is used to distinguish between two types whose definition is identical or to indicate the orientation of the answers (horizontal or vertical), as we will see below.
+We have simplified and generalized the definition process for 9 types of questions, so that we do not even have to indicate the type to define them, it is deduced from the definition: It depends on the value of the `answer` field. In some cases a character in the `type` field is used to distinguish between two types whose definition is identical or to indicate the orientation of the answers (horizontal or vertical), as we will see below. We dedicate a section to each type with the names that are generated in the xml file.
 
+## `essay`
+
+Only includes the question statement with or without an image (the `answer` field is empty). The answer to the question is made through free text. Below is an example that we had shown before.
+
+```{r}
+qc <- qc |>
+  define_question(
+    question = 'Describe the addition operation.'
+  )
+```
+
+## `truefalse`
+
+The `answer` field contains the correct answer. If this is one of the literals corresponding to the boolean values (`'True'` or `'False'`), nothing else needs to be indicated. Here is an example.
+
+
+```{r}
+qc <- qc |>
+  define_question(
+    question = 'The square root is a basic arithmetic operation.',
+    answer = 'False'
+  )
+```
+
+## `numerical`
+
+If the value of field `answer` is a number with or without decimal places, or a vector of two numbers, it is a `numerical` question.
+
+In this type of questions we only have to indicate correct values of the answer. If, instead of a value, we indicate a vector of two values, the second number represents the margin of error in which the answer is accepted as valid. Below are two examples.
+
+```{r}
+qc <- qc |>
+  define_question(
+    question = 'What is the result of SQRT(4)?',
+    answer = '2',
+    a_1 = '-2'
+  ) |>
+  define_question(
+    question = 'What is the result of 4/3?',
+    answer = c('1.33', '0.03')
+  )
+```
+
+## `shortanswer`
+
+If only field `answer` is defined and it is not a boolean or numeric value, it is of type `shortanswer`, for example:
+
+```{r}
+qc <- qc |>
+  define_question(
+    question = 'What basic operation does it have as a "+" symbol?',
+    answer = 'Addition'
+  )
+```
+
+## `multichoice`
+
+If field `answer` and the rest of the answers are of type string, it is of type `multichoice`. The content of field `answer` is the correct answer. Here is an example.
+
+```{r}
+qc <- qc |>
+  define_question(
+    question = 'What are the basic arithmetic operations?',
+    answer = 'Addition, subtraction, multiplication and division.',
+    a_1 = 'Addition and subtraction.',
+    a_2 = 'Addition, subtraction, multiplication, division and square root.'
+  )
+```
+
+## `ordering`
+
+Type `ordering` is defined as type `multichoice`. To distinguish it, we assign the parameter `type` a value other than empty, which is its default value. If we assign the value `h`, the answers will be presented horizontally, if it is different from `h`, they will be presented vertically.
+
+In the example below, the two questions are the same, only the way the answers are presented changes.
+
+```{r}
+qc <- qc |>
+  define_question(
+    type = 'h',
+    question = 'Order the result from smallest to largest.',
+    answer = '6/2',
+    a_1 = '6-2',
+    a_2 = '6+2',
+    a_3 = '6*2'
+  ) |>
+  define_question(
+    type = 'x',
+    question = 'Order the result from smallest to largest.',
+    answer = '6/2',
+    a_1 = '6-2',
+    a_2 = '6+2',
+    a_3 = '6*2'
+  ) 
+```
+
+## `ddwtos` and `gapselect`
 
 
 
