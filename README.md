@@ -4,12 +4,13 @@
 # moodef <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 <!-- badges: start -->
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/moodef)](https://CRAN.R-project.org/package=moodef) -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/moodef)](https://CRAN.R-project.org/package=moodef)
 [![R-CMD-check](https://github.com/josesamos/moodef/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josesamos/moodef/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/josesamos/moodef/branch/main/graph/badge.svg)](https://app.codecov.io/gh/josesamos/moodef?branch=main)
-<!-- [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/moodef?color=brightgreen)](https://www.r-pkg.org:443/pkg/moodef) -->
+[![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/moodef?color=brightgreen)](https://www.r-pkg.org:443/pkg/moodef)
 <!-- badges: end -->
 
 The goal of the `moodef` package is to support the definition of
@@ -169,4 +170,5 @@ qc <- qc |>
 ```
 
 We do not show the content of the xml file obtained because in that
-example there are several questions defined.
+example there are several questions defined and it takes up a lot of
+space.

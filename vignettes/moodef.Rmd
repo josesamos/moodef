@@ -131,7 +131,7 @@ Finally, each question stem can include an image. Sometimes the images we use ha
 
 ## Define questions
 
-Once we have an `question_category` object created, we can define questions that are added to it.
+Once we have a `question_category` object created, we can define questions that are added to it.
 
 We can define the questions one by one using a definition function or in bulk using a data frame or a csv file. Below we show the possibilities offered.
 
