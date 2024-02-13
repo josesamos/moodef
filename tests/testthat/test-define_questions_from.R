@@ -10,7 +10,21 @@ test_that("define_questions_from", {
     question_category(category = 'Initial test', adapt_images = TRUE) |>
     define_questions_from_csv(file = file)
 
+  file3 <- system.file("extdata", "questions.xlsx", package = "moodef")
+  df3 <- read_question_excel(file = file3)
+  names(df3) <- names(df)
+
+  qc3 <-
+    question_category(category = 'Initial test', adapt_images = TRUE) |>
+    define_questions_from_excel(file = file3)
+
+
+
+  expect_equal(df, df3)
+
   expect_equal(qc, qc2)
+
+  expect_equal(qc, qc3)
 
   expect_equal(qc,
                structure(

@@ -39,6 +39,7 @@ qc <-
 Other question definition: 
 \code{\link{define_question}()},
 \code{\link{define_questions_from_csv}()},
+\code{\link{define_questions_from_excel}()},
 \code{\link{generate_xml}()},
 \code{\link{generate_xml_file}()},
 \code{\link{question_category}()}

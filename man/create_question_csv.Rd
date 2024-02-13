@@ -25,7 +25,9 @@ file <- create_question_csv(file = tempfile(fileext = '.csv'))
 \seealso{
 Other support functions: 
 \code{\link{create_question_data_frame}()},
+\code{\link{create_question_excel}()},
 \code{\link{read_question_csv}()},
+\code{\link{read_question_excel}()},
 \code{\link{vector_to_string}()}
 }
 \concept{support functions}

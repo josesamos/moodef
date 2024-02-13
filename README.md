@@ -27,9 +27,10 @@ formats, including xml.
 Complementary, using the `moodef` package, we can define questionnaires
 from R. We have generalized 9 types of questions and simplified their
 definition. So, we define a question by calling a function or simply
-including a row in a data frame or a csv file. The result is an xml file
-that we import into *Moodle*. If necessary, some parameter not
-considered in the generalization can be defined or adjusted there.
+including a row in a data frame, a csv file or an *Excel* file. The
+result is an xml file that we import into *Moodle*. If necessary, some
+parameter not considered in the generalization can be defined or
+adjusted there.
 
 Although not shown in the next example, in each question we can include
 an image that is embedded in xml. We can set up the size of the images
@@ -132,9 +133,9 @@ We show the result below.
 
 We can call the `define_question` function for each question to be
 defined, with the same parameters. Alternatively, we can create a data
-frame or a csv file (with the functions available in the package) and
-include in them a row for each question, a column for each parameter.
-Below is the content of a csv file.
+frame, a csv file or an *Excel* file (with the functions available in
+the package) and include in them a row for each question, a column for
+each parameter. Below is the content of a csv file.
 
 ``` csv
 "type","question","image","image_alt","answer",,,

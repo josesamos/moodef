@@ -108,3 +108,80 @@ read_question_csv <- function(file, sep = ',') {
   names(df) <- attributes
   df
 }
+
+
+
+#' Create a question Excel file
+#'
+#' Creates an empty question Excel file.
+#'
+#' @param file A string, name of a text file.
+#'
+#' @family support functions
+#'
+#' @examples
+#'
+#' file <- create_question_excel(file = tempfile(fileext = '.xlsx'))
+#'
+#' @return A string.
+#' @export
+create_question_excel <- function(file) {
+  questions <- create_question_data_frame()
+  xlsx::write.xlsx(
+    as.data.frame(questions),
+    file = file,
+    sheetName = 'moodef',
+    row.names = FALSE,
+    showNA = FALSE
+  )
+  invisible(file)
+}
+
+
+#' Read a question Excel file
+#'
+#' Reads an Excel file of questions and returns a data frame.
+#'
+#' In addition to the file, we can indicate the sheet by its name or index. If we
+#' do not indicate anything, it considers the first sheet.
+#'
+#' @param file A string, name of a text file.
+#' @param sheet_index A number, sheet index in the workbook.
+#' @param sheet_name A string, sheet name.
+#'
+#' @family support functions
+#'
+#' @examples
+#'
+#' file <- system.file("extdata", "questions.xlsx", package = "moodef")
+#' df <- read_question_excel(file = file)
+#'
+#' @return A data frame.
+#' @export
+read_question_excel <- function(file,
+                                sheet_index = NULL,
+                                sheet_name = NULL) {
+  if (is.null(sheet_index) & is.null(sheet_name)) {
+    sheet_name <- readxl::excel_sheets(file)
+  } else if (is.null(sheet_name)) {
+    sheet_name <- readxl::excel_sheets(file)[sheet_index]
+  }
+  sheet_name <- sheet_name[1]
+  df <- suppressMessages(
+    readxl::read_excel(
+      file,
+      sheet = sheet_name,
+      col_names = TRUE,
+      col_types = "text",
+      trim_ws = TRUE
+    )
+  )
+  attributes <- names(df)
+  df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
+  df[, attributes] <-
+    apply(df[, attributes, drop = FALSE], 2, function(x)
+      tidyr::replace_na(x, ''))
+  attributes <- snakecase::to_snake_case(attributes)
+  names(df) <- attributes
+  df
+}

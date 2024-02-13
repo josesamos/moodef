@@ -26,7 +26,7 @@ The goal of the `moodef` package is to support the definition of [*Moodle*](http
 
 To define the questions for the quizzes we can use the component for this purpose that includes *Moodle*, based on entering data through screens. It allows the import and export of questions in various formats, including xml.
 
-Complementary, using the `moodef` package, we can define questionnaires from R. We have generalized 9 types of questions and simplified their definition. So, we define a question by calling a function or simply including a row in a data frame or a csv file. The result is an xml file that we import into *Moodle*. If necessary, some parameter not considered in the generalization can be defined or adjusted there.
+Complementary, using the `moodef` package, we can define questionnaires from R. We have generalized 9 types of questions and simplified their definition. So, we define a question by calling a function or simply including a row in a data frame, a csv file or an *Excel* file. The result is an xml file that we import into *Moodle*. If necessary, some parameter not considered in the generalization can be defined or adjusted there.
 
 Although not shown in the next example, in each question we can include an image that is embedded in xml. We can set up the size of the images so that they are homogeneous when displayed in quizzes.
 
@@ -116,7 +116,7 @@ First, we create an object using the `question_category` function and configure 
 </quiz>
 ````
 
-We can call the `define_question` function for each question to be defined, with the same parameters. Alternatively, we can create a data frame or a csv file (with the functions available in the package) and include in them a row for each question, a column for each parameter. Below is the content of a csv file.
+We can call the `define_question` function for each question to be defined, with the same parameters. Alternatively, we can create a data frame, a csv file or an *Excel* file (with the functions available in the package) and include in them a row for each question, a column for each parameter. Below is the content of a csv file.
 
 ````{verbatim, lang = "csv"}
 "type","question","image","image_alt","answer",,,
