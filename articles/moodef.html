@@ -104,7 +104,7 @@ the process of manually defining the questions, considering only the
 essential parameters for each type. On the other hand, the package
 offers an infrastructure that allows the automatic or semi-automatic
 generation of questions from R: to define a question we simply need to
-include a row in a data frame or csv file.</p>
+include a row in a data frame, a csv file or an <em>Excel</em> file.</p>
 <p>The rest of this document is structured as follows: First, the
 general process of defining questions is presented. Next, we show the
 types of questions considered and how to define them. Finally, the
@@ -232,8 +232,8 @@ modified</strong>, only those that are embedded in the xml file.</p>
 <p>Once we have a <code>question_category</code> object created, we can
 define questions that are added to it.</p>
 <p>We can define the questions one by one using a definition function or
-in bulk using a data frame or a csv file. Below we show the
-possibilities offered.</p>
+in bulk using a data frame, a csv file or an <em>Excel</em> file. Below
+we show the possibilities offered.</p>
 <div class="section level4">
 <h4 id="definition-function">Definition function<a class="anchor" aria-label="anchor" href="#definition-function"></a>
 </h4>
@@ -281,7 +281,7 @@ without names, if we use all the defined parameters), as many as we need
 to include.</p>
 </div>
 <div class="section level4">
-<h4 id="definition-using-a-csv-file">Definition using a csv file<a class="anchor" aria-label="anchor" href="#definition-using-a-csv-file"></a>
+<h4 id="definition-using-a-csv-file-or-an-excel-file">Definition using a csv file or an <em>Excel</em> file<a class="anchor" aria-label="anchor" href="#definition-using-a-csv-file-or-an-excel-file"></a>
 </h4>
 <p>We can create an empty csv file but with the necessary columns using
 the <code><a href="../reference/create_question_csv.html">create_question_csv()</a></code> function. In addition to the file
@@ -326,6 +326,10 @@ definition of some of the previous questions, for example,
 <p>In this example, questions with images have not been included due to
 the difficulty of referencing the image files in the package from the
 csv file, but they can be included without any problem.</p>
+<p>For <em>Excel</em> files the definition is carried out in the same
+way. The corresponding functions are:
+<code><a href="../reference/create_question_excel.html">create_question_excel()</a></code> and
+<code><a href="../reference/define_questions_from_excel.html">define_questions_from_excel()</a></code>.</p>
 </div>
 <div class="section level4">
 <h4 id="definition-using-a-data-frame">Definition using a data frame<a class="anchor" aria-label="anchor" href="#definition-using-a-data-frame"></a>
