@@ -24,6 +24,8 @@ s <- vector_to_string(c('Addition', '+'))
 Other support functions: 
 \code{\link{create_question_csv}()},
 \code{\link{create_question_data_frame}()},
-\code{\link{read_question_csv}()}
+\code{\link{create_question_excel}()},
+\code{\link{read_question_csv}()},
+\code{\link{read_question_excel}()}
 }
 \concept{support functions}

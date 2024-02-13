@@ -109,3 +109,64 @@ define_questions_from_csv.question_category <- function(qc, file, sep = ',') {
   )
   define_questions_from_data_frame(qc, df)
 }
+
+
+
+
+#' Define questions from a Excel file
+#'
+#' Each row in the Excel file is interpreted as a question. We only have to define
+#' the columns that we are going to use, the rest of the columns are taken by default.
+#'
+#' In addition to the file, we can indicate the sheet by its name or index. If we
+#' do not indicate anything, it considers the first sheet.
+#'
+#' For answers where a vector is required, "<|>" is used as a separator of the vector
+#' elements.
+#'
+#' @param qc A `question_category` object.
+#' @param file A string, name of an Excel file.
+#' @param sheet_index A number, sheet index in the workbook.
+#' @param sheet_name A string, sheet name.
+#'
+#' @return A `question_category`.
+#'
+#' @family question definition
+#'
+#' @examples
+#'
+#' file <- system.file("extdata", "questions.xlsx", package = "moodef")
+#' qc <-
+#'   question_category(category = 'Initial test', adapt_images = TRUE) |>
+#'   define_questions_from_excel(file = file)
+#'
+#' @export
+define_questions_from_excel <- function(qc,
+                                        file,
+                                        sheet_index,
+                                        sheet_name)
+  UseMethod("define_questions_from_excel")
+
+#' @rdname define_questions_from_excel
+#' @export
+define_questions_from_excel.question_category <- function(qc,
+                                                          file,
+                                                          sheet_index = NULL,
+                                                          sheet_name = NULL) {
+  if (is.null(sheet_index) & is.null(sheet_name)) {
+    sheet_name <- readxl::excel_sheets(file)
+  } else if (is.null(sheet_name)) {
+    sheet_name <- readxl::excel_sheets(file)[sheet_index]
+  }
+  sheet_name <- sheet_name[1]
+  df <- suppressMessages(
+    readxl::read_excel(
+      file,
+      sheet = sheet_name,
+      col_names = TRUE,
+      col_types = "text",
+      trim_ws = TRUE
+    )
+  )
+  define_questions_from_data_frame(qc, df)
+}
