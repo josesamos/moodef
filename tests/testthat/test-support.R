@@ -13,7 +13,7 @@ test_that("support", {
   df2 <- read_question_csv(file = file2)
 
   file3 <- tempfile(fileext = '.xlsx')
-  f3 <- create_question_csv(file = file3)
+  f3 <- create_question_excel(file = file3)
 
   file4 <-
     system.file("extdata", "questions.xlsx", package = "moodef")
