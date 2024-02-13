@@ -23,6 +23,9 @@ test_that("support", {
   df4 <- read_question_excel(file = file4, sheet_name = 'Hoja1')
   names(df4) <- names(df2)
 
+  df5 <- read_question_excel(file = file4, sheet_index = 1)
+  names(df5) <- names(df2)
+
   expect_equal(s, "Addition<|>+")
   expect_equal(s2, "")
   expect_equal(s3, "")
@@ -64,5 +67,7 @@ test_that("support", {
   expect_equal(df2, df3)
 
   expect_equal(df2, df4)
+
+  expect_equal(df2, df5)
 
 })
