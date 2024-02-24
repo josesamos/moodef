@@ -312,11 +312,7 @@ edit csv files in spreadsheet format.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"questions.csv"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span></span>
 <span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/define_questions_from_csv.html">define_questions_from_csv</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; New names:</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `` -&gt; `...6`</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `` -&gt; `...7`</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `` -&gt; `...8`</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/define_questions_from_csv.html">define_questions_from_csv</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></code></pre></div>
 <p>There are types of questions in which two string values must be
 indicated for each answer. The criterion we have adopted to include two
 values in a cell is to use a separator and define them in a single
@@ -341,11 +337,7 @@ function or read one from a csv file using the
 read one that contains images in the statements.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"questions_image.csv"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span></span>
-<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_question_csv.html">read_question_csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; New names:</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `` -&gt; `...6`</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `` -&gt; `...7`</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">•</span> `` -&gt; `...8`</span></span></code></pre></div>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_question_csv.html">read_question_csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">file</span><span class="op">)</span></span></code></pre></div>
 <p>The content of the data frame is shown below.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">df</span>, split.table <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
@@ -366,9 +358,9 @@ read one that contains images in the statements.</p>
 <th align="center">image</th>
 <th align="center">image_alt</th>
 <th align="center">answer</th>
-<th align="center">6</th>
-<th align="center">7</th>
-<th align="center">8</th>
+<th align="center">a_1</th>
+<th align="center">a_2</th>
+<th align="center">a_3</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -436,7 +428,7 @@ in the <em>Question Bank</em> section.</p>
 because they are embedded in xml (not referenced).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.size</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 217258</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 217256</span></span></code></pre></div>
 <p>The definition file for a single question is shown below.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
@@ -554,7 +546,7 @@ example:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
-<span>    question <span class="op">=</span> <span class="st">'What basic operation does it have as a "+" symbol?'</span>,</span>
+<span>    question <span class="op">=</span> <span class="st">'What basic operation does it have as a + symbol?'</span>,</span>
 <span>    answer <span class="op">=</span> <span class="st">'Addition'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
