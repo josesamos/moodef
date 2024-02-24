@@ -1,8 +1,8 @@
-"type","question","image","image_alt","answer",,,
+"type","question","image","image_alt","answer","a_1","a_2","a_3"
 ,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
 ,"Match each operation with its symbol.",,,"Addition<|>+","Subtraction<|>-","Multiplication<|>*",
 ,"The square root is a basic arithmetic operation.",,,"False",,,
-,"What basic operation does it have as a ""+"" symbol?",,,"Addition",,,
+,"What basic operation does it have as a + symbol?",,,"Addition",,,
 ,"The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
 "x","The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
 "h","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"

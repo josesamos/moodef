@@ -59,9 +59,9 @@ test_that("support", {
                  "image",
                  "image_alt",
                  "answer",
-                 "6",
-                 "7",
-                 "8"
+                 "a_1",
+                 "a_2",
+                 "a_3"
                ))
 
   expect_equal(df2, df3)

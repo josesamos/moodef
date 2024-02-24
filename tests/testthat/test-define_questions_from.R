@@ -109,7 +109,7 @@ test_that("define_questions_from", {
                          "What are the basic arithmetic operations?",
                          "Match each operation with its symbol.",
                          "The square root is a basic arithmetic operation.",
-                         "What basic operation does it have as a \"+\" symbol?",
+                         "What basic operation does it have as a + symbol?",
                          "The symbol for addition is [[1]], the symbol for subtraction is [[2]].",
                          "The symbol for addition is [[1]], the symbol for subtraction is [[2]].",
                          "Sort the result from smallest to largest.",

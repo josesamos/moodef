@@ -45,15 +45,15 @@ define_questions_from_data_frame.question_category <- function(qc, df) {
   rest <- setdiff(attributes, c("type", "question", "image", "image_alt", "answer"))
   for (i in 1:nrow(df)) {
     text <- paste0(
-      "define_question(qc, type = '",
+      'define_question(qc, type = "',
       df[i, 'type'],
-      "', question = '",
+      '", question = "',
       df[i, 'question'],
-      "', image = '",
+      '", image = "',
       df[i, 'image'],
-      "', image_alt = '",
+      '", image_alt = "',
       df[i, 'image_alt'],
-      "', answer = ",
+      '", answer = ',
       string_to_string_vector(df[i, 'answer'][[1]])
     )
     j <- 0

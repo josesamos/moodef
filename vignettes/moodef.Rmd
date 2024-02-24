@@ -374,7 +374,7 @@ If only field `answer` is defined and it is not a boolean or numeric value, it i
 ```{r}
 qc <- qc |>
   define_question(
-    question = 'What basic operation does it have as a "+" symbol?',
+    question = 'What basic operation does it have as a + symbol?',
     answer = 'Addition'
   )
 ```

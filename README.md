@@ -142,7 +142,7 @@ each parameter. Below is the content of a csv file.
 ,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
 ,"Match each operation with its symbol.",,,"Addition<|>+","Subtraction<|>-","Multiplication<|>*",
 ,"The square root is a basic arithmetic operation.",,,"False",,,
-,"What basic operation does it have as a ""+"" symbol?",,,"Addition",,,
+,"What basic operation does it have as a + symbol?",,,"Addition",,,
 ,"The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
 "x","The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
 "h","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
@@ -160,10 +160,6 @@ qc <- question_category(category = 'Initial test',
                         copyright = 'Copyright © 2024 Universidad de Granada',
                         license = 'License Creative Commons Attribution-ShareAlike 4.0') |>
   define_questions_from_csv(file = file)
-#> New names:
-#> • `` -> `...6`
-#> • `` -> `...7`
-#> • `` -> `...8`
 
 file <- tempfile(fileext = '.xml')
 qc <- qc |>
