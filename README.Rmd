@@ -119,7 +119,7 @@ First, we create an object using the `question_category` function and configure 
 We can call the `define_question` function for each question to be defined, with the same parameters. Alternatively, we can create a data frame, a csv file or an *Excel* file (with the functions available in the package) and include in them a row for each question, a column for each parameter. Below is the content of a csv file.
 
 ````{verbatim, lang = "csv"}
-"type","question","image","image_alt","answer",,,
+"type","question","image","image_alt","answer","a_1","a_2","a_3"
 ,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
 ,"Match each operation with its symbol.",,,"Addition<|>+","Subtraction<|>-","Multiplication<|>*",
 ,"The square root is a basic arithmetic operation.",,,"False",,,

@@ -138,7 +138,7 @@ the package) and include in them a row for each question, a column for
 each parameter. Below is the content of a csv file.
 
 ``` csv
-"type","question","image","image_alt","answer",,,
+"type","question","image","image_alt","answer","a_1","a_2","a_3"
 ,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
 ,"Match each operation with its symbol.",,,"Addition<|>+","Subtraction<|>-","Multiplication<|>*",
 ,"The square root is a basic arithmetic operation.",,,"False",,,
