@@ -101,9 +101,15 @@ read_question_csv <- function(file, sep = ',') {
   )
   attributes <- names(df)
   df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
-  df[, attributes] <-
-    apply(df[, attributes, drop = FALSE], 2, function(x)
-      tidyr::replace_na(x, ''))
+  if (nrow(df) == 1) {
+    df[, attributes] <-
+      tibble::as_tibble(as.list(apply(df[, attributes, drop = FALSE], 2, function(x)
+        tidyr::replace_na(x, ''))))
+  } else {
+    df[, attributes] <-
+      apply(df[, attributes, drop = FALSE], 2, function(x)
+        tidyr::replace_na(x, ''))
+  }
   attributes <- snakecase::to_snake_case(attributes)
   names(df) <- attributes
   df
@@ -178,9 +184,15 @@ read_question_excel <- function(file,
   )
   attributes <- names(df)
   df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
-  df[, attributes] <-
-    apply(df[, attributes, drop = FALSE], 2, function(x)
-      tidyr::replace_na(x, ''))
+  if (nrow(df) == 1) {
+    df[, attributes] <-
+      tibble::as_tibble(as.list(apply(df[, attributes, drop = FALSE], 2, function(x)
+        tidyr::replace_na(x, ''))))
+  } else {
+    df[, attributes] <-
+      apply(df[, attributes, drop = FALSE], 2, function(x)
+        tidyr::replace_na(x, ''))
+  }
   attributes <- snakecase::to_snake_case(attributes)
   names(df) <- attributes
   df

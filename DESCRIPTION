@@ -23,6 +23,7 @@ Imports:
     readr,
     readxl,
     snakecase,
+    tibble,
     tidyr,
     tools,
     xlsx,
