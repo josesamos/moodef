@@ -1,4 +1,4 @@
-# moodef (development version)
+# moodef 1.1.0
 
 * Generate questions from an Excel file. 
 * Create an Excel file.
