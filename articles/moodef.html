@@ -161,25 +161,25 @@ that we usually define.</p>
 parameter, we define the <code>copyright</code> and <code>license</code>
 parameters that will appear between comments in the xml file associated
 with each question, as can be seen below.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">category</span>&gt; &lt;<span class="kw">text</span>&gt;$course$/top/Initial test&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">category</span>&gt;</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">info</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">info</span>&gt;</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"..."</span>&gt;</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>     &lt;!-- Copyright © 2024 Universidad de Granada --&gt;</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>     ... <span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    &lt;<span class="kw">category</span>&gt; &lt;<span class="kw">text</span>&gt;$course$/top/Initial test&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">category</span>&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    &lt;<span class="kw">info</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">info</span>&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    &lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  &lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>&lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"..."</span>&gt;</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>...</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>     &lt;!-- Copyright © 2024 Universidad de Granada --&gt;</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>     ... <span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>...</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>...</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
 <p>Below is the function call that is being made including the default
 values of the rest of the parameters.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -199,14 +199,14 @@ values of the rest of the parameters.</p>
 the question, the type of question that we have deduced and the
 beginning of its statement. For example, below is a generated question
 name.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>...  </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"multichoice"</span>&gt;</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt; &lt;<span class="kw">text</span>&gt;q_001_multichoice_what_are_the_basic_arithmetic_operations&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">name</span>&gt;</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>...</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>...  </span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>&lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"multichoice"</span>&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt; &lt;<span class="kw">text</span>&gt;q_001_multichoice_what_are_the_basic_arithmetic_operations&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>...</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
 <p>Using the parameter <code>first_question_number</code>, the number
 that will be assigned to the first question is defined, with a
 three-digit format. This number will increase for each question.</p>
@@ -430,48 +430,48 @@ because they are embedded in xml (not referenced).</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.size</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 217256</span></span></code></pre></div>
 <p>The definition file for a single question is shown below.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">category</span>&gt; &lt;<span class="kw">text</span>&gt;$course$/top/Initial test&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">category</span>&gt;</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">info</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">info</span>&gt;</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"multichoice"</span>&gt;</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt; &lt;<span class="kw">text</span>&gt;q_001_multichoice_what_are_the_basic_arithmetic_operations&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">name</span>&gt;</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>     &lt;!-- Copyright © 2024 Universidad de Granada --&gt;</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>     &lt;p&gt;What are the basic arithmetic operations?&lt;/p&gt;<span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>     </span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">generalfeedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">generalfeedback</span>&gt;</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">defaultgrade</span>&gt;1.0000000&lt;/<span class="kw">defaultgrade</span>&gt;</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">penalty</span>&gt;0.5&lt;/<span class="kw">penalty</span>&gt;</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">hidden</span>&gt;0&lt;/<span class="kw">hidden</span>&gt;</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">single</span>&gt;true&lt;/<span class="kw">single</span>&gt;</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">shuffleanswers</span>&gt;true&lt;/<span class="kw">shuffleanswers</span>&gt;</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">answernumbering</span>&gt;abc&lt;/<span class="kw">answernumbering</span>&gt;</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">showstandardinstruction</span>&gt;0&lt;/<span class="kw">showstandardinstruction</span>&gt;</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">correctfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">correctfeedback</span>&gt;</span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">partiallycorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">partiallycorrectfeedback</span>&gt;</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">incorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">incorrectfeedback</span>&gt;</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"100"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication and division.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition and subtraction.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication, division and square root.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>    &lt;<span class="kw">category</span>&gt; &lt;<span class="kw">text</span>&gt;$course$/top/Initial test&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">category</span>&gt;</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>    &lt;<span class="kw">info</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">info</span>&gt;</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>    &lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  &lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"multichoice"</span>&gt;</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt; &lt;<span class="kw">text</span>&gt;q_001_multichoice_what_are_the_basic_arithmetic_operations&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>     &lt;!-- Copyright © 2024 Universidad de Granada --&gt;</span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>     &lt;p&gt;What are the basic arithmetic operations?&lt;/p&gt;<span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>     </span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a>&lt;<span class="kw">generalfeedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">generalfeedback</span>&gt;</span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>&lt;<span class="kw">defaultgrade</span>&gt;1.0000000&lt;/<span class="kw">defaultgrade</span>&gt;</span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a>&lt;<span class="kw">penalty</span>&gt;0.5&lt;/<span class="kw">penalty</span>&gt;</span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a>&lt;<span class="kw">hidden</span>&gt;0&lt;/<span class="kw">hidden</span>&gt;</span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>&lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>&lt;<span class="kw">single</span>&gt;true&lt;/<span class="kw">single</span>&gt;</span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a>&lt;<span class="kw">shuffleanswers</span>&gt;true&lt;/<span class="kw">shuffleanswers</span>&gt;</span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a>&lt;<span class="kw">answernumbering</span>&gt;abc&lt;/<span class="kw">answernumbering</span>&gt;</span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a>&lt;<span class="kw">showstandardinstruction</span>&gt;0&lt;/<span class="kw">showstandardinstruction</span>&gt;</span>
+<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a>&lt;<span class="kw">correctfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">correctfeedback</span>&gt;</span>
+<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a>&lt;<span class="kw">partiallycorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">partiallycorrectfeedback</span>&gt;</span>
+<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a>&lt;<span class="kw">incorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">incorrectfeedback</span>&gt;</span>
+<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"100"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication and division.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb18-32"><a href="#cb18-32" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb18-33"><a href="#cb18-33" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb18-34"><a href="#cb18-34" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition and subtraction.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb18-35"><a href="#cb18-35" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb18-36"><a href="#cb18-36" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb18-37"><a href="#cb18-37" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb18-38"><a href="#cb18-38" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication, division and square root.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb18-39"><a href="#cb18-39" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb18-40"><a href="#cb18-40" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb18-41"><a href="#cb18-41" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb18-42"><a href="#cb18-42" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

@@ -120,48 +120,48 @@
 <span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/generate_xml_file.html">generate_xml_file</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></code></pre></div>
 <p>First, we create an object using the <code>question_category</code> function and configure general aspects of the definition in it. Next, we define the questions, as many as we need, using the <code>define_question</code> function (the type of the questions is deduced from the definition). Finally, we generate the questions in xml format, in the form of a string or file. We show the result below.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">category</span>&gt; &lt;<span class="kw">text</span>&gt;$course$/top/Initial test&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">category</span>&gt;</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">info</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">info</span>&gt;</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"multichoice"</span>&gt;</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt; &lt;<span class="kw">text</span>&gt;q_001_multichoice_what_are_the_basic_arithmetic_operations&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">name</span>&gt;</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>     &lt;!-- Copyright © 2024 Universidad de Granada --&gt;</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>     &lt;p&gt;What are the basic arithmetic operations?&lt;/p&gt;<span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>     </span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">generalfeedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">generalfeedback</span>&gt;</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">defaultgrade</span>&gt;1.0000000&lt;/<span class="kw">defaultgrade</span>&gt;</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">penalty</span>&gt;0.5&lt;/<span class="kw">penalty</span>&gt;</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">hidden</span>&gt;0&lt;/<span class="kw">hidden</span>&gt;</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">single</span>&gt;true&lt;/<span class="kw">single</span>&gt;</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">shuffleanswers</span>&gt;true&lt;/<span class="kw">shuffleanswers</span>&gt;</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">answernumbering</span>&gt;abc&lt;/<span class="kw">answernumbering</span>&gt;</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">showstandardinstruction</span>&gt;0&lt;/<span class="kw">showstandardinstruction</span>&gt;</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">correctfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">correctfeedback</span>&gt;</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">partiallycorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">partiallycorrectfeedback</span>&gt;</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">incorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">incorrectfeedback</span>&gt;</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"100"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication and division.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition and subtraction.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication, division and square root.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    &lt;<span class="kw">category</span>&gt; &lt;<span class="kw">text</span>&gt;$course$/top/Initial test&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">category</span>&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    &lt;<span class="kw">info</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">info</span>&gt;</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>    &lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  &lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"multichoice"</span>&gt;</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt; &lt;<span class="kw">text</span>&gt;q_001_multichoice_what_are_the_basic_arithmetic_operations&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>     &lt;!-- Copyright © 2024 Universidad de Granada --&gt;</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>     &lt;p&gt;What are the basic arithmetic operations?&lt;/p&gt;<span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>     </span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>&lt;<span class="kw">generalfeedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">generalfeedback</span>&gt;</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>&lt;<span class="kw">defaultgrade</span>&gt;1.0000000&lt;/<span class="kw">defaultgrade</span>&gt;</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>&lt;<span class="kw">penalty</span>&gt;0.5&lt;/<span class="kw">penalty</span>&gt;</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>&lt;<span class="kw">hidden</span>&gt;0&lt;/<span class="kw">hidden</span>&gt;</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>&lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>&lt;<span class="kw">single</span>&gt;true&lt;/<span class="kw">single</span>&gt;</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>&lt;<span class="kw">shuffleanswers</span>&gt;true&lt;/<span class="kw">shuffleanswers</span>&gt;</span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>&lt;<span class="kw">answernumbering</span>&gt;abc&lt;/<span class="kw">answernumbering</span>&gt;</span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>&lt;<span class="kw">showstandardinstruction</span>&gt;0&lt;/<span class="kw">showstandardinstruction</span>&gt;</span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>&lt;<span class="kw">correctfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">correctfeedback</span>&gt;</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>&lt;<span class="kw">partiallycorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">partiallycorrectfeedback</span>&gt;</span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>&lt;<span class="kw">incorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">incorrectfeedback</span>&gt;</span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"100"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication and division.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition and subtraction.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication, division and square root.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
 <p>We can call the <code>define_question</code> function for each question to be defined, with the same parameters. Alternatively, we can create a data frame, a csv file or an <em>Excel</em> file (with the functions available in the package) and include in them a row for each question, a column for each parameter. Below is the content of a csv file.</p>
 <pre class="csv"><code>"type","question","image","image_alt","answer","a_1","a_2","a_3"
 ,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
