@@ -25,8 +25,10 @@ do not indicate anything, it considers the first sheet.
 }
 \examples{
 
+\donttest{
 file <- system.file("extdata", "questions.xlsx", package = "moodef")
 df <- read_question_excel(file = file)
+}
 
 }
 \seealso{

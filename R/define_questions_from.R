@@ -135,10 +135,12 @@ define_questions_from_csv.question_category <- function(qc, file, sep = ',') {
 #'
 #' @examples
 #'
+#' \donttest{
 #' file <- system.file("extdata", "questions.xlsx", package = "moodef")
 #' qc <-
 #'   question_category(category = 'Initial test', adapt_images = TRUE) |>
 #'   define_questions_from_excel(file = file)
+#' }
 #'
 #' @export
 define_questions_from_excel <- function(qc,

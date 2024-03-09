@@ -34,10 +34,12 @@ elements.
 }
 \examples{
 
+\donttest{
 file <- system.file("extdata", "questions.xlsx", package = "moodef")
 qc <-
   question_category(category = 'Initial test', adapt_images = TRUE) |>
   define_questions_from_excel(file = file)
+}
 
 }
 \seealso{

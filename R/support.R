@@ -127,7 +127,9 @@ read_question_csv <- function(file, sep = ',') {
 #'
 #' @examples
 #'
+#' \donttest{
 #' file <- create_question_excel(file = tempfile(fileext = '.xlsx'))
+#' }
 #'
 #' @return A string.
 #' @export
@@ -159,8 +161,10 @@ create_question_excel <- function(file) {
 #'
 #' @examples
 #'
+#' \donttest{
 #' file <- system.file("extdata", "questions.xlsx", package = "moodef")
 #' df <- read_question_excel(file = file)
+#' }
 #'
 #' @return A data frame.
 #' @export

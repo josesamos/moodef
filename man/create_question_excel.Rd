@@ -17,7 +17,9 @@ Creates an empty question Excel file.
 }
 \examples{
 
+\donttest{
 file <- create_question_excel(file = tempfile(fileext = '.xlsx'))
+}
 
 }
 \seealso{
