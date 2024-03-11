@@ -32,9 +32,15 @@ define_questions_from_data_frame <- function(qc, df)
 define_questions_from_data_frame.question_category <- function(qc, df) {
   attributes <- names(df)
   df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
-  df[, attributes] <-
-    apply(df[, attributes, drop = FALSE], 2, function(x)
-      tidyr::replace_na(x, ''))
+  if (nrow(df) == 1) {
+    df[, attributes] <-
+      tibble::as_tibble(as.list(apply(df[, attributes, drop = FALSE], 2, function(x)
+        tidyr::replace_na(x, ''))))
+  } else {
+    df[, attributes] <-
+      apply(df[, attributes, drop = FALSE], 2, function(x)
+        tidyr::replace_na(x, ''))
+  }
   attributes <- snakecase::to_snake_case(attributes)
   names(df) <- attributes
   for (opcional in c('type', 'image', 'image_alt')) {

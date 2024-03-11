@@ -1,5 +1,7 @@
 # moodef (development version)
 
+* Fix the case of defining a single question.
+
 # moodef 1.1.0
 
 * Generate questions from an Excel file. 
