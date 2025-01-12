@@ -5,9 +5,9 @@
 \alias{define_questions_from_csv.question_category}
 \title{Define questions from a csv file}
 \usage{
-define_questions_from_csv(qc, file, sep)
+define_questions_from_csv(qc, file, sep, extended)
 
-\method{define_questions_from_csv}{question_category}(qc, file, sep = ",")
+\method{define_questions_from_csv}{question_category}(qc, file, sep = ",", extended = FALSE)
 }
 \arguments{
 \item{qc}{A \code{question_category} object.}
@@ -15,6 +15,8 @@ define_questions_from_csv(qc, file, sep)
 \item{file}{A string, name of a text file.}
 
 \item{sep}{Column separator character.}
+
+\item{extended}{A Boolean, use extended question definition.}
 }
 \value{
 A \code{question_category}.

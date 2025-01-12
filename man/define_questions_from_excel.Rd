@@ -5,9 +5,15 @@
 \alias{define_questions_from_excel.question_category}
 \title{Define questions from a Excel file}
 \usage{
-define_questions_from_excel(qc, file, sheet_index, sheet_name)
+define_questions_from_excel(qc, file, sheet_index, sheet_name, extended)
 
-\method{define_questions_from_excel}{question_category}(qc, file, sheet_index = NULL, sheet_name = NULL)
+\method{define_questions_from_excel}{question_category}(
+  qc,
+  file,
+  sheet_index = NULL,
+  sheet_name = NULL,
+  extended = FALSE
+)
 }
 \arguments{
 \item{qc}{A \code{question_category} object.}
@@ -17,6 +23,8 @@ define_questions_from_excel(qc, file, sheet_index, sheet_name)
 \item{sheet_index}{A number, sheet index in the workbook.}
 
 \item{sheet_name}{A string, sheet name.}
+
+\item{extended}{A Boolean, use extended question definition.}
 }
 \value{
 A \code{question_category}.

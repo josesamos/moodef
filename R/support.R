@@ -99,20 +99,7 @@ read_question_csv <- function(file, sep = ',') {
     delim = sep,
     col_types = readr::cols(.default = readr::col_character())
   )
-  attributes <- names(df)
-  df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
-  if (nrow(df) == 1) {
-    df[, attributes] <-
-      tibble::as_tibble(as.list(apply(df[, attributes, drop = FALSE], 2, function(x)
-        tidyr::replace_na(x, ''))))
-  } else {
-    df[, attributes] <-
-      apply(df[, attributes, drop = FALSE], 2, function(x)
-        tidyr::replace_na(x, ''))
-  }
-  attributes <- snakecase::to_snake_case(attributes)
-  names(df) <- attributes
-  df
+  process_question_dataframe(df)
 }
 
 
@@ -177,6 +164,7 @@ read_question_excel <- function(file,
     sheet_name <- readxl::excel_sheets(file)[sheet_index]
   }
   sheet_name <- sheet_name[1]
+
   df <- suppressMessages(
     readxl::read_excel(
       file,
@@ -186,18 +174,38 @@ read_question_excel <- function(file,
       trim_ws = TRUE
     )
   )
+  process_question_dataframe(df)
+}
+
+
+#' Process Question DataFrame
+#'
+#' Processes a dataframe by converting columns to character type, handling NAs,
+#' and renaming attributes to snake_case.
+#'
+#' @param df A dataframe to process.
+#'
+#' @return A processed dataframe.
+#' @keywords internal
+process_question_dataframe <- function(df) {
   attributes <- names(df)
+
+  # Convert all columns to character type
   df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
+
+  # Replace NA values with empty strings
   if (nrow(df) == 1) {
-    df[, attributes] <-
-      tibble::as_tibble(as.list(apply(df[, attributes, drop = FALSE], 2, function(x)
-        tidyr::replace_na(x, ''))))
+    df[, attributes] <- tibble::as_tibble(as.list(apply(
+      df[, attributes, drop = FALSE], 2, function(x) tidyr::replace_na(x, '')
+    )))
   } else {
-    df[, attributes] <-
-      apply(df[, attributes, drop = FALSE], 2, function(x)
-        tidyr::replace_na(x, ''))
+    df[, attributes] <- apply(df[, attributes, drop = FALSE], 2, function(x) tidyr::replace_na(x, ''))
   }
+
+  # Rename attributes to snake_case
   attributes <- snakecase::to_snake_case(attributes)
   names(df) <- attributes
-  df
+
+  return(df)
 }
+
