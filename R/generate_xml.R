@@ -23,7 +23,8 @@ generate_questiontext <- function(copyright,
                                   height,
                                   question,
                                   image,
-                                  image_alt) {
+                                  image_alt,
+                                  author = '') {
   image <- trimws(image)
   if (nchar(image) > 0) {
     image_alt <- trimws(image_alt)
@@ -347,8 +348,12 @@ generate_xml <- function(qc)
 #' @rdname generate_xml
 #' @export
 generate_xml.question_category <- function(qc) {
-  questions <- format_questions(qc$questions)
-  xml <- category_question(qc$category, questions)
+  if (qc$extended) {
+    xml <- extended_format_questions(qc)
+  } else {
+    questions <- format_questions(qc$questions)
+    xml <- category_question(qc$category, questions)
+  }
   xml
 }
 

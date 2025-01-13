@@ -127,3 +127,31 @@ validate_and_adjust_dataframe <- function(df) {
 }
 
 
+#' Format all questions in the data frame
+#'
+#' @param qc A `question_category` object.
+#'
+#' @return A string.
+#' @keywords internal
+extended_format_questions <- function(qc) {
+  fq <- glue::glue('<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+')
+
+  for (i in 1:nrow(qc$questions)) {
+    category <- qc$questions[i, "category"]
+    fq <- glue::glue(fq,
+      '
+  <question type="category">
+    <category> <text>$course$/top/{category}</text> </category>
+    <info format="html"> <text></text> </info>
+    <idnumber></idnumber>
+  </question>
+')
+  }
+
+  fq <- glue::glue(fq, '
+</quiz>
+')
+  fq
+}
