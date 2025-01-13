@@ -44,6 +44,7 @@ test_that("define_questions_from", {
                    copyright = "",
                    license = "",
                    author = "",
+                   general_feedback = "",
                    correct_feedback = "Correct.",
                    partially_correct_feedback = "Partially correct.",
                    incorrect_feedback = "Incorrect.",

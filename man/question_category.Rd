@@ -15,7 +15,8 @@ question_category(
   adapt_images = FALSE,
   width = 800,
   height = 600,
-  author = ""
+  author = "",
+  general_feedback = ""
 )
 }
 \arguments{
@@ -45,6 +46,8 @@ to each question.}
 
 \item{author}{A string, author name to be included in each question that is
 defined.}
+
+\item{general_feedback}{A string, general feedback to each question.}
 }
 \value{
 A \code{question_category} object.

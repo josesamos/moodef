@@ -1,4 +1,4 @@
-utils::globalVariables(c("category", "author", "fb_correct", "fb_partially", "fb_incorrect"))
+utils::globalVariables(c("category", "author", "fb_general", "fb_correct", "fb_partially", "fb_incorrect"))
 
 #' Define extended questions from a data frame
 #'
@@ -15,6 +15,7 @@ define_extended_questions_from_data_frame <- function(qc, df) {
   df <- df |>
     dplyr::mutate(category = dplyr::if_else(category == "", qc$category, category)) |>
     dplyr::mutate(author = dplyr::if_else(author == "", qc$author, author)) |>
+    dplyr::mutate(fb_general = dplyr::if_else(fb_general == "", qc$general_feedback, fb_general)) |>
     dplyr::mutate(fb_correct = dplyr::if_else(fb_correct == "", qc$correct_feedback, fb_correct)) |>
     dplyr::mutate(fb_partially = dplyr::if_else(fb_partially == "", qc$partially_correct_feedback, fb_partially)) |>
     dplyr::mutate(fb_incorrect = dplyr::if_else(fb_incorrect == "", qc$incorrect_feedback, fb_incorrect))
@@ -55,6 +56,7 @@ validate_and_adjust_dataframe <- function(df) {
     "id",
     "name",
     "author",
+    "fb_general",
     "fb_correct",
     "fb_partially",
     "fb_incorrect",
@@ -140,14 +142,20 @@ extended_format_questions <- function(qc) {
 
   for (i in 1:nrow(qc$questions)) {
     category <- qc$questions[i, "category"]
-    fq <- glue::glue(fq,
-      '
-  <question type="category">
-    <category> <text>$course$/top/{category}</text> </category>
-    <info format="html"> <text></text> </info>
-    <idnumber></idnumber>
-  </question>
-')
+    fq <- glue::glue(fq, xml_question_category(category))
+
+    questiontext <- xml_questiontext(
+      qc$copyright,
+      qc$license,
+      qc$adapt_images,
+      qc$width,
+      qc$height,
+      qc$questions[i, "question"],
+      qc$questions[i, "image"],
+      qc$questions[i, "image_alt"],
+      qc$questions[i, "author"]
+    )
+
   }
 
   fq <- glue::glue(fq, '

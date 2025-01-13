@@ -1,4 +1,21 @@
+#' Define the question category in xml
+#'
+#' @param category A string, category name.
+#'
+#' @return A string.
+#' @keywords internal
+xml_question_category <- function (category) {
+  glue::glue(
+    '
 
+  <question type="category">
+    <category> <text>$course$/top/{category}</text> </category>
+    <info format="html"> <text></text> </info>
+    <idnumber></idnumber>
+  </question>
+'
+  )
+}
 
 
 #' generate `questiontext` node
@@ -13,18 +30,20 @@
 #' @param question A string, statement of the question.
 #' @param image A string, optional, image file to include in the question.
 #' @param image_alt A string, description of the image to include in the question.
+#' @param author A string, author name to be included in each question that is
+#' defined.
 #'
 #' @return A string.
 #' @keywords internal
-generate_questiontext <- function(copyright,
-                                  license,
-                                  adapt_images,
-                                  width,
-                                  height,
-                                  question,
-                                  image,
-                                  image_alt,
-                                  author = '') {
+xml_questiontext <- function(copyright,
+                             license,
+                             adapt_images,
+                             width,
+                             height,
+                             question,
+                             image,
+                             image_alt,
+                             author = '') {
   image <- trimws(image)
   if (nchar(image) > 0) {
     image_alt <- trimws(image_alt)
@@ -63,8 +82,9 @@ generate_questiontext <- function(copyright,
 
     <questiontext format="html">
       <text><![CDATA[
-         <!-- {copyright} -->
-         <!-- {license} -->
+         {if (copyright != "") paste0("<!-- ", copyright, " -->") else ""}
+         {if (license != "") paste0("<!-- ", license, " -->") else ""}
+         {if (author != "") paste0("<!-- Author: ", author, " -->") else ""}
          <p>{question}</p>{img}]]></text>
          {fimg}
     </questiontext>
@@ -141,14 +161,14 @@ generate_question <- function(first_question_number,
                               answer,
                               ...) {
 
-  questiontext <- generate_questiontext(copyright,
-                                        license,
-                                        adapt_images,
-                                        width,
-                                        height,
-                                        question,
-                                        image,
-                                        image_alt)
+  questiontext <- xml_questiontext(copyright,
+                                   license,
+                                   adapt_images,
+                                   width,
+                                   height,
+                                   question,
+                                   image,
+                                   image_alt)
 
   others <- list(...)
   rest <- NULL
@@ -306,13 +326,8 @@ format_questions <- function(questions) {
 category_question <- function(category, questions) {
   glue::glue(
     '<?xml version="1.0" encoding="UTF-8"?>
-<quiz>
-  <question type="category">
-    <category> <text>$course$/top/{category}</text> </category>
-    <info format="html"> <text></text> </info>
-    <idnumber></idnumber>
-  </question>
-',
+<quiz>',
+    xml_question_category(category),
     questions,
     '
 </quiz>'
@@ -348,11 +363,11 @@ generate_xml <- function(qc)
 #' @rdname generate_xml
 #' @export
 generate_xml.question_category <- function(qc) {
-  if (qc$extended) {
-    xml <- extended_format_questions(qc)
-  } else {
+  if (is.null(qc$extended)) {
     questions <- format_questions(qc$questions)
     xml <- category_question(qc$category, questions)
+  } else {
+    xml <- extended_format_questions(qc)
   }
   xml
 }
