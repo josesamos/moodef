@@ -1,6 +1,6 @@
 test_that("validate_and_adjust_dataframe handles correct structure", {
   column_names <- c(
-    "category", "type", "id", "name", "author", "fb_correct", "fb_incorrect",
+    "category", "type", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect",
     "question", "image", "image_alt", "answer", "a_1", "a_2", "a_3",
     "a_4", "fb_answer", "fb_a_1", "fb_a_2", "fb_a_3", "fb_a_4", "tag_1",
     "tag_2", "tag_3"
@@ -16,7 +16,7 @@ test_that("validate_and_adjust_dataframe handles correct structure", {
 
 test_that("validate_and_adjust_dataframe warns on missing columns", {
   column_names <- c(
-    "category", "type", "id", "name", "author", "fb_correct", "fb_incorrect",
+    "category", "type", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect",
     "question", "image", "image_alt", "answer", "a_1", "a_2", "a_3",
     "a_4", "fb_answer", "fb_a_1", "fb_a_2", "tag_1", "tag_2", "tag_3"
   ) # Missing some "fb_a_*" fields
@@ -33,7 +33,7 @@ test_that("validate_and_adjust_dataframe warns on missing columns", {
 
 test_that("validate_and_adjust_dataframe renames columns correctly", {
   column_names <- c(
-    "category", "type", "id", "name", "author", "fb_correct", "fb_incorrect",
+    "category", "type", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect",
     "question", "image", "image_alt", "answer", "col1", "col2", "col3",
     "col4", "fb_answer", "fcol1", "fcol2", "fcol3", "fcol4", "tag_1",
     "tag_2", "tag_3"
@@ -45,7 +45,7 @@ test_that("validate_and_adjust_dataframe renames columns correctly", {
 
   # Expected names after renaming
   expected_names <- c(
-    "category", "type", "id", "name", "author", "fb_correct", "fb_incorrect",
+    "category", "type", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect",
     "question", "image", "image_alt", "answer", "a_1", "a_2", "a_3",
     "a_4", "fb_answer", "fb_a_1", "fb_a_2", "fb_a_3", "fb_a_4", "tag_1",
     "tag_2", "tag_3"
@@ -55,7 +55,7 @@ test_that("validate_and_adjust_dataframe renames columns correctly", {
 
 test_that("validate_and_adjust_dataframe detects inconsistent sections", {
   column_names <- c(
-    "category", "type", "id", "name", "author", "fb_correct", "fb_incorrect",
+    "category", "type", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect",
     "question", "image", "image_alt", "answer", "a_1", "a_2", "a_3",
     "a_4", "fb_answer", "fb_a_1", "fb_a_2", "tag_1", "tag_2", "tag_3"
   ) # Different number of columns between answer and fb_answer
@@ -69,7 +69,7 @@ test_that("validate_and_adjust_dataframe detects inconsistent sections", {
 
 test_that("validate_and_adjust_dataframe works with extra columns", {
   column_names <- c(
-    "category", "type", "id", "name", "author", "fb_correct", "fb_incorrect",
+    "category", "type", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect",
     "question", "image", "image_alt", "answer", "a_1", "a_2", "a_3",
     "a_4", "fb_answer", "fb_a_1", "fb_a_2", "fb_a_3", "fb_a_4", "tag_1",
     "tag_2", "tag_3", "extra_1", "extra_2"
@@ -81,7 +81,7 @@ test_that("validate_and_adjust_dataframe works with extra columns", {
 
   # Expected names: extra columns are changed
   expected_names <- c(
-    "category", "type", "id", "name", "author", "fb_correct", "fb_incorrect",
+    "category", "type", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect",
     "question", "image", "image_alt", "answer", "a_1", "a_2", "a_3",
     "a_4", "fb_answer", "fb_a_1", "fb_a_2", "fb_a_3", "fb_a_4", "tag_1",
     "tag_2", "tag_3", "tag_4", "tag_5"

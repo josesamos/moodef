@@ -14,7 +14,8 @@ question_category(
   incorrect_feedback = "Incorrect.",
   adapt_images = FALSE,
   width = 800,
-  height = 600
+  height = 600,
+  author = ""
 )
 }
 \arguments{
@@ -41,6 +42,9 @@ to each question.}
 \item{width}{A integer, width of each image.}
 
 \item{height}{A integer, height of each image.}
+
+\item{author}{A string, author name to be included in each question that is
+defined.}
 }
 \value{
 A \code{question_category} object.

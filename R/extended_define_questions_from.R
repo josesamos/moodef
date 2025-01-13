@@ -1,3 +1,4 @@
+utils::globalVariables(c("category", "author", "fb_correct", "fb_partially", "fb_incorrect"))
 
 #' Define extended questions from a data frame
 #'
@@ -5,6 +6,21 @@
 define_extended_questions_from_data_frame <- function(qc, df) {
 
   df <- validate_and_adjust_dataframe(df)
+  invalid_rows <- which((df$image != "" & df$image_alt == "") | (df$image == "" & df$image_alt != ""))
+  if (length(invalid_rows) > 0) {
+    message("Validation failed at rows: ", paste(invalid_rows, collapse = ", "))
+    stopifnot('If an image is included, the associated alt field must also be defined.' = length(invalid_rows) == 0)
+  }
+
+  df <- df |>
+    dplyr::mutate(category = dplyr::if_else(category == "", qc$category, category)) |>
+    dplyr::mutate(author = dplyr::if_else(author == "", qc$author, author)) |>
+    dplyr::mutate(fb_correct = dplyr::if_else(fb_correct == "", qc$correct_feedback, fb_correct)) |>
+    dplyr::mutate(fb_partially = dplyr::if_else(fb_partially == "", qc$partially_correct_feedback, fb_partially)) |>
+    dplyr::mutate(fb_incorrect = dplyr::if_else(fb_incorrect == "", qc$incorrect_feedback, fb_incorrect))
+
+  qc$questions <- df
+  qc$extended <- TRUE
 
   qc
 }
@@ -33,10 +49,26 @@ define_extended_questions_from_data_frame <- function(qc, df) {
 #'
 #' @keywords internal
 validate_and_adjust_dataframe <- function(df) {
-  required_columns <- c(
-    "category", "type", "id", "name", "author", "fb_correct", "fb_incorrect",
-    "question", "image", "image_alt", "answer", "fb_answer", "tag_1"
+  desired_order <- c(
+    "category",
+    "type",
+    "id",
+    "name",
+    "author",
+    "fb_correct",
+    "fb_partially",
+    "fb_incorrect",
+    "question",
+    "image",
+    "image_alt",
+    "answer"
   )
+  required_columns <- c(
+    desired_order,
+    "fb_answer",
+    "tag_1"
+  )
+
   errors <- c()  # Initialize a list to store errors
 
   # Check if required columns up to 'answer' are present
@@ -44,6 +76,10 @@ validate_and_adjust_dataframe <- function(df) {
   if (length(missing_cols) > 0) {
     errors <- c(errors, paste0("Missing required columns: ", paste(missing_cols, collapse = ", ")))
   }
+
+  remaining_columns <- setdiff(names(df), desired_order)
+  final_order <- c(desired_order, remaining_columns)
+  df <- df[, final_order, drop = FALSE]
 
   # Identify key column positions
   answer_idx <- which(names(df) == "answer")

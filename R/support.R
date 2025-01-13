@@ -27,6 +27,8 @@ vector_to_string <- function(vector) {
 #'
 #' Creates an empty question data frame.
 #'
+#' @param extended A Boolean, use extended question definition.
+#'
 #' @family support functions
 #'
 #' @examples
@@ -35,21 +37,50 @@ vector_to_string <- function(vector) {
 #'
 #' @return A data frame.
 #' @export
-create_question_data_frame <- function() {
-  questions <-  data.frame(
-    type = character(),
-    question = character(),
-    image = character(),
-    image_alt = character(),
-    answer = character(),
-    a_1 = character(),
-    a_2 = character(),
-    a_3 = character(),
-    stringsAsFactors = FALSE
-  )
+create_question_data_frame <- function(extended = FALSE) {
+  if (!extended) {
+    questions <-  data.frame(
+      type = character(),
+      question = character(),
+      image = character(),
+      image_alt = character(),
+      answer = character(),
+      a_1 = character(),
+      a_2 = character(),
+      a_3 = character(),
+      stringsAsFactors = FALSE
+    )
+  } else {
+    questions <-  data.frame(
+      category = character(),
+      type = character(),
+      id = character(),
+      name = character(),
+      author = character(),
+      fb_correct = character(),
+      fb_partially = character(),
+      fb_incorrect = character(),
+      question = character(),
+      image = character(),
+      image_alt = character(),
+      answer = character(),
+      a_1 = character(),
+      a_2 = character(),
+      a_3 = character(),
+      a_4 = character(),
+      fb_answer = character(),
+      fb_a_1 = character(),
+      fb_a_2 = character(),
+      fb_a_3 = character(),
+      fb_a_4 = character(),
+      tag_1 = character(),
+      tag_2 = character(),
+      tag_3 = character(),
+      stringsAsFactors = FALSE
+    )
+  }
   questions
 }
-
 
 #' Create a question csv file
 #'
@@ -57,6 +88,7 @@ create_question_data_frame <- function() {
 #'
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
+#' @param extended A Boolean, use extended question definition.
 #'
 #' @family support functions
 #'
@@ -66,8 +98,8 @@ create_question_data_frame <- function() {
 #'
 #' @return A string.
 #' @export
-create_question_csv <- function(file, sep = ',') {
-  questions <- create_question_data_frame()
+create_question_csv <- function(file, sep = ',', extended = FALSE) {
+  questions <- create_question_data_frame(extended)
   if (sep == ',') {
     utils::write.csv(questions, file = file, row.names = FALSE)
   } else {
@@ -109,6 +141,7 @@ read_question_csv <- function(file, sep = ',') {
 #' Creates an empty question Excel file.
 #'
 #' @param file A string, name of a text file.
+#' @param extended A Boolean, use extended question definition.
 #'
 #' @family support functions
 #'
@@ -120,8 +153,8 @@ read_question_csv <- function(file, sep = ',') {
 #'
 #' @return A string.
 #' @export
-create_question_excel <- function(file) {
-  questions <- create_question_data_frame()
+create_question_excel <- function(file, extended = FALSE) {
+  questions <- create_question_data_frame(extended)
   xlsx::write.xlsx(
     as.data.frame(questions),
     file = file,

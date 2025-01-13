@@ -40,6 +40,11 @@ define_questions_from_data_frame.question_category <- function(qc, df, extended 
   }
 
   if (extended) {
+    for (opcional in c("category", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect")) {
+      if (!(opcional %in% attributes)) {
+        df[, opcional] <- ''
+      }
+    }
     define_extended_questions_from_data_frame(qc, df)
   } else {
     rest <- setdiff(attributes, c("type", "question", "image", "image_alt", "answer"))

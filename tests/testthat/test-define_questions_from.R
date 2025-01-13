@@ -43,6 +43,7 @@ test_that("define_questions_from", {
                    first_question_number = 12,
                    copyright = "",
                    license = "",
+                   author = "",
                    correct_feedback = "Correct.",
                    partially_correct_feedback = "Partially correct.",
                    incorrect_feedback = "Incorrect.",

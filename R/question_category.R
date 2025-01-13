@@ -26,6 +26,8 @@
 #' @param adapt_images A boolean, adapt the images so that they are a similar size.
 #' @param width A integer, width of each image.
 #' @param height A integer, height of each image.
+#' @param author A string, author name to be included in each question that is
+#' defined.
 #'
 #' @return A `question_category` object.
 #'
@@ -46,11 +48,13 @@ question_category <-
            incorrect_feedback = 'Incorrect.',
            adapt_images = FALSE,
            width = 800,
-           height = 600) {
+           height = 600,
+           author = '') {
     questions <-  data.frame(
       first_question_number = integer(),
       copyright = character(),
       license = character(),
+      author = character(),
       correct_feedback = character(),
       partially_correct_feedback = character(),
       incorrect_feedback = character(),
@@ -74,6 +78,7 @@ question_category <-
         first_question_number = first_question_number,
         copyright = copyright,
         license = license,
+        author = author,
         correct_feedback = correct_feedback,
         partially_correct_feedback = partially_correct_feedback,
         incorrect_feedback = incorrect_feedback,

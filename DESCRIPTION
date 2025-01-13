@@ -17,6 +17,7 @@ URL: https://josesamos.github.io/moodef/,
 BugReports: https://github.com/josesamos/moodef/issues
 Imports: 
     blastula,
+    dplyr,
     glue,
     magick,
     purrr,

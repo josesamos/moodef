@@ -4,12 +4,14 @@
 \alias{create_question_csv}
 \title{Create a question csv file}
 \usage{
-create_question_csv(file, sep = ",")
+create_question_csv(file, sep = ",", extended = FALSE)
 }
 \arguments{
 \item{file}{A string, name of a text file.}
 
 \item{sep}{Column separator character.}
+
+\item{extended}{A Boolean, use extended question definition.}
 }
 \value{
 A string.
