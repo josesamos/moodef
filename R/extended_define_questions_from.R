@@ -1,4 +1,15 @@
-utils::globalVariables(c("category", "author", "fb_general", "fb_correct", "fb_partially", "fb_incorrect"))
+utils::globalVariables(
+  c(
+    "category",
+    "author",
+    "fb_general",
+    "fb_correct",
+    "fb_partially",
+    "fb_incorrect",
+    "id",
+    "duplicate_ids"
+  )
+)
 
 #' Define extended questions from a data frame
 #'
@@ -19,6 +30,19 @@ define_extended_questions_from_data_frame <- function(qc, df) {
     dplyr::mutate(fb_correct = dplyr::if_else(fb_correct == "", qc$correct_feedback, fb_correct)) |>
     dplyr::mutate(fb_partially = dplyr::if_else(fb_partially == "", qc$partially_correct_feedback, fb_partially)) |>
     dplyr::mutate(fb_incorrect = dplyr::if_else(fb_incorrect == "", qc$incorrect_feedback, fb_incorrect))
+
+  # check duplicate id values within category
+  filtered_df <- df[df$id != "", ]
+  duplicates <- filtered_df |>
+    dplyr::group_by(category) |>
+    dplyr::summarise(duplicate_ids = list(id[duplicated(id)]), .groups = "drop") |>
+    dplyr::filter(lengths(duplicate_ids) > 0)
+  if (nrow(duplicates) > 0) {
+    warning(paste0(
+      "Duplicate 'id' values found for the following 'category' values: ",
+      paste(duplicates, collapse = ", ")
+    ))
+  }
 
   qc$questions <- df
   qc$extended <- TRUE
@@ -103,6 +127,19 @@ validate_and_adjust_dataframe <- function(df) {
       ))
     }
 
+    allowed_types <- c("numerical", "multichoice", "ordering", "ddwtos",
+                       "gapselect", "matching", "essay", "truefalse",
+                       "shortanswer", "ddmarker")
+    all_valid <- all(df$type %in% allowed_types)
+
+    if (!all_valid) {
+      invalid_values <- unique(df$type[!df$type %in% allowed_types])
+      errors <- c(errors, paste0(
+        "The 'type' column contains invalid values: ",
+        paste(invalid_values, collapse = ", ")
+      ))
+    }
+
     # Rename columns if valid structure
     if (length(errors) == 0) {
       new_cols_after_answer <- paste0("a_", seq_along(cols_after_answer))
@@ -155,6 +192,12 @@ extended_format_questions <- function(qc) {
       qc$questions[i, "image_alt"],
       qc$questions[i, "author"]
     )
+
+    name <- xml_question_name(qc$questions[i, "name"])
+
+    idnumber <- xml_question_idnumber(qc$questions[i, "id"])
+
+    type <- qc$questions[["type"]][i]
 
   }
 

@@ -94,6 +94,40 @@ xml_questiontext <- function(copyright,
 }
 
 
+#' Define the question name in xml
+#'
+#' @param name A string, question name.
+#'
+#' @return A string.
+#' @keywords internal
+xml_question_name <- function (name) {
+  glue::glue(
+    '
+
+  <name> <text>{name}</text> </name>
+'
+  )
+}
+
+
+#' Define the question id number in xml
+#'
+#' @param idnumber A string, question id number.
+#'
+#' @return A string.
+#' @keywords internal
+xml_question_idnumber <- function (idnumber) {
+  glue::glue(
+    '
+
+  <idnumber>{idnumber}</idnumber>
+'
+  )
+}
+
+
+###########################################
+
 #' generate `name` node
 #'
 #' @param first_question_number An integer, first number to compose the question
@@ -116,8 +150,7 @@ generate_name <-
               orientation,
               substr(question, 1, 40))
     name <- snakecase::to_snake_case(name)
-    name <- glue::glue('<name> <text>{name}</text> </name>')
-    name
+    xml_question_name(name)
   }
 
 
