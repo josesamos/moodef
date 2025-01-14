@@ -1,11 +1,11 @@
-
-# string to vector ----------------------------------------------------
-
-#' Transforms string into a vector of strings.
+#' Transform a String into a Vector of Strings
 #'
-#' @param str A string.
+#' Splits a string into a vector of strings using "<|>" as a delimiter.
 #'
-#' @return A vector of strings.
+#' @param str `character`
+#'   A string to transform.
+#'
+#' @return A vector of strings (`character`), or `NULL` if the input string is empty.
 #' @keywords internal
 string_to_vector <- function(str) {
   if (str == "") {
@@ -16,19 +16,17 @@ string_to_vector <- function(str) {
   res
 }
 
-
-# string to string vector ----------------------------------------------
-
-#' Transforms string into a vector in string format.
+#' Transform a String into a String-Formatted Vector
 #'
-#' @param str A string.
+#' Converts a string into a string-formatted vector (e.g., `"a|b|c"` -> `c("a", "b", "c")`).
 #'
-#' @return A vector of strings.
+#' @param str `character`
+#'   A string to transform.
+#'
+#' @return A string representing a vector in R syntax (e.g., `c("a", "b", "c")`), or `"\"\""` if the input string is empty.
 #' @keywords internal
 string_to_string_vector <- function(str) {
-  if (length(str) == 0) {
-    res <- '""'
-  } else if (str == "") {
+  if (length(str) == 0 || str == "") {
     res <- '""'
   } else {
     res <- unlist(strsplit(str, "<|>", fixed = TRUE))
@@ -42,15 +40,18 @@ string_to_string_vector <- function(str) {
   res
 }
 
-# adapt_image ----------------------------------------------------
-
-#' Fits an image to the given size.
+#' Resize and Center an Image
 #'
-#' @param image_file A string, image file.
-#' @param width A integer, width of the image.
-#' @param height A integer, height of the image.
+#' Resizes an image to fit within the specified dimensions, centering it on a blank canvas.
 #'
-#' @return A string, new image file.
+#' @param image_file `character`
+#'   Path to the image file to be resized.
+#' @param width `integer`, default `800`
+#'   Desired width of the output image.
+#' @param height `integer`, default `600`
+#'   Desired height of the output image.
+#'
+#' @return A string representing the path to the new resized image file.
 #' @keywords internal
 adapt_image <- function(image_file, width = 800, height = 600) {
   fig <- magick::image_blank(width = width, height = height, color = "white")
@@ -63,26 +64,30 @@ adapt_image <- function(image_file, width = 800, height = 600) {
   file
 }
 
-# is numeric  ----------------------------------------------------
-
-#' Check if it is numeric.
+#' Check if a String Represents a Numeric Value
 #'
-#' @param str A string.
+#' Verifies if a string can be converted to a numeric value.
 #'
-#' @return A boolean.
+#' @param str `character`
+#'   A string to check.
+#'
+#' @return `logical`
+#'   `TRUE` if the string is numeric, `FALSE` otherwise.
 #' @keywords internal
 is_numeric <- function(str) {
   all(!is.na(suppressWarnings(as.numeric(str))))
 }
 
-# has gaps  ----------------------------------------------------
-
-#' Check if it has gaps.
+#' Check if a String Contains Gaps
 #'
-#' @param str A string.
+#' Checks if a string contains the specific substrings `"[[1]]"` and `"[[2]]"`.
 #'
-#' @return A boolean.
+#' @param str `character`
+#'   A string to check.
+#'
+#' @return `logical`
+#'   `TRUE` if the string contains gaps, `FALSE` otherwise.
 #' @keywords internal
 has_gaps <- function(str) {
-  grepl('[[1]]', str, fixed = TRUE) & grepl('[[2]]', str, fixed = TRUE)
+  grepl("[[1]]", str, fixed = TRUE) & grepl("[[2]]", str, fixed = TRUE)
 }

@@ -71,3 +71,66 @@ test_that("support", {
   expect_equal(df2, df5)
 
 })
+
+test_that("vector_to_string handles NULL and empty vectors", {
+  expect_equal(vector_to_string(NULL), "")
+  expect_equal(vector_to_string(character(0)), "")
+})
+
+test_that("vector_to_string concatenates strings with <|>", {
+  expect_equal(vector_to_string(c("a", "b", "c")), "a<|>b<|>c")
+})
+
+test_that("create_question_data_frame creates correct data frame", {
+  df <- create_question_data_frame()
+  expect_equal(names(df), c("type", "question", "image", "image_alt", "answer", "a_1", "a_2", "a_3"))
+  expect_equal(nrow(df), 0)
+
+  df_extended <- create_question_data_frame(extended = TRUE)
+  expect_true("category" %in% names(df_extended))
+  expect_equal(nrow(df_extended), 0)
+})
+
+test_that("create_question_csv creates a valid CSV file", {
+  file <- tempfile(fileext = ".csv")
+  result <- create_question_csv(file)
+  expect_true(file.exists(result))
+
+  df <- read.csv(file, stringsAsFactors = FALSE)
+  expect_equal(ncol(df), 8) # standard number of columns
+})
+
+test_that("read_question_csv reads valid CSV files", {
+  file <- tempfile(fileext = ".csv")
+  create_question_csv(file)
+
+  df <- read_question_csv(file)
+  expect_s3_class(df, "data.frame")
+  expect_equal(ncol(df), 8) # spected number of columns
+})
+
+test_that("create_question_excel creates a valid Excel file", {
+  skip_if_not_installed("xlsx")
+
+  file <- tempfile(fileext = ".xlsx")
+  result <- create_question_excel(file)
+  expect_true(file.exists(result))
+})
+
+test_that("read_question_excel reads valid Excel files", {
+  skip_if_not_installed("readxl")
+
+  file <- tempfile(fileext = ".xlsx")
+  create_question_excel(file)
+
+  df <- read_question_excel(file)
+  expect_s3_class(df, "data.frame")
+})
+
+test_that("process_question_dataframe processes data frame correctly", {
+  df <- data.frame(a = c(NA, "value"), b = c("text", NA), stringsAsFactors = FALSE)
+  result <- process_question_dataframe(df)
+
+  expect_true(all(!is.na(result)))
+  expect_equal(names(result), c("a", "b")) # Snake_case ya coincide en este caso
+})
