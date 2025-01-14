@@ -1,3 +1,27 @@
+
+#' Define the question in xml
+#'
+#' @param type A string, question type.
+#' @param name A string, question name.
+#' @param questiontext A string, question id number.
+#' @param question_body A string, question id number.
+#'
+#' @return A string.
+#' @keywords internal
+xml_question <- function (type, name, questiontext, question_body) {
+  glue::glue(
+    '
+
+<question type="{type}">
+  {name}
+  {questiontext}
+  {question_body}
+</question>
+'
+  )
+}
+
+
 #' Define the question category in xml
 #'
 #' @param category A string, category name.
@@ -103,8 +127,7 @@ xml_questiontext <- function(copyright,
 xml_question_name <- function (name) {
   glue::glue(
     '
-
-  <name> <text>{name}</text> </name>
+<name> <text>{name}</text> </name>
 '
   )
 }
@@ -124,6 +147,7 @@ xml_question_idnumber <- function (idnumber) {
 '
   )
 }
+
 
 
 ###########################################
@@ -194,15 +218,9 @@ generate_question <- function(first_question_number,
                               answer,
                               ...) {
 
-  questiontext <- xml_questiontext(copyright,
-                                   license,
-                                   adapt_images,
-                                   width,
-                                   height,
-                                   question,
-                                   image,
-                                   image_alt)
+  questiontext <- xml_questiontext(copyright, license, adapt_images, width, height, question, image, image_alt)
 
+  # only no empty elements
   others <- list(...)
   rest <- NULL
   for (s in seq_along(others)) {
@@ -212,29 +230,23 @@ generate_question <- function(first_question_number,
     }
   }
   n <- length(rest)
+
   answer <- string_to_vector(answer)
   if (is.null(answer)) {
     answer <- ''
   }
+
   orientation <- ''
 
   if (is_numeric(answer)) {
     type <- 'numerical'
-    question_type <- '<question type="numerical">
-'
-    question_body <- generate_numerical(
-      answer,
-      n,
-      rest
-    )
+    question_body <- generate_numerical(answer, n, rest)
   } else {
     if (n > 0) {
       if (length(answer) == 1) {
         if (!has_gaps(question)) {
           if (type == '') {
             type <- 'multichoice'
-            question_type <- '  <question type="multichoice">
-'
             question_body <- generate_multichoice(answer,
                                                   n,
                                                   rest,
@@ -247,8 +259,6 @@ generate_question <- function(first_question_number,
               orientation <- 'v'
             }
             type <- 'ordering'
-            question_type <- '<question type="ordering">
-'
             question_body <- generate_ordering(
               answer,
               n,
@@ -262,8 +272,6 @@ generate_question <- function(first_question_number,
         } else {
           if (type == '') {
             type <- 'ddwtos'
-            question_type <- '<question type="ddwtos">
-'
             question_body <- generate_ddwtos(
               answer,
               n,
@@ -274,8 +282,6 @@ generate_question <- function(first_question_number,
             )
           } else {
             type <- 'gapselect'
-            question_type <- '<question type="gapselect">
-'
             question_body <- generate_gapselect(
               answer,
               n,
@@ -288,8 +294,6 @@ generate_question <- function(first_question_number,
         }
       } else {
         type <- 'matching'
-        question_type <- '<question type="matching">
-'
         question_body <- generate_matching(
           answer,
           n,
@@ -302,38 +306,23 @@ generate_question <- function(first_question_number,
     } else {
       if (answer == '') {
         type <- 'essay'
-        question_type <- '<question type="essay">
-'
         question_body <- generate_essay()
       } else {
         value <- tolower(answer)
         if (value %in% c('true', 'false')) {
           type <- 'truefalse'
-          question_type <- '<question type="truefalse">
-'
           question_body <- generate_truefalse(answer)
         } else {
           type <- 'shortanswer'
-          question_type <- '<question type="shortanswer">
-'
           question_body <- generate_shortanswer(answer)
         }
       }
     }
   }
 
-  name <-
-    generate_name(first_question_number, type, orientation, question)
+  name <- generate_name(first_question_number, type, orientation, question)
 
-  question <-
-    paste0(question_type,
-           name,
-           questiontext,
-           question_body,
-           '
-</question>')
-
-  question
+  xml_question(type, name, questiontext, question_body)
 }
 
 

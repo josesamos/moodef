@@ -179,7 +179,7 @@ extended_format_questions <- function(qc) {
 
   for (i in 1:nrow(qc$questions)) {
     category <- qc$questions[i, "category"]
-    fq <- glue::glue(fq, xml_question_category(category))
+    question_category <- xml_question_category(category)
 
     questiontext <- xml_questiontext(
       qc$copyright,
@@ -199,6 +199,26 @@ extended_format_questions <- function(qc) {
 
     type <- qc$questions[["type"]][i]
 
+    question_body <- ''
+
+    # question_body <- switch(
+    #   type,
+    #   numerical = generate_numerical(),
+    #   multichoice = generate_numerical(),
+    #   ordering = generate_numerical(),
+    #   ddwtos = generate_numerical(),
+    #   gapselect = generate_numerical(),
+    #   matching = generate_numerical(),
+    #   essay = generate_numerical(),
+    #   truefalse = generate_numerical(),
+    #   shortanswer = generate_numerical(),
+    #   ddmarker = generate_numerical(),
+    #   warning(paste0("Unknown type: ", type))
+    # )
+
+    questiontext <- ''
+    question <- xml_question(type, name, questiontext, question_body)
+    fq <- glue::glue(fq, question_category, question)
   }
 
   fq <- glue::glue(fq, '
