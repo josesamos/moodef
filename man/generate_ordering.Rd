@@ -8,8 +8,8 @@ generate_ordering(
   answer,
   rest,
   correct_feedback,
-  partially_correct_feedback,
   incorrect_feedback,
+  partially_correct_feedback,
   orientation
 )
 }
@@ -20,9 +20,9 @@ generate_ordering(
 
 \item{correct_feedback}{A string.}
 
-\item{partially_correct_feedback}{A string.}
-
 \item{incorrect_feedback}{A string.}
+
+\item{partially_correct_feedback}{A string.}
 
 \item{orientation}{A string, 'h' or 'v'.}
 }

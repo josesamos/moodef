@@ -5,8 +5,8 @@
 #' @param answer A vector of strings.
 #' @param rest A vector, rest of answers.
 #' @param correct_feedback A string.
-#' @param partially_correct_feedback A string.
 #' @param incorrect_feedback A string.
+#' @param partially_correct_feedback A string.
 #' @param orientation A string, 'h' or 'v'.
 #'
 #' @return A string.
@@ -15,8 +15,8 @@ generate_ordering <-
   function(answer,
            rest,
            correct_feedback,
-           partially_correct_feedback,
            incorrect_feedback,
+           partially_correct_feedback,
            orientation) {
     if (orientation == 'h') {
       orientation <- 'HORIZONTAL'

@@ -3,21 +3,19 @@
 #' Generate `gapselect` question
 #'
 #' @param answer A vector of strings.
-#' @param n An integer, number or answers.
 #' @param rest A vector, rest of answers.
 #' @param correct_feedback A string.
-#' @param partially_correct_feedback A string.
 #' @param incorrect_feedback A string.
+#' @param partially_correct_feedback A string.
 #'
 #' @return A string.
 #' @keywords internal
 generate_gapselect <-
   function(answer,
-           n,
            rest,
            correct_feedback,
-           partially_correct_feedback,
-           incorrect_feedback) {
+           incorrect_feedback,
+           partially_correct_feedback) {
     question <- glue::glue(
       '
 

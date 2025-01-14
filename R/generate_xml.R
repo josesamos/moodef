@@ -301,8 +301,8 @@ generate_question <- function(first_question_number,
               answer,
               rest,
               correct_feedback,
-              partially_correct_feedback,
               incorrect_feedback,
+              partially_correct_feedback,
               orientation
             )
           }
@@ -311,21 +311,19 @@ generate_question <- function(first_question_number,
             type <- 'ddwtos'
             question_body <- generate_ddwtos(
               answer,
-              n,
               rest,
               correct_feedback,
-              partially_correct_feedback,
-              incorrect_feedback
+              incorrect_feedback,
+              partially_correct_feedback
             )
           } else {
             type <- 'gapselect'
             question_body <- generate_gapselect(
               answer,
-              n,
               rest,
               correct_feedback,
-              partially_correct_feedback,
-              incorrect_feedback
+              incorrect_feedback,
+              partially_correct_feedback
             )
           }
         }

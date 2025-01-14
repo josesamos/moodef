@@ -6,25 +6,22 @@
 \usage{
 generate_gapselect(
   answer,
-  n,
   rest,
   correct_feedback,
-  partially_correct_feedback,
-  incorrect_feedback
+  incorrect_feedback,
+  partially_correct_feedback
 )
 }
 \arguments{
 \item{answer}{A vector of strings.}
 
-\item{n}{An integer, number or answers.}
-
 \item{rest}{A vector, rest of answers.}
 
 \item{correct_feedback}{A string.}
 
-\item{partially_correct_feedback}{A string.}
-
 \item{incorrect_feedback}{A string.}
+
+\item{partially_correct_feedback}{A string.}
 }
 \value{
 A string.
