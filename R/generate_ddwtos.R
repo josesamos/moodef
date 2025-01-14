@@ -21,10 +21,6 @@ generate_ddwtos <-
     question <- glue::glue(
       '
 
-    <defaultgrade>1</defaultgrade>
-    <penalty>0.3333333</penalty>
-    <hidden>0</hidden>
-    <idnumber></idnumber>
     <shuffleanswers>1</shuffleanswers>
     <correctfeedback format="html">
       <text>{correct_feedback}</text>

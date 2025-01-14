@@ -21,10 +21,6 @@ generate_matching <-
     question <- glue::glue(
       '
 
-    <defaultgrade>1.0000000</defaultgrade>
-    <penalty>0.3333333</penalty>
-    <hidden>0</hidden>
-    <idnumber></idnumber>
     <shuffleanswers>true</shuffleanswers>
     <correctfeedback format="html">
       <text>{correct_feedback}</text>

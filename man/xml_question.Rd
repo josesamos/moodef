@@ -4,16 +4,16 @@
 \alias{xml_question}
 \title{Define the question in xml}
 \usage{
-xml_question(type, name, questiontext, question_body)
+xml_question(type, name, questiontext, question_body, question_tags = "")
 }
 \arguments{
 \item{type}{A string, question type.}
 
 \item{name}{A string, question name.}
 
-\item{questiontext}{A string, question id number.}
+\item{questiontext}{A string, question text.}
 
-\item{question_body}{A string, question id number.}
+\item{question_body}{A string, question tags.}
 }
 \value{
 A string.

@@ -17,10 +17,6 @@ generate_truefalse <- function(answer) {
   question_body <- glue::glue(
     '
 
-    <defaultgrade>1.0000000</defaultgrade>
-    <penalty>1.0000000</penalty>
-    <hidden>0</hidden>
-    <idnumber></idnumber>
     <answer fraction="100" format="moodle_auto_format">
       <text>{answer}</text>
       <feedback format="html">

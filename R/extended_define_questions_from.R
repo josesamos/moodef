@@ -127,7 +127,7 @@ validate_and_adjust_dataframe <- function(df) {
       ))
     }
 
-    allowed_types <- c("numerical", "multichoice", "ordering", "ddwtos",
+    allowed_types <- c("numerical", "multichoice", "ordering", "ordering<|>h", "ordering<|>v", "ddwtos",
                        "gapselect", "matching", "essay", "truefalse",
                        "shortanswer", "ddmarker")
     all_valid <- all(df$type %in% allowed_types)
@@ -166,6 +166,35 @@ validate_and_adjust_dataframe <- function(df) {
 }
 
 
+#' Get non-empty values from fields with a specific prefix
+#'
+#' This function takes a dataframe, a row index, and a prefix, returning a vector
+#' with the content of columns that start with the given prefix and are not empty.
+#'
+#' @param df A dataframe containing the relevant columns.
+#' @param i An integer representing the row index.
+#' @param prefix A string representing the prefix of the column names (e.g., "a_", "fb_a_", "tag_").
+#'
+#' @return A vector with non-empty values from the fields with the given prefix in the specified row.
+#' @keywords internal
+get_non_empty_fields_by_prefix <- function(df, i, prefix) {
+  # Ensure the index is within bounds
+  if (i < 1 || i > nrow(df)) {
+    stop("Row index is out of bounds.")
+  }
+
+  # Select columns that start with the given prefix
+  matching_columns <- grep(paste0("^", prefix), names(df), value = TRUE)
+
+  # Filter non-empty values in the specified row
+  non_empty_values <- df[i, matching_columns, drop = FALSE] |>
+    dplyr::select(dplyr::where(~ .x != "")) |>
+    unlist(use.names = FALSE)
+
+  return(non_empty_values)
+}
+
+
 #' Format all questions in the data frame
 #'
 #' @param qc A `question_category` object.
@@ -181,43 +210,84 @@ extended_format_questions <- function(qc) {
     category <- qc$questions[i, "category"]
     question_category <- xml_question_category(category)
 
+    type <- qc$questions[["type"]][i]
+    # "ordering", "ordering<|>h", "ordering<|>v"
+    type <- string_to_vector(type)
+    if (is.na(type[2])) {
+      orientation <- 'v'
+    } else {
+      orientation <- type[2]
+      type <- type[1]
+    }
+
     questiontext <- xml_questiontext(
       qc$copyright,
       qc$license,
       qc$adapt_images,
       qc$width,
       qc$height,
-      qc$questions[i, "question"],
-      qc$questions[i, "image"],
-      qc$questions[i, "image_alt"],
-      qc$questions[i, "author"]
+      qc$questions[["question"]][i],
+      qc$questions[["image"]][i],
+      qc$questions[["image_alt"]][i],
+      type,
+      qc$questions[["author"]][i],
+      qc$questions[["fb_general"]][i],
+      qc$questions[["id"]][i]
     )
 
     name <- xml_question_name(qc$questions[i, "name"])
 
     idnumber <- xml_question_idnumber(qc$questions[i, "id"])
 
-    type <- qc$questions[["type"]][i]
+    answer <- qc$questions[["answer"]][i]
+    answer <- string_to_vector(answer)
+    if (is.null(answer)) {
+      answer <- ''
+    }
+    a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "a_")
+    fb_answer <- qc$questions[["fb_answer"]][i]
+    fb_a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "fb_a_")
+    fb_correct <- qc$questions[["fb_correct"]][i]
+    fb_incorrect <- qc$questions[["fb_incorrect"]][i]
+    fb_partially <- qc$questions[["fb_partially"]][i]
 
     question_body <- ''
 
-    # question_body <- switch(
-    #   type,
-    #   numerical = generate_numerical(),
-    #   multichoice = generate_numerical(),
-    #   ordering = generate_numerical(),
-    #   ddwtos = generate_numerical(),
-    #   gapselect = generate_numerical(),
-    #   matching = generate_numerical(),
-    #   essay = generate_numerical(),
-    #   truefalse = generate_numerical(),
-    #   shortanswer = generate_numerical(),
-    #   ddmarker = generate_numerical(),
-    #   warning(paste0("Unknown type: ", type))
-    # )
+    question_body <- switch(
+      type,
+      numerical = generate_numerical(answer, a_values, fb_answer, fb_a_values),
+      multichoice = generate_multichoice(
+        answer,
+        a_values,
+        fb_correct,
+        fb_incorrect,
+        fb_partially,
+        fb_answer,
+        fb_a_values
+      ),
+      ordering = generate_ordering(
+        answer,
+        a_values,
+        fb_correct,
+        fb_partially,
+        fb_incorrect,
+        orientation
+      ),
+      # ddwtos = generate_numerical(),
+      # gapselect = generate_numerical(),
+      # matching = generate_numerical(),
+      # essay = generate_numerical(),
+      # truefalse = generate_numerical(),
+      # shortanswer = generate_numerical(),
+      # ddmarker = generate_numerical(),
+      warning(paste0("Unknown type: ", type))
+    )
+
+    tag_values <- get_non_empty_fields_by_prefix(qc$questions, i, "tag_")
+    question_tags <- xml_question_tags(tag_values)
 
     questiontext <- ''
-    question <- xml_question(type, name, questiontext, question_body)
+    question <- xml_question(type, name, questiontext, question_body, question_tags)
     fq <- glue::glue(fq, question_category, question)
   }
 

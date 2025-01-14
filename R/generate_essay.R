@@ -9,10 +9,6 @@ generate_essay <-
     question_body <- glue::glue(
       '
 
-    <defaultgrade>1</defaultgrade>
-    <penalty>0</penalty>
-    <hidden>0</hidden>
-    <idnumber></idnumber>
     <responseformat>editor</responseformat>
     <responserequired>1</responserequired>
     <responsefieldlines>10</responsefieldlines>

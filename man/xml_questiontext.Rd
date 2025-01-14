@@ -13,7 +13,10 @@ xml_questiontext(
   question,
   image,
   image_alt,
-  author = ""
+  type,
+  author = "",
+  fb_general = "",
+  idnumber = ""
 )
 }
 \arguments{
@@ -35,8 +38,13 @@ defined.}
 
 \item{image_alt}{A string, description of the image to include in the question.}
 
-\item{author}{A string, author name to be included in each question that is
-defined.}
+\item{type}{A string, question type.}
+
+\item{author}{A string, author name to be included in each question that is defined.}
+
+\item{fb_general}{A string, general feedback to be included in each question that is defined.}
+
+\item{idnumber}{A string, idnumber to be included in each question that is defined.}
 }
 \value{
 A string.

@@ -6,7 +6,6 @@
 \usage{
 generate_ordering(
   answer,
-  n,
   rest,
   correct_feedback,
   partially_correct_feedback,
@@ -16,8 +15,6 @@ generate_ordering(
 }
 \arguments{
 \item{answer}{A vector of strings.}
-
-\item{n}{An integer, number or answers.}
 
 \item{rest}{A vector, rest of answers.}
 

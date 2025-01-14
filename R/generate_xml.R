@@ -3,12 +3,13 @@
 #'
 #' @param type A string, question type.
 #' @param name A string, question name.
-#' @param questiontext A string, question id number.
-#' @param question_body A string, question id number.
+#' @param questiontext A string, question text.
+#' @param question_body A string, question body.
+#' @param question_body A string, question tags.
 #'
 #' @return A string.
 #' @keywords internal
-xml_question <- function (type, name, questiontext, question_body) {
+xml_question <- function (type, name, questiontext, question_body, question_tags = '') {
   glue::glue(
     '
 
@@ -16,9 +17,27 @@ xml_question <- function (type, name, questiontext, question_body) {
   {name}
   {questiontext}
   {question_body}
+  {if (question_tags != "") question_tags}
 </question>
 '
   )
+}
+
+
+#' Define the question tags in xml
+#'
+#' @param tag_values A string, tag values.
+#'
+#' @return A string.
+#' @keywords internal
+xml_question_tags <- function (tag_values) {
+  if (is.null(tag_values) || length(tag_values) == 0) {
+    return('')
+  } else {
+    tags <- paste0("    <tag><text>", tag_values, "</text></tag>", collapse = "\n")
+    xml <- paste0("<tags>\n", tags, "\n  </tags>")
+    return(xml)
+  }
 }
 
 
@@ -54,8 +73,10 @@ xml_question_category <- function (category) {
 #' @param question A string, statement of the question.
 #' @param image A string, optional, image file to include in the question.
 #' @param image_alt A string, description of the image to include in the question.
-#' @param author A string, author name to be included in each question that is
-#' defined.
+#' @param type A string, question type.
+#' @param author A string, author name to be included in each question that is defined.
+#' @param fb_general A string, general feedback to be included in each question that is defined.
+#' @param idnumber A string, idnumber to be included in each question that is defined.
 #'
 #' @return A string.
 #' @keywords internal
@@ -67,7 +88,10 @@ xml_questiontext <- function(copyright,
                              question,
                              image,
                              image_alt,
-                             author = '') {
+                             type,
+                             author = '',
+                             fb_general = '',
+                             idnumber = '') {
   image <- trimws(image)
   if (nchar(image) > 0) {
     image_alt <- trimws(image_alt)
@@ -101,6 +125,16 @@ xml_questiontext <- function(copyright,
     fimg <- ''
   }
 
+  defaultgrade <- "1.0"
+  penalty <- "0.3333333"
+  if (type == 'essay') {
+    penalty <- "0"
+  } else if (type == 'multichoice') {
+    penalty <- "0.5"
+  } else if (type == 'truefalse') {
+    penalty <- "1.0"
+  }
+
   questiontext <- glue::glue(
     '
 
@@ -112,7 +146,14 @@ xml_questiontext <- function(copyright,
          <p>{question}</p>{img}]]></text>
          {fimg}
     </questiontext>
-    <generalfeedback format="html"> <text></text> </generalfeedback>'
+    <generalfeedback format="html">
+      <text>{if (fb_general != "") paste0("<![CDATA[<p>", fb_general, "</p>]]>") else ""}</text>
+    </generalfeedback>
+    <defaultgrade>{defaultgrade}</defaultgrade>
+    <penalty>{penalty}</penalty>
+    <hidden>0</hidden>
+    <idnumber>{idnumber}</idnumber>
+'
   )
   questiontext
 }
@@ -218,8 +259,6 @@ generate_question <- function(first_question_number,
                               answer,
                               ...) {
 
-  questiontext <- xml_questiontext(copyright, license, adapt_images, width, height, question, image, image_alt)
-
   # only no empty elements
   others <- list(...)
   rest <- NULL
@@ -240,7 +279,7 @@ generate_question <- function(first_question_number,
 
   if (is_numeric(answer)) {
     type <- 'numerical'
-    question_body <- generate_numerical(answer, n, rest)
+    question_body <- generate_numerical(answer,rest)
   } else {
     if (n > 0) {
       if (length(answer) == 1) {
@@ -248,7 +287,6 @@ generate_question <- function(first_question_number,
           if (type == '') {
             type <- 'multichoice'
             question_body <- generate_multichoice(answer,
-                                                  n,
                                                   rest,
                                                   correct_feedback,
                                                   incorrect_feedback)
@@ -261,7 +299,6 @@ generate_question <- function(first_question_number,
             type <- 'ordering'
             question_body <- generate_ordering(
               answer,
-              n,
               rest,
               correct_feedback,
               partially_correct_feedback,
@@ -320,6 +357,15 @@ generate_question <- function(first_question_number,
     }
   }
 
+  questiontext <- xml_questiontext(copyright,
+                                   license,
+                                   adapt_images,
+                                   width,
+                                   height,
+                                   question,
+                                   image,
+                                   image_alt,
+                                   type)
   name <- generate_name(first_question_number, type, orientation, question)
 
   xml_question(type, name, questiontext, question_body)
