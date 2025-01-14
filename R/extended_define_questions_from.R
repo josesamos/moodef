@@ -251,8 +251,6 @@ extended_format_questions <- function(qc) {
     fb_incorrect <- qc$questions[["fb_incorrect"]][i]
     fb_partially <- qc$questions[["fb_partially"]][i]
 
-    question_body <- ''
-
     question_body <- switch(
       type,
       numerical = generate_numerical(answer, a_values, fb_answer, fb_a_values),
@@ -275,18 +273,22 @@ extended_format_questions <- function(qc) {
       ),
       ddwtos = generate_ddwtos(answer, a_values, fb_correct, fb_incorrect, fb_partially),
       gapselect = generate_gapselect(answer, a_values, fb_correct, fb_incorrect, fb_partially),
-      # matching = generate_numerical(),
-      # essay = generate_numerical(),
-      # truefalse = generate_numerical(),
-      # shortanswer = generate_numerical(),
-      # ddmarker = generate_numerical(),
+      matching = generate_matching(answer, a_values, fb_correct, fb_incorrect, fb_partially),
+      essay = generate_essay(),
+      truefalse = generate_truefalse(answer, fb_answer, fb_a_values),
+      shortanswer = generate_shortanswer(answer, fb_answer),
+      ddmarker = generate_ddmarker(
+        qc$questions[["image"]][i],
+        qc$questions[["image_alt"]][i],
+        answer,
+        a_values
+      ),
       warning(paste0("Unknown type: ", type))
     )
 
     tag_values <- get_non_empty_fields_by_prefix(qc$questions, i, "tag_")
     question_tags <- xml_question_tags(tag_values)
 
-    questiontext <- ''
     question <- xml_question(type, name, questiontext, question_body, question_tags)
     fq <- glue::glue(fq, question_category, question)
   }

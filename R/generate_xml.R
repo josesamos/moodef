@@ -60,6 +60,72 @@ xml_question_category <- function (category) {
   )
 }
 
+#' Generate HTML and XML Representations for an Image
+#'
+#' This function generates an HTML `<img>` tag and an XML `<file>` tag for a given image.
+#' The image can be processed to adjust its dimensions and encoded in base64 for embedding.
+#'
+#' @param image `character`
+#'   Path to the image file. If the string is empty, the function returns empty values.
+#' @param image_alt `character`
+#'   Alternative text for the image, used for accessibility purposes (e.g., screen readers).
+#' @param adapt_images `logical`, default `FALSE`
+#'   If `TRUE`, the image dimensions are adjusted to the specified `width` and `height`.
+#'   If `FALSE`, the original dimensions are used.
+#' @param width `numeric` or `NULL`, default `NULL`
+#'   Desired width for the image. Only used when `adapt_images = TRUE`. If `NULL`,
+#'   the width is derived from the image file.
+#' @param height `numeric` or `NULL`, default `NULL`
+#'   Desired height for the image. Only used when `adapt_images = TRUE`. If `NULL`,
+#'   the height is derived from the image file.
+#'
+#' @return A list with two elements:
+#' \describe{
+#'   \item{`img`}{`character`: HTML string containing the `<img>` tag.}
+#'   \item{`fimg`}{`character`: XML string containing the base64-encoded `<file>` tag.}
+#' }
+#'
+#' @details
+#' - If `adapt_images = TRUE`, the function resizes the image using the specified dimensions.
+#' - If `adapt_images = FALSE`, the function reads the image's original dimensions and uses them.
+#' - The image is embedded as a base64 string in the `<file>` tag for compatibility with XML-based systems.
+#' @keywords internal
+xml_image <- function(image, image_alt, adapt_images = FALSE, width = NULL, height = NULL) {
+  image <- trimws(image)
+
+  if (nchar(image) > 0) {
+    image_alt <- trimws(image_alt)
+    file <- basename(image)
+
+    if (adapt_images) {
+      image <- adapt_image(image_file = image, width = width, height = height)
+    } else {
+      fig <- magick::image_read(image)
+      inf <- magick::image_info(fig)
+      width <- inf$width
+      height <- inf$height
+    }
+
+    f <- blastula::add_image(image)
+    h <- xml2::read_html(f)
+    v <- xml2::xml_find_first(h, ".//img")
+    s <- xml2::xml_attr(v, "src")
+    pos <- unlist(gregexpr(",", s))[1]
+    value <- substr(s, pos + 1, nchar(s))
+
+    img <- glue::glue(
+      '<p><img src="@@PLUGINFILE@@/{file}" alt="{image_alt}" width="{width}" height="{height}" class="img-fluid atto_image_button_text-bottom"></p>'
+    )
+    fimg <- glue::glue('<file name="{file}" path="/" encoding="base64">{value}</file>')
+  } else {
+    img <- ""
+    fimg <- ""
+  }
+
+  # Return a list with img and fimg
+  list(img = img, fimg = fimg)
+}
+
 
 #' generate `questiontext` node
 #'
@@ -92,37 +158,14 @@ xml_questiontext <- function(copyright,
                              author = '',
                              fb_general = '',
                              idnumber = '') {
-  image <- trimws(image)
-  if (nchar(image) > 0) {
-    image_alt <- trimws(image_alt)
-    file <- basename(image)
-    if (adapt_images) {
-      image <-
-        adapt_image(image_file = image,
-                    width = width,
-                    height = height)
-    } else {
-      fig <- magick::image_read(image)
-      inf <- magick::image_info(fig)
-      width <- inf$width
-      height <- inf$height
-    }
-    f <- blastula::add_image(image)
-    h <- xml2::read_html(f)
-    v <- xml2::xml_find_first(h, ".//img")
-    s <- xml2::xml_attr(v, 'src')
-    pos <- unlist(gregexpr(',', s))[1]
-    value <- substr(s, pos + 1, nchar(s))
-
-    img <-
-      glue::glue(
-        '<p><img src="@@PLUGINFILE@@/{file}" alt="{image_alt}" width="{width}" height="{height}" class="img-fluid atto_image_button_text-bottom"></p>'
-      )
-    fimg <-
-      glue::glue('<file name="{file}" path="/" encoding="base64">{value}</file>')
+  # ddmarker image is out of question text
+  if (type != "ddmarker") {
+    result <- xml_image(image, image_alt, adapt_images, width, height)
+    img <- result$img
+    fimg <- result$fimg
   } else {
-    img <- ''
-    fimg <- ''
+    img <- ""
+    fimg <- ""
   }
 
   defaultgrade <- "1.0"
@@ -331,11 +374,10 @@ generate_question <- function(first_question_number,
         type <- 'matching'
         question_body <- generate_matching(
           answer,
-          n,
           rest,
           correct_feedback,
-          partially_correct_feedback,
-          incorrect_feedback
+          incorrect_feedback,
+          partially_correct_feedback
         )
       }
     } else {

@@ -4,10 +4,14 @@
 \alias{generate_truefalse}
 \title{Generate \code{truefalse} question}
 \usage{
-generate_truefalse(answer)
+generate_truefalse(answer, fb_answer = "", fb_rest = NULL)
 }
 \arguments{
 \item{answer}{A string.}
+
+\item{fb_answer}{A string, answer feedback.}
+
+\item{fb_rest}{A vector, rest of answer feedback.}
 }
 \value{
 A string.
