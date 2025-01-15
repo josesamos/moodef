@@ -70,7 +70,3 @@ generate_numerical <- function(answer, rest, fb_answer = '', fb_rest = NULL) {
 
     question_body
   }
-
-
-
-
