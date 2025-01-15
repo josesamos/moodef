@@ -17,7 +17,7 @@ xml_question <- function (type, name, questiontext, question_body, question_tags
   {name}
   {questiontext}
   {question_body}
-  {if (question_tags != "") question_tags}
+  {if (question_tags != "") question_tags else ""}
 </question>
 '
   )

@@ -49,18 +49,10 @@ generate_question <- function(first_question_number,
                               answer,
                               ...) {
   rest <- filter_non_empty_answers(...)
-  answer <- string_to_vector(answer)
-  if (is.null(answer)) {
-    ''
-  } else {
-    answer
-  }
 
-  if (type == 'H' | type == 'h') {
-    orientation <- 'h'
-  }else {
-    orientation <- 'v'
-  }
+  answer <- get_vector_answer(answer)
+
+  orientation <- determine_orientation(type)
   type <- determine_question_type(type, question, answer, rest)
   question_body <- generate_question_body(type, answer, rest, correct_feedback,
                                           incorrect_feedback, partially_correct_feedback, orientation)
@@ -108,28 +100,40 @@ filter_non_empty_answers <- function(...) {
 #' @return A string indicating the question type.
 #' @keywords internal
 determine_question_type <- function(type, question, answer, rest) {
+
   if (is_numeric(answer)) {
-    "numerical"
-  } else if (length(answer) == 1) {
-    if (!has_gaps(question)) {
-      if (type == '') {
-        "multichoice"
-      } else {
-        "ordering"
-      }
-    } else if (type == '') {
-      "ddwtos"
-    } else {
-      "gapselect"
-    }
-  } else if (length(answer) > 1) {
-    "matching"
-  } else if (answer == '') {
-    "essay"
-  } else if (tolower(answer) %in% c('true', 'false')) {
-    "truefalse"
+    'numerical'
   } else {
-    "shortanswer"
+    n <- length(rest)
+    if (n > 0) {
+      if (length(answer) == 1) {
+        if (!has_gaps(question)) {
+          if (type == '') {
+            'multichoice'
+          } else {
+            'ordering'
+          }
+        } else {
+          if (type == '') {
+            'ddwtos'
+          } else {
+            'gapselect'
+          }
+        }
+      } else {
+        'matching'
+      }
+    } else {
+      if (answer == '') {
+        'essay'
+      } else {
+        if (tolower(answer) %in% c('true', 'false')) {
+          'truefalse'
+        } else {
+          'shortanswer'
+        }
+      }
+    }
   }
 }
 
@@ -162,3 +166,43 @@ generate_question_body <- function(type, answer, rest, correct_feedback,
          "shortanswer" = generate_shortanswer(answer))
 }
 
+
+#' Determine Orientation
+#'
+#' Determines the orientation based on the input type.
+#' If the type is "H" or "h", the orientation will be horizontal ("h").
+#' Otherwise, the orientation will be vertical ("v").
+#'
+#' @param type A character string, typically "H", "h", or any other value.
+#'   - "H" or "h": The orientation will be "h" (horizontal).
+#'   - Any other value: The orientation will be "v" (vertical).
+#'
+#' @return A character string: either "h" for horizontal or "v" for vertical.
+#'
+#' @keywords internal
+determine_orientation <- function(type) {
+  if (type == 'H' | type == 'h') {
+    orientation <- 'h'
+  }else {
+    orientation <- 'v'
+  }
+}
+
+
+#' Convert Answer String to Vector
+#'
+#' Converts an answer string into a vector using `string_to_vector`.
+#' If the input is `NULL`, it returns an empty string.
+#'
+#' @param answer A character string representing the answer.
+#'
+#' @return A vector if the answer is successfully converted, or an empty string if the answer is `NULL`.
+#' @keywords internal
+get_vector_answer <- function(answer) {
+  answer <- string_to_vector(answer)
+  if (is.null(answer)) {
+    ''
+  } else {
+    answer
+  }
+}
