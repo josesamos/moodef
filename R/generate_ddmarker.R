@@ -13,28 +13,29 @@ generate_ddmarker <- function(image, image_alt, answer, fb_answer = '') {
 
   result <- xml_image(image, image_alt)
   fimg <- result$fimg
+  i <- 1
 
   question_body <- glue::glue(
     '
 
     {fimg}
     <drag>
-      <no>1</no>
+      <no>{i}</no>
       <text>{answer[3]}</text>
-      <noofdrags>1</noofdrags>
+      <noofdrags>{i}</noofdrags>
     </drag>
     <drop>
-      <no>1</no>
+      <no>{i}</no>
       <shape>{answer[1]}</shape>
       <coords>{answer[2]}</coords>
-      <choice>1</choice>
+      <choice>{i}</choice>
     </drop>
 '
   )
 
-  i <- 2
   for (r in fb_answer) {
     r <- string_to_vector(r)
+    i <- i + 1
 
     question_body <- glue::glue(question_body,
       '
@@ -45,7 +46,7 @@ generate_ddmarker <- function(image, image_alt, answer, fb_answer = '') {
       <noofdrags>{i}</noofdrags>
     </drag>
     <drop>
-      <no>1</no>
+      <no>{i}</no>
       <shape>{r[1]}</shape>
       <coords>{r[2]}</coords>
       <choice>{i}</choice>
@@ -53,7 +54,6 @@ generate_ddmarker <- function(image, image_alt, answer, fb_answer = '') {
 '
     )
   }
-
 
   question_body
 }

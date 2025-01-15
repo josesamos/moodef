@@ -1,5 +1,3 @@
-
-
 #' Generate `ddwtos` question
 #'
 #' @param answer A vector of strings.
@@ -39,18 +37,14 @@ generate_ddwtos <-
 
     others <- NULL
     for (r in rest) {
-      others <- paste0 (
-        others,
-        glue::glue(
-          '
+      others <- paste0 (others,
+                        glue::glue('
 
     <dragbox>
       <text>{r}</text>
       <group>1</group>
     </dragbox>
-'
-        )
-      )
+'))
     }
 
     question_body <- paste0(question, others)
