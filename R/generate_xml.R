@@ -233,9 +233,6 @@ xml_question_idnumber <- function (idnumber) {
 }
 
 
-
-###########################################
-
 #' generate `name` node
 #'
 #' @param first_question_number An integer, first number to compose the question
@@ -262,17 +259,6 @@ generate_name <-
   }
 
 
-#' Format all questions in the data frame
-#'
-#' @param questions A question data frame.
-#'
-#' @return A string.
-#' @keywords internal
-format_questions <- function(questions) {
-  paste(unlist(purrr::pmap(questions, generate_question)), collapse = "\n")
-}
-
-
 #' Define the category of questions
 #'
 #' @param category A string, category name.
@@ -291,6 +277,9 @@ category_question <- function(category, questions) {
   )
 }
 
+
+
+###########################################
 
 #' Generate questions xml string
 #'
