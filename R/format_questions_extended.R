@@ -127,6 +127,8 @@ validate_and_adjust_dataframe <- function(df) {
       ))
     }
 
+    simplified_types <- c('', 'h', 'v', 'x')
+
     allowed_types <- c("numerical", "multichoice", "ordering", "ordering<|>h", "ordering<|>v", "ddwtos",
                        "gapselect", "matching", "essay", "truefalse",
                        "shortanswer", "ddmarker")

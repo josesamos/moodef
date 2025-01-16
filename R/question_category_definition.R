@@ -39,6 +39,9 @@ define_questions_from_data_frame.question_category <- function(qc, df, extended 
     }
   }
 
+  # type lowercase
+  df$type <- tolower(df$type)
+
   if (extended) {
     for (opcional in c("category", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect")) {
       if (!(opcional %in% attributes)) {
