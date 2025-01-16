@@ -58,7 +58,7 @@ define_extended_questions_from_data_frame <- function(qc, df) {
 #' Determines the `type` column of a data frame based on specific conditions and
 #' the content of other columns in the data frame.
 #'
-#' It checks if all the values in the `type` column are within the allowed set
+#' It checks if some value in the `type` column are within the allowed set
 #' (`'', 'h', 'v', 'x'`) and updates each row based on the associated answers
 #' and other fields.
 #'

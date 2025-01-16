@@ -22,7 +22,7 @@ Determines the \code{type} column of a data frame based on specific conditions a
 the content of other columns in the data frame.
 }
 \details{
-It checks if all the values in the \code{type} column are within the allowed set
+It checks if some value in the \code{type} column are within the allowed set
 (\verb{'', 'h', 'v', 'x'}) and updates each row based on the associated answers
 and other fields.
 }
