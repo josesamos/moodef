@@ -4,14 +4,16 @@
 \alias{generate_numerical}
 \title{Generate \code{numerical} question}
 \usage{
-generate_numerical(answer, n, rest)
+generate_numerical(answer, rest, fb_answer = "", fb_rest = NULL)
 }
 \arguments{
 \item{answer}{A vector of strings.}
 
-\item{n}{An integer, number or answers.}
-
 \item{rest}{A vector, rest of answers.}
+
+\item{fb_answer}{A string, answer feedback.}
+
+\item{fb_rest}{A vector, rest of answer feedback.}
 }
 \value{
 A string.

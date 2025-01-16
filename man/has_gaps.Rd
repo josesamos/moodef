@@ -2,17 +2,19 @@
 % Please edit documentation in R/common.R
 \name{has_gaps}
 \alias{has_gaps}
-\title{Check if it has gaps.}
+\title{Check if a String Contains Gaps}
 \usage{
 has_gaps(str)
 }
 \arguments{
-\item{str}{A string.}
+\item{str}{\code{character}
+A string to check.}
 }
 \value{
-A boolean.
+\code{logical}
+\code{TRUE} if the string contains gaps, \code{FALSE} otherwise.
 }
 \description{
-Check if it has gaps.
+Checks if a string contains the specific substrings \code{"[[1]]"} and \code{"[[2]]"}.
 }
 \keyword{internal}

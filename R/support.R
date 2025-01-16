@@ -27,6 +27,8 @@ vector_to_string <- function(vector) {
 #'
 #' Creates an empty question data frame.
 #'
+#' @param extended A Boolean, use extended question definition.
+#'
 #' @family support functions
 #'
 #' @examples
@@ -35,21 +37,50 @@ vector_to_string <- function(vector) {
 #'
 #' @return A data frame.
 #' @export
-create_question_data_frame <- function() {
-  questions <-  data.frame(
-    type = character(),
-    question = character(),
-    image = character(),
-    image_alt = character(),
-    answer = character(),
-    a_1 = character(),
-    a_2 = character(),
-    a_3 = character(),
-    stringsAsFactors = FALSE
-  )
+create_question_data_frame <- function(extended = FALSE) {
+  if (!extended) {
+    questions <-  data.frame(
+      type = character(),
+      question = character(),
+      image = character(),
+      image_alt = character(),
+      answer = character(),
+      a_1 = character(),
+      a_2 = character(),
+      a_3 = character(),
+      stringsAsFactors = FALSE
+    )
+  } else {
+    questions <-  data.frame(
+      category = character(),
+      type = character(),
+      id = character(),
+      name = character(),
+      author = character(),
+      fb_correct = character(),
+      fb_partially = character(),
+      fb_incorrect = character(),
+      question = character(),
+      image = character(),
+      image_alt = character(),
+      answer = character(),
+      a_1 = character(),
+      a_2 = character(),
+      a_3 = character(),
+      a_4 = character(),
+      fb_answer = character(),
+      fb_a_1 = character(),
+      fb_a_2 = character(),
+      fb_a_3 = character(),
+      fb_a_4 = character(),
+      tag_1 = character(),
+      tag_2 = character(),
+      tag_3 = character(),
+      stringsAsFactors = FALSE
+    )
+  }
   questions
 }
-
 
 #' Create a question csv file
 #'
@@ -57,6 +88,7 @@ create_question_data_frame <- function() {
 #'
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
+#' @param extended A Boolean, use extended question definition.
 #'
 #' @family support functions
 #'
@@ -66,8 +98,8 @@ create_question_data_frame <- function() {
 #'
 #' @return A string.
 #' @export
-create_question_csv <- function(file, sep = ',') {
-  questions <- create_question_data_frame()
+create_question_csv <- function(file, sep = ',', extended = FALSE) {
+  questions <- create_question_data_frame(extended)
   if (sep == ',') {
     utils::write.csv(questions, file = file, row.names = FALSE)
   } else {
@@ -99,20 +131,7 @@ read_question_csv <- function(file, sep = ',') {
     delim = sep,
     col_types = readr::cols(.default = readr::col_character())
   )
-  attributes <- names(df)
-  df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
-  if (nrow(df) == 1) {
-    df[, attributes] <-
-      tibble::as_tibble(as.list(apply(df[, attributes, drop = FALSE], 2, function(x)
-        tidyr::replace_na(x, ''))))
-  } else {
-    df[, attributes] <-
-      apply(df[, attributes, drop = FALSE], 2, function(x)
-        tidyr::replace_na(x, ''))
-  }
-  attributes <- snakecase::to_snake_case(attributes)
-  names(df) <- attributes
-  df
+  process_question_dataframe(df)
 }
 
 
@@ -122,6 +141,7 @@ read_question_csv <- function(file, sep = ',') {
 #' Creates an empty question Excel file.
 #'
 #' @param file A string, name of a text file.
+#' @param extended A Boolean, use extended question definition.
 #'
 #' @family support functions
 #'
@@ -133,8 +153,8 @@ read_question_csv <- function(file, sep = ',') {
 #'
 #' @return A string.
 #' @export
-create_question_excel <- function(file) {
-  questions <- create_question_data_frame()
+create_question_excel <- function(file, extended = FALSE) {
+  questions <- create_question_data_frame(extended)
   xlsx::write.xlsx(
     as.data.frame(questions),
     file = file,
@@ -177,6 +197,7 @@ read_question_excel <- function(file,
     sheet_name <- readxl::excel_sheets(file)[sheet_index]
   }
   sheet_name <- sheet_name[1]
+
   df <- suppressMessages(
     readxl::read_excel(
       file,
@@ -186,18 +207,38 @@ read_question_excel <- function(file,
       trim_ws = TRUE
     )
   )
+  process_question_dataframe(df)
+}
+
+
+#' Process Question DataFrame
+#'
+#' Processes a dataframe by converting columns to character type, handling NAs,
+#' and renaming attributes to snake_case.
+#'
+#' @param df A dataframe to process.
+#'
+#' @return A processed dataframe.
+#' @keywords internal
+process_question_dataframe <- function(df) {
   attributes <- names(df)
+
+  # Convert all columns to character type
   df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
+
+  # Replace NA values with empty strings
   if (nrow(df) == 1) {
-    df[, attributes] <-
-      tibble::as_tibble(as.list(apply(df[, attributes, drop = FALSE], 2, function(x)
-        tidyr::replace_na(x, ''))))
+    df[, attributes] <- tibble::as_tibble(as.list(apply(
+      df[, attributes, drop = FALSE], 2, function(x) tidyr::replace_na(x, '')
+    )))
   } else {
-    df[, attributes] <-
-      apply(df[, attributes, drop = FALSE], 2, function(x)
-        tidyr::replace_na(x, ''))
+    df[, attributes] <- apply(df[, attributes, drop = FALSE], 2, function(x) tidyr::replace_na(x, ''))
   }
+
+  # Rename attributes to snake_case
   attributes <- snakecase::to_snake_case(attributes)
   names(df) <- attributes
-  df
+
+  return(df)
 }
+

@@ -1,30 +1,22 @@
-
-
 #' Generate `ddwtos` question
 #'
 #' @param answer A vector of strings.
-#' @param n An integer, number or answers.
 #' @param rest A vector, rest of answers.
 #' @param correct_feedback A string.
-#' @param partially_correct_feedback A string.
 #' @param incorrect_feedback A string.
+#' @param partially_correct_feedback A string.
 #'
 #' @return A string.
 #' @keywords internal
 generate_ddwtos <-
   function(answer,
-           n,
            rest,
            correct_feedback,
-           partially_correct_feedback,
-           incorrect_feedback) {
+           incorrect_feedback,
+           partially_correct_feedback) {
     question <- glue::glue(
       '
 
-    <defaultgrade>1</defaultgrade>
-    <penalty>0.3333333</penalty>
-    <hidden>0</hidden>
-    <idnumber></idnumber>
     <shuffleanswers>1</shuffleanswers>
     <correctfeedback format="html">
       <text>{correct_feedback}</text>
@@ -45,18 +37,14 @@ generate_ddwtos <-
 
     others <- NULL
     for (r in rest) {
-      others <- paste0 (
-        others,
-        glue::glue(
-          '
+      others <- paste0 (others,
+                        glue::glue('
 
     <dragbox>
       <text>{r}</text>
       <group>1</group>
     </dragbox>
-'
-        )
-      )
+'))
     }
 
     question_body <- paste0(question, others)

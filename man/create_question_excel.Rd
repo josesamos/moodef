@@ -4,10 +4,12 @@
 \alias{create_question_excel}
 \title{Create a question Excel file}
 \usage{
-create_question_excel(file)
+create_question_excel(file, extended = FALSE)
 }
 \arguments{
 \item{file}{A string, name of a text file.}
+
+\item{extended}{A Boolean, use extended question definition.}
 }
 \value{
 A string.

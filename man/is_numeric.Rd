@@ -2,17 +2,19 @@
 % Please edit documentation in R/common.R
 \name{is_numeric}
 \alias{is_numeric}
-\title{Check if it is numeric.}
+\title{Check if a String Represents a Numeric Value}
 \usage{
 is_numeric(str)
 }
 \arguments{
-\item{str}{A string.}
+\item{str}{\code{character}
+A string to check.}
 }
 \value{
-A boolean.
+\code{logical}
+\code{TRUE} if the string is numeric, \code{FALSE} otherwise.
 }
 \description{
-Check if it is numeric.
+Verifies if a string can be converted to a numeric value.
 }
 \keyword{internal}

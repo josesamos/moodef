@@ -2,21 +2,24 @@
 % Please edit documentation in R/common.R
 \name{adapt_image}
 \alias{adapt_image}
-\title{Fits an image to the given size.}
+\title{Resize and Center an Image}
 \usage{
 adapt_image(image_file, width = 800, height = 600)
 }
 \arguments{
-\item{image_file}{A string, image file.}
+\item{image_file}{\code{character}
+Path to the image file to be resized.}
 
-\item{width}{A integer, width of the image.}
+\item{width}{\code{integer}, default \code{800}
+Desired width of the output image.}
 
-\item{height}{A integer, height of the image.}
+\item{height}{\code{integer}, default \code{600}
+Desired height of the output image.}
 }
 \value{
-A string, new image file.
+A string representing the path to the new resized image file.
 }
 \description{
-Fits an image to the given size.
+Resizes an image to fit within the specified dimensions, centering it on a blank canvas.
 }
 \keyword{internal}

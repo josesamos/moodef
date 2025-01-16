@@ -4,7 +4,10 @@
 \alias{create_question_data_frame}
 \title{Create a question data frame}
 \usage{
-create_question_data_frame()
+create_question_data_frame(extended = FALSE)
+}
+\arguments{
+\item{extended}{A Boolean, use extended question definition.}
 }
 \value{
 A data frame.

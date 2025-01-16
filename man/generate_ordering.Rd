@@ -6,26 +6,23 @@
 \usage{
 generate_ordering(
   answer,
-  n,
   rest,
   correct_feedback,
-  partially_correct_feedback,
   incorrect_feedback,
+  partially_correct_feedback,
   orientation
 )
 }
 \arguments{
 \item{answer}{A vector of strings.}
 
-\item{n}{An integer, number or answers.}
-
 \item{rest}{A vector, rest of answers.}
 
 \item{correct_feedback}{A string.}
 
-\item{partially_correct_feedback}{A string.}
-
 \item{incorrect_feedback}{A string.}
+
+\item{partially_correct_feedback}{A string.}
 
 \item{orientation}{A string, 'h' or 'v'.}
 }

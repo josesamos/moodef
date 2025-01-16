@@ -2,17 +2,18 @@
 % Please edit documentation in R/common.R
 \name{string_to_string_vector}
 \alias{string_to_string_vector}
-\title{Transforms string into a vector in string format.}
+\title{Transform a String into a String-Formatted Vector}
 \usage{
 string_to_string_vector(str)
 }
 \arguments{
-\item{str}{A string.}
+\item{str}{\code{character}
+A string to transform.}
 }
 \value{
-A vector of strings.
+A string representing a vector in R syntax (e.g., \code{c("a", "b", "c")}), or \verb{"\\"\\""} if the input string is empty.
 }
 \description{
-Transforms string into a vector in string format.
+Converts a string into a string-formatted vector (e.g., \code{"a<|>b<|>c"} -> \code{c("a", "b", "c")}).
 }
 \keyword{internal}

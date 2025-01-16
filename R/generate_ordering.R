@@ -3,22 +3,20 @@
 #' Generate `ordering` question
 #'
 #' @param answer A vector of strings.
-#' @param n An integer, number or answers.
 #' @param rest A vector, rest of answers.
 #' @param correct_feedback A string.
-#' @param partially_correct_feedback A string.
 #' @param incorrect_feedback A string.
+#' @param partially_correct_feedback A string.
 #' @param orientation A string, 'h' or 'v'.
 #'
 #' @return A string.
 #' @keywords internal
 generate_ordering <-
   function(answer,
-           n,
            rest,
            correct_feedback,
-           partially_correct_feedback,
            incorrect_feedback,
+           partially_correct_feedback,
            orientation) {
     if (orientation == 'h') {
       orientation <- 'HORIZONTAL'
@@ -28,10 +26,6 @@ generate_ordering <-
     question <- glue::glue(
       '
 
-    <defaultgrade>1</defaultgrade>
-    <penalty>0.3333333</penalty>
-    <hidden>0</hidden>
-    <idnumber></idnumber>
     <layouttype>{orientation}</layouttype>
     <selecttype>ALL</selecttype>
     <selectcount>0</selectcount>

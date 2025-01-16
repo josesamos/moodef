@@ -4,10 +4,12 @@
 \alias{generate_shortanswer}
 \title{Generate \code{shortanswer} question}
 \usage{
-generate_shortanswer(answer)
+generate_shortanswer(answer, fb_answer = "")
 }
 \arguments{
 \item{answer}{A string.}
+
+\item{fb_answer}{A string, answer feedback.}
 }
 \value{
 A string.

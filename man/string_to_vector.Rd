@@ -2,17 +2,18 @@
 % Please edit documentation in R/common.R
 \name{string_to_vector}
 \alias{string_to_vector}
-\title{Transforms string into a vector of strings.}
+\title{Transform a String into a Vector of Strings}
 \usage{
 string_to_vector(str)
 }
 \arguments{
-\item{str}{A string.}
+\item{str}{\code{character}
+A string to transform.}
 }
 \value{
-A vector of strings.
+A vector of strings (\code{character}), or \code{NULL} if the input string is empty.
 }
 \description{
-Transforms string into a vector of strings.
+Splits a string into a vector of strings using "<|>" as a delimiter.
 }
 \keyword{internal}
