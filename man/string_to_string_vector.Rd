@@ -14,6 +14,6 @@ A string to transform.}
 A string representing a vector in R syntax (e.g., \code{c("a", "b", "c")}), or \verb{"\\"\\""} if the input string is empty.
 }
 \description{
-Converts a string into a string-formatted vector (e.g., \code{"a|b|c"} -> \code{c("a", "b", "c")}).
+Converts a string into a string-formatted vector (e.g., \code{"a<|>b<|>c"} -> \code{c("a", "b", "c")}).
 }
 \keyword{internal}
