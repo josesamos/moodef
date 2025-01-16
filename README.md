@@ -52,8 +52,8 @@ install.packages("moodef")
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("josesamos/moodef")
+# install.packages("pak")
+pak::pak("josesamos/moodef")
 ```
 
 ## Example
