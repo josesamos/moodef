@@ -134,3 +134,51 @@ test_that("process_question_dataframe processes data frame correctly", {
   expect_true(all(!is.na(result)))
   expect_equal(names(result), c("a", "b")) # Snake_case ya coincide en este caso
 })
+
+test_that("process_question_dataframe handles single-row dataframes correctly", {
+  # Input dataframe with a single row
+  df <- data.frame(
+    ColumnA = c("Value1"),
+    ColumnB = c(NA),
+    ColumnC = c("Value3"),
+    stringsAsFactors = FALSE
+  )
+
+  # Expected output dataframe
+  expected_df <- as.data.frame(tibble::tibble(
+    column_a = "Value1",
+    column_b = "",
+    column_c = "Value3"
+  ))
+
+  # Call the function
+  result <- process_question_dataframe(df)
+
+  # Check that the result matches the expected dataframe
+  expect_equal(result, expected_df)
+})
+
+test_that("process_question_dataframe converts all columns to character type for a single row", {
+  # Input dataframe with mixed types
+  df <- data.frame(
+    NumericColumn = c(123),
+    CharacterColumn = c("Some text"),
+    LogicalColumn = c(TRUE),
+    stringsAsFactors = FALSE
+  )
+
+  # Expected output dataframe
+  expected_df <- as.data.frame(tibble::tibble(
+    numeric_column = "123",
+    character_column = "Some text",
+    logical_column = "TRUE"
+  ))
+
+  # Call the function
+  result <- process_question_dataframe(df)
+
+  # Check column types
+  expect_true(all(sapply(result, is.character)))
+  expect_equal(result, expected_df)
+})
+

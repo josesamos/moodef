@@ -70,14 +70,8 @@ test_that("generate_question_body works correctly for each question type", {
 
 test_that("determine_orientation works correctly", {
 
-  # Test when type is 'H'
-  expect_equal(determine_orientation("H"), "h", info = "Should return 'h' for type 'H'")
-
   # Test when type is 'h'
   expect_equal(determine_orientation("h"), "h", info = "Should return 'h' for type 'h'")
-
-  # Test when type is a different character (e.g., 'V')
-  expect_equal(determine_orientation("V"), "v", info = "Should return 'v' for any non-'H' or non-'h' type")
 
   # Test when type is lowercase 'v'
   expect_equal(determine_orientation("v"), "v", info = "Should return 'v' for type 'v'")
@@ -90,11 +84,6 @@ test_that("determine_orientation works correctly", {
 
   # Test when type is NULL (should handle it gracefully if wrapped in a higher function)
   expect_error(determine_orientation(NULL), regexp = "argument is of length zero", info = "Should return an error for NULL input")
-
-  # Test for case sensitivity
-  expect_equal(determine_orientation("h"), "h", info = "Should treat 'h' as lowercase horizontal")
-  expect_equal(determine_orientation("H"), "h", info = "Should treat 'H' as uppercase horizontal")
-  expect_equal(determine_orientation("random"), "v", info = "Should return 'v' for unexpected inputs")
 })
 
 

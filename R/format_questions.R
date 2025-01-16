@@ -158,7 +158,7 @@ generate_question_body <- function(type, answer, rest, correct_feedback,
 #'
 #' @keywords internal
 determine_orientation <- function(type) {
-  if (type == 'H' | type == 'h') {
+  if (type == 'h') {
     orientation <- 'h'
   }else {
     orientation <- 'v'
