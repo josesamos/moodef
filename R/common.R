@@ -18,7 +18,7 @@ string_to_vector <- function(str) {
 
 #' Transform a String into a String-Formatted Vector
 #'
-#' Converts a string into a string-formatted vector (e.g., `"a|b|c"` -> `c("a", "b", "c")`).
+#' Converts a string into a string-formatted vector (e.g., `"a<|>b<|>c"` -> `c("a", "b", "c")`).
 #'
 #' @param str `character`
 #'   A string to transform.

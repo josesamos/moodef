@@ -149,3 +149,53 @@ test_that("generate_question works correctly for different configurations", {
 
   expect_equal(result, expected_result)
 })
+
+test_that("generate_question_name generates correct XML with valid inputs", {
+  # Input
+  first_question_number <- 1
+  type <- "multichoice"
+  orientation <- "horizontal"
+  question <- "What is the capital of France?"
+
+  # Expected name
+  expected_name <- "q001_multichoice_horizontal_what_is_the_capital_of_france"
+
+  # Call the function
+  result <- generate_question_name(first_question_number, type, orientation, question)
+
+  # Expectations
+  expect_match(result, "<name>", fixed = TRUE)
+  expect_match(
+    result,
+    structure(
+      "<name> <text>q_001_multichoice_horizontal_what_is_the_capital_of_france</text> </name>",
+      class = c("glue", "character")
+    ),
+    fixed = TRUE
+  )
+  expect_match(result, "</name>", fixed = TRUE)
+})
+
+test_that("generate_question_name truncates question to 40 characters", {
+  # Input
+  first_question_number <- 15
+  type <- "shortanswer"
+  orientation <- "vertical"
+  question <- "This is a very long question that exceeds forty characters in length."
+
+  # Expected name
+  expected_name <- "q015_shortanswer_vertical_this_is_a_very_long_question"
+
+  # Call the function
+  result <- generate_question_name(first_question_number, type, orientation, question)
+
+  # Expectations
+  expect_match(
+    result,
+    structure(
+      "<name> <text>q_015_shortanswer_vertical_this_is_a_very_long_question_that_exceed</text> </name>",
+      class = c("glue", "character")
+    ),
+    fixed = TRUE
+  )
+})

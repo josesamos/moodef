@@ -233,32 +233,6 @@ xml_question_idnumber <- function (idnumber) {
 }
 
 
-#' generate `name` node
-#'
-#' @param first_question_number An integer, first number to compose the question
-#' names.
-#' @param type A string, question type (if needed).
-#' @param orientation A string, 'h' or 'v'.
-#' @param question A string, statement of the question.
-#'
-#' @return A string.
-#' @keywords internal
-generate_name <-
-  function(first_question_number,
-           type,
-           orientation,
-           question) {
-    name <-
-      sprintf("q%03d_%s_%s_%s",
-              first_question_number,
-              type,
-              orientation,
-              substr(question, 1, 40))
-    name <- snakecase::to_snake_case(name)
-    xml_question_name(name)
-  }
-
-
 #' Define the category of questions
 #'
 #' @param category A string, category name.
@@ -277,76 +251,3 @@ category_question <- function(category, questions) {
   )
 }
 
-
-
-###########################################
-
-#' Generate questions xml string
-#'
-#' @param qc A `question_category` object.
-#'
-#' @return A string.
-#'
-#' @family question definition
-#'
-#' @examples
-#'
-#' qc <- question_category(category = 'Initial test') |>
-#'   define_question(
-#'     question = 'What are the basic arithmetic operations?',
-#'     answer = 'Addition, subtraction, multiplication and division.',
-#'     a_1 = 'Addition and subtraction.',
-#'     a_2 = 'Addition, subtraction, multiplication, division and square root.'
-#'   )
-#'
-#' xml <- qc |>
-#'   generate_xml()
-#'
-#' @export
-generate_xml <- function(qc)
-  UseMethod("generate_xml")
-
-#' @rdname generate_xml
-#' @export
-generate_xml.question_category <- function(qc) {
-  if (is.null(qc$extended)) {
-    questions <- format_questions(qc$questions)
-    xml <- category_question(qc$category, questions)
-  } else {
-    xml <- extended_format_questions(qc)
-  }
-  xml
-}
-
-
-#' Generate questions xml file
-#'
-#' @param qc A `question_category` object.
-#' @param file A string, file name.
-#'
-#' @return A `question_category`.
-#'
-#' @family question definition
-#'
-#' @examples
-#'
-#' qc <- question_category(category = 'Initial test') |>
-#'   define_question(
-#'     question = 'What are the basic arithmetic operations?',
-#'     answer = 'Addition, subtraction, multiplication and division.',
-#'     a_1 = 'Addition and subtraction.',
-#'     a_2 = 'Addition, subtraction, multiplication, division and square root.'
-#'   ) |>
-#'   generate_xml_file(file = tempfile(fileext = '.xml'))
-#'
-#' @export
-generate_xml_file <- function(qc, file)
-  UseMethod("generate_xml_file")
-
-#' @rdname generate_xml_file
-#' @export
-generate_xml_file.question_category <- function(qc, file = NULL) {
-  xml <- generate_xml(qc)
-  cat(xml, file = file)
-  qc
-}
