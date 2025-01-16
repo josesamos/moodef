@@ -42,7 +42,7 @@ test_that("is_numeric works correctly", {
 # Tests for has_gaps -------------------------------------------------------
 test_that("has_gaps works correctly", {
   expect_true(has_gaps("This string has [[1]] and [[2]]"))
-  expect_false(has_gaps("This string has [[1]] but no second gap"))
+  expect_true(has_gaps("This string has [[1]] a gap"))
   expect_false(has_gaps("No gaps here"))
   expect_false(has_gaps(""))
 })

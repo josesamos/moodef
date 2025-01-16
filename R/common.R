@@ -89,5 +89,5 @@ is_numeric <- function(str) {
 #'   `TRUE` if the string contains gaps, `FALSE` otherwise.
 #' @keywords internal
 has_gaps <- function(str) {
-  grepl("[[1]]", str, fixed = TRUE) & grepl("[[2]]", str, fixed = TRUE)
+  grepl("[[1]]", str, fixed = TRUE)
 }

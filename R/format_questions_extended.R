@@ -44,10 +44,43 @@ define_extended_questions_from_data_frame <- function(qc, df) {
     ))
   }
 
+  df$type <- get_detailed_type_names(df)
+
   qc$questions <- df
   qc$extended <- TRUE
 
   qc
+}
+
+
+#' Get Detailed Type Names
+#'
+#' Determines the `type` column of a data frame based on specific conditions and
+#' the content of other columns in the data frame.
+#'
+#' It checks if all the values in the `type` column are within the allowed set
+#' (`'', 'h', 'v', 'x'`) and updates each row based on the associated answers
+#' and other fields.
+#'
+#' @param df A data frame containing at least the following columns:
+#'   - `type`: A character column representing the type of each question.
+#'   - `answer`: A character column containing answers for each question.
+#'   - Additional columns with a prefix "a_" representing associated answer fields.
+#'
+#' @return A character vector containing the updated `type` values.
+#' @keywords internal
+get_detailed_type_names <- function(df) {
+  is_simplified_type <- df$type %in% c('', 'h', 'v', 'x')
+  if (any(is_simplified_type)) {
+    for (i in 1:nrow(df)) {
+      if (is_simplified_type[i]) {
+        answer <- get_vector_answer(df$answer[i])
+        a_values <- get_non_empty_fields_by_prefix(df, i, "a_")
+        df$type[i] <- determine_question_type(df$type[i], df$question[i], answer, a_values)
+      }
+    }
+  }
+  df$type
 }
 
 
@@ -132,10 +165,10 @@ validate_and_adjust_dataframe <- function(df) {
     allowed_types <- c("numerical", "multichoice", "ordering", "ordering<|>h", "ordering<|>v", "ddwtos",
                        "gapselect", "matching", "essay", "truefalse",
                        "shortanswer", "ddmarker")
-    all_valid <- all(df$type %in% allowed_types)
+    all_valid <- all(df$type %in% c(allowed_types, simplified_types))
 
     if (!all_valid) {
-      invalid_values <- unique(df$type[!df$type %in% allowed_types])
+      invalid_values <- unique(df$type[!df$type %in% c(allowed_types, simplified_types)])
       errors <- c(errors, paste0(
         "The 'type' column contains invalid values: ",
         paste(invalid_values, collapse = ", ")
