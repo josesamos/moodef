@@ -9,7 +9,7 @@
 status](https://www.r-pkg.org/badges/version/moodef)](https://CRAN.R-project.org/package=moodef)
 [![R-CMD-check](https://github.com/josesamos/moodef/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josesamos/moodef/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/josesamos/moodef/branch/main/graph/badge.svg)](https://app.codecov.io/gh/josesamos/moodef?branch=main)
+coverage](https://codecov.io/gh/josesamos/moodef/graph/badge.svg)](https://app.codecov.io/gh/josesamos/moodef)
 [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/moodef?color=brightgreen)](https://www.r-pkg.org:443/pkg/moodef)
 <!-- badges: end -->
 
