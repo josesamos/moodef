@@ -124,3 +124,123 @@ test_that("generate_multichoice handles empty inputs gracefully", {
   # Check if the result matches the expected structure
   expect_equal(result, expected_structure)
 })
+
+test_that("generate_multichoice generates correct XML when fb_answer is not empty", {
+  answer <- "Correct Answer"
+  rest <- c("Wrong Answer 1", "Wrong Answer 2", "Wrong Answer 3")
+  correct_feedback <- "Good job!"
+  incorrect_feedback <- "That's not correct."
+  fb_partially <- "Partially correct."
+  fb_answer <- "Specific feedback for the correct answer."
+  fb_rest <- c("Feedback for Wrong Answer 1", "Feedback for Wrong Answer 2", "Feedback for Wrong Answer 3")
+
+  result <- generate_multichoice(
+    answer = answer,
+    rest = rest,
+    correct_feedback = correct_feedback,
+    incorrect_feedback = incorrect_feedback,
+    fb_partially = fb_partially,
+    fb_answer = fb_answer,
+    fb_rest = fb_rest
+  )
+
+  # Check correct answer and its feedback
+  expect_match(result, '<answer fraction="100" format="html">', fixed = TRUE)
+  expect_match(result, '<text>Correct Answer</text>', fixed = TRUE)
+  expect_match(result, '<text>Specific feedback for the correct answer.</text>', fixed = TRUE)
+
+  # Check incorrect answers and their feedback
+  for (i in seq_along(rest)) {
+    expect_match(result, sprintf('<text>%s</text>', rest[i]), fixed = TRUE)
+    expect_match(result, sprintf('<text>%s</text>', fb_rest[i]), fixed = TRUE)
+  }
+
+  # Verify feedback for partially correct
+  expect_match(result, '<partiallycorrectfeedback format="moodle_auto_format">', fixed = TRUE)
+  expect_match(result, '<text>Partially correct.</text>', fixed = TRUE)
+
+  # Verify feedback for incorrect answers
+  expect_match(result, '<incorrectfeedback format="moodle_auto_format">', fixed = TRUE)
+  expect_match(result, '<text>That\'s not correct.</text>', fixed = TRUE)
+})
+
+test_that("generate_multichoice uses correct_feedback when fb_answer is empty", {
+  answer <- "Correct Answer"
+  rest <- c("Wrong Answer 1", "Wrong Answer 2")
+  correct_feedback <- "Well done!"
+  incorrect_feedback <- "Try again."
+  fb_answer <- ""
+
+  result <- generate_multichoice(
+    answer = answer,
+    rest = rest,
+    correct_feedback = correct_feedback,
+    incorrect_feedback = incorrect_feedback,
+    fb_answer = fb_answer
+  )
+
+  # Check that correct_feedback is used as the answer feedback
+  expect_match(result, '<answer fraction="100" format="html">', fixed = TRUE)
+  expect_match(result, '<text>Well done!</text>', fixed = TRUE)
+})
+
+test_that("generate_multichoice assigns feedback to incorrect answers correctly", {
+  answer <- "Correct Answer"
+  rest <- c("Wrong Answer 1", "Wrong Answer 2", "Wrong Answer 3")
+  correct_feedback <- "Good job!"
+  incorrect_feedback <- "That's incorrect."
+  fb_rest <- c("Feedback 1", "Feedback 2", NULL)  # Missing feedback for the last incorrect answer
+
+  result <- generate_multichoice(
+    answer = answer,
+    rest = rest,
+    correct_feedback = correct_feedback,
+    incorrect_feedback = incorrect_feedback,
+    fb_rest = fb_rest
+  )
+
+  # Check specific feedback for each incorrect answer
+  expect_match(result, '<text>Feedback 1</text>', fixed = TRUE)
+  expect_match(result, '<text>Feedback 2</text>', fixed = TRUE)
+
+  # Check default feedback for missing fb_rest
+  expect_match(result, '<text>That\'s incorrect.</text>', fixed = TRUE)
+})
+
+test_that("generate_multichoice handles empty rest answers gracefully", {
+  answer <- "Correct Answer"
+  rest <- character(0)
+  correct_feedback <- "Good job!"
+  incorrect_feedback <- "Try again."
+  fb_answer <- "Correct answer feedback."
+
+  result <- generate_multichoice(
+    answer = answer,
+    rest = rest,
+    correct_feedback = correct_feedback,
+    incorrect_feedback = incorrect_feedback,
+    fb_answer = fb_answer
+  )
+
+  # Verify only the correct answer is present
+  expect_match(result, '<answer fraction="100" format="html">', fixed = TRUE)
+  expect_match(result, '<text>Correct Answer</text>', fixed = TRUE)
+})
+
+test_that("generate_multichoice calculates fractions correctly", {
+  answer <- "Correct Answer"
+  rest <- c("Wrong Answer 1", "Wrong Answer 2")
+  correct_feedback <- "Excellent!"
+  incorrect_feedback <- "Wrong choice."
+
+  result <- generate_multichoice(
+    answer = answer,
+    rest = rest,
+    correct_feedback = correct_feedback,
+    incorrect_feedback = incorrect_feedback
+  )
+
+  # Verify fractions for incorrect answers
+  fraction_value <- sprintf("-%2.15f", 100 / length(rest))
+  expect_match(result, sprintf('<answer fraction="%s" format="html">', fraction_value), fixed = TRUE)
+})
