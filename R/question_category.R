@@ -214,3 +214,157 @@ define_question.question_category <- function(qc,
 }
 
 
+#' Define an Extended Question in a Question Category
+#'
+#' This function allows users to define an extended question, including metadata, feedback,
+#' and optional image data, and append it to an existing question category (`qc`).
+#'
+#' @param qc A question category object. It should have a `questions` data frame
+#'   where new questions will be added.
+#' @param category A character string specifying the category of the question.
+#' @param type A character string indicating the type of the question (e.g., "multiple_choice").
+#' @param id A unique identifier for the question.
+#' @param name A character string representing the name of the question.
+#' @param author The name of the author of the question.
+#' @param fb_general General feedback for the question.
+#' @param fb_correct Feedback displayed when the correct answer is selected.
+#' @param fb_partially Feedback displayed for partially correct answers.
+#' @param fb_incorrect Feedback displayed for incorrect answers.
+#' @param question The text of the question.
+#' @param image (Optional) Path to an image file associated with the question.
+#' @param image_alt (Optional) Alternative text describing the image for accessibility.
+#'   Required if an image is provided.
+#' @param answer The correct answer to the question.
+#' @param a_1 Additional possible answers for multiple-choice questions.
+#' @param a_2 Additional possible answers for multiple-choice questions.
+#' @param a_3 Additional possible answers for multiple-choice questions.
+#' @param a_4 Additional possible answers for multiple-choice questions.
+#' @param a_5 Additional possible answers for multiple-choice questions.
+#' @param a_6 Additional possible answers for multiple-choice questions.
+#' @param fb_answer Feedback for the correct answer.
+#' @param fb_a_1 Feedback for additional answers.
+#' @param fb_a_2 Feedback for additional answers.
+#' @param fb_a_3 Feedback for additional answers.
+#' @param fb_a_4 Feedback for additional answers.
+#' @param fb_a_5 Feedback for additional answers.
+#' @param fb_a_6 Feedback for additional answers.
+#' @param tag_1 Tags to categorize the question.
+#' @param tag_2 Tags to categorize the question.
+#' @param tag_3 Tags to categorize the question.
+#' @param tag_4 Tags to categorize the question.
+#' @param tag_5 Tags to categorize the question.
+#' @param tag_6 Tags to categorize the question.
+#'
+#' @return Returns the updated question category object with the new question appended.
+#'
+#' @details
+#' The function converts the parameters into a data frame and appends it to the
+#' `questions` data frame of the provided question category object. If an image is included,
+#' the `image_alt` parameter must also be defined to comply with accessibility standards.
+#'
+#' @examples
+#'
+#' qc <- question_category(category = 'Initial test') |>
+#'   define_extended_question(
+#'     question = 'What are the basic arithmetic operations?',
+#'     answer = 'Addition, subtraction, multiplication and division.',
+#'     a_1 = 'Addition and subtraction.',
+#'     a_2 = 'Addition, subtraction, multiplication, division and square root.'
+#'   )
+#'
+#' @export
+define_extended_question <- function(qc,
+                                     category,
+                                     type,
+                                     id,
+                                     name,
+                                     author,
+                                     fb_general,
+                                     fb_correct,
+                                     fb_partially,
+                                     fb_incorrect,
+                                     question,
+                                     image,
+                                     image_alt,
+                                     answer,
+                                     a_1,
+                                     a_2,
+                                     a_3,
+                                     a_4,
+                                     a_5,
+                                     a_6,
+                                     fb_answer,
+                                     fb_a_1,
+                                     fb_a_2,
+                                     fb_a_3,
+                                     fb_a_4,
+                                     fb_a_5,
+                                     fb_a_6,
+                                     tag_1,
+                                     tag_2,
+                                     tag_3,
+                                     tag_4,
+                                     tag_5,
+                                     tag_6)
+UseMethod("define_extended_question")
+
+
+#' @rdname define_extended_question
+#' @export
+define_extended_question.question_category <- function(qc,
+                                                       category = '',
+                                                       type = '',
+                                                       id = '',
+                                                       name = '',
+                                                       author = '',
+                                                       fb_general = '',
+                                                       fb_correct = '',
+                                                       fb_partially = '',
+                                                       fb_incorrect = '',
+                                                       question = '',
+                                                       image = '',
+                                                       image_alt = '',
+                                                       answer = '',
+                                                       a_1 = '',
+                                                       a_2 = '',
+                                                       a_3 = '',
+                                                       a_4 = '',
+                                                       a_5 = '',
+                                                       a_6 = '',
+                                                       fb_answer = '',
+                                                       fb_a_1 = '',
+                                                       fb_a_2 = '',
+                                                       fb_a_3 = '',
+                                                       fb_a_4 = '',
+                                                       fb_a_5 = '',
+                                                       fb_a_6 = '',
+                                                       tag_1 = '',
+                                                       tag_2 = '',
+                                                       tag_3 = '',
+                                                       tag_4 = '',
+                                                       tag_5 = '',
+                                                       tag_6 = '') {
+  if (image != '') {
+    stopifnot('If an image is included, the associated alt field must also be defined.' = image_alt != '')
+  }
+
+  # Get parameter names and their default values
+  params <- formals(define_extended_question.question_category)
+
+  # Filter only those parameters with default values of '' (empty strings)
+  text_params <- names(params)[sapply(params, function(x)
+    identical(x, ""))]
+
+  # Create a named list of argument values
+  args <- as.list(environment())
+  text_args <- args[text_params]
+
+  # Convert the list to a data frame
+  df <- as.data.frame(text_args, stringsAsFactors = FALSE)
+
+  if (nrow(qc$questions) > 0) {
+    df <- rbind(qc$questions, df)
+  }
+  define_extended_questions_from_data_frame(qc, df)
+}
+

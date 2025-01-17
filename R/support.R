@@ -57,6 +57,7 @@ create_question_data_frame <- function(extended = FALSE) {
       id = character(),
       name = character(),
       author = character(),
+      fb_general = character(),
       fb_correct = character(),
       fb_partially = character(),
       fb_incorrect = character(),
