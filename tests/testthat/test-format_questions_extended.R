@@ -89,6 +89,45 @@ test_that("validate_and_adjust_dataframe works with extra columns", {
   expect_equal(names(result), expected_names)
 })
 
+test_that("validate_and_adjust_dataframe handles invalid 'type' values", {
+  # Define mock allowed types
+  allowed_types <- c("multiple_choice", "short_answer", "essay")
+  simplified_types <- c("mc", "sa", "e")
+
+  # Create a data frame with invalid 'type' values
+  df <- data.frame(
+    category = c("Math", "Science"),
+    type = c("invalid_type_1", "invalid_type_2"),
+    id = c("q1", "q2"),
+    name = c("Addition", "Physics"),
+    author = c("John Doe", "Jane Smith"),
+    fb_general = c("", ""),
+    fb_correct = c("", ""),
+    fb_partially = c("", ""),
+    fb_incorrect = c("", ""),
+    question = c("What is 2 + 2?", "What is the speed of light?"),
+    image = c("", ""),
+    image_alt = c("", ""),
+    answer = c("4", "299,792,458 m/s"),
+    fb_answer = c("", ""),
+    tag_1 = c("math", "science"),
+    stringsAsFactors = FALSE
+  )
+
+  # Capture warnings
+  warnings <- capture_warnings({
+    adjusted_df <- validate_and_adjust_dataframe(df)
+  })
+
+  # Check if the warning for invalid 'type' values is triggered
+  expect_true(any(grepl("The 'type' column contains invalid values", warnings)))
+
+  # Verify that invalid 'type' values are correctly identified in the warning
+  expect_true(any(grepl("invalid_type_1, invalid_type_2", warnings)))
+
+  # Ensure the data frame is returned unchanged since errors exist
+  expect_equal(adjusted_df, df)
+})
 
 test_that("get_non_empty_fields_by_prefix works correctly with valid input", {
   df <- data.frame(
@@ -159,4 +198,25 @@ test_that("get_non_empty_fields_by_prefix works with no matching columns", {
   )
 
   expect_equal(get_non_empty_fields_by_prefix(df, 1, "a_"), NULL)
+})
+
+
+test_that("extended_format_questions", {
+  qc <- question_category(category = 'Initial test') |>
+    define_extended_question(
+      question = 'What are the basic arithmetic operations?',
+      answer = 'Addition, subtraction, multiplication and division.',
+      a_1 = 'Addition and subtraction.',
+      a_2 = 'Addition, subtraction, multiplication, division and square root.'
+    )
+
+  r <- extended_format_questions(qc)
+
+  expect_equal(
+    r,
+    structure(
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<quiz>\n<question type=\"category\">\n  <category> <text>$course$/top/Initial test</text> </category>\n  <info format=\"html\"> <text></text> </info>\n  <idnumber></idnumber>\n</question>\n<question type=\"multichoice\">\n  <name> <text></text> </name>\n  \n<questiontext format=\"html\">\n  <text><![CDATA[\n     \n     \n     \n     <p>What are the basic arithmetic operations?</p>]]></text>\n     \n</questiontext>\n<generalfeedback format=\"html\">\n  <text></text>\n</generalfeedback>\n<defaultgrade>1.0</defaultgrade>\n<penalty>0.5</penalty>\n<hidden>0</hidden>\n<idnumber></idnumber>\n  \n<single>true</single>\n<shuffleanswers>true</shuffleanswers>\n<answernumbering>abc</answernumbering>\n<showstandardinstruction>0</showstandardinstruction>\n<correctfeedback format=\"moodle_auto_format\"> <text>Correct.</text> </correctfeedback>\n<partiallycorrectfeedback format=\"moodle_auto_format\"> <text>Partially correct.</text> </partiallycorrectfeedback>\n<incorrectfeedback format=\"moodle_auto_format\"> <text>Incorrect.</text> </incorrectfeedback>\n<answer fraction=\"100\" format=\"html\">\n   <text>Addition, subtraction, multiplication and division.</text>\n   <feedback format=\"html\"> <text>Correct.</text> </feedback>\n</answer>\n<answer fraction=\"-50.000000000000000\" format=\"html\">\n   <text>Addition and subtraction.</text>\n   <feedback format=\"html\"> <text>Incorrect.</text> </feedback>\n</answer>\n<answer fraction=\"-50.000000000000000\" format=\"html\">\n   <text>Addition, subtraction, multiplication, division and square root.</text>\n   <feedback format=\"html\"> <text>Incorrect.</text> </feedback>\n</answer>\n  \n</question>\n</quiz>",
+      class = c("glue", "character")
+    )
+  )
 })
