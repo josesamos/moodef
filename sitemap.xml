@@ -8,6 +8,7 @@
 <url><loc>https://josesamos.github.io/moodef/index.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/news/index.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/adapt_image.html</loc></url>
+<url><loc>https://josesamos.github.io/moodef/reference/allowed_types.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/category_question.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/create_question_csv.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/create_question_data_frame.html</loc></url>
@@ -18,9 +19,9 @@
 <url><loc>https://josesamos.github.io/moodef/reference/define_questions_from_csv.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/define_questions_from_data_frame.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/define_questions_from_excel.html</loc></url>
-<url><loc>https://josesamos.github.io/moodef/reference/determine_orientation.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/determine_question_type.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/extended_format_questions.html</loc></url>
+<url><loc>https://josesamos.github.io/moodef/reference/extract_type_orientation.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/filter_non_empty_answers.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/format_questions.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/generate_ddmarker.html</loc></url>
@@ -48,6 +49,7 @@
 <url><loc>https://josesamos.github.io/moodef/reference/question_category.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/read_question_csv.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/read_question_excel.html</loc></url>
+<url><loc>https://josesamos.github.io/moodef/reference/simplified_types.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/string_to_string_vector.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/string_to_vector.html</loc></url>
 <url><loc>https://josesamos.github.io/moodef/reference/validate_and_adjust_dataframe.html</loc></url>

@@ -45,11 +45,15 @@ such as feedback and orientation.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">generate_question_body</span><span class="op">(</span></span>
 <span>  <span class="va">type</span>,</span>
 <span>  <span class="va">answer</span>,</span>
-<span>  <span class="va">rest</span>,</span>
-<span>  <span class="va">correct_feedback</span>,</span>
-<span>  <span class="va">incorrect_feedback</span>,</span>
-<span>  <span class="va">partially_correct_feedback</span>,</span>
-<span>  <span class="va">orientation</span></span>
+<span>  <span class="va">a_values</span>,</span>
+<span>  <span class="va">fb_correct</span>,</span>
+<span>  <span class="va">fb_incorrect</span>,</span>
+<span>  <span class="va">fb_partially</span>,</span>
+<span>  <span class="va">orientation</span>,</span>
+<span>  fb_answer <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  fb_a_values <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  image <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  image_alt <span class="op">=</span> <span class="st">""</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -65,24 +69,24 @@ such as feedback and orientation.</p>
 <dd><p>A string or vector, the correct answer(s) for the question.</p></dd>
 
 
-<dt id="arg-rest">rest<a class="anchor" aria-label="anchor" href="#arg-rest"></a></dt>
+<dt id="arg-a-values">a_values<a class="anchor" aria-label="anchor" href="#arg-a-values"></a></dt>
 <dd><p>A vector, additional answers for the question.</p></dd>
 
 
-<dt id="arg-correct-feedback">correct_feedback<a class="anchor" aria-label="anchor" href="#arg-correct-feedback"></a></dt>
+<dt id="arg-fb-correct">fb_correct<a class="anchor" aria-label="anchor" href="#arg-fb-correct"></a></dt>
 <dd><p>A string, feedback for correct answers.</p></dd>
 
 
-<dt id="arg-incorrect-feedback">incorrect_feedback<a class="anchor" aria-label="anchor" href="#arg-incorrect-feedback"></a></dt>
+<dt id="arg-fb-incorrect">fb_incorrect<a class="anchor" aria-label="anchor" href="#arg-fb-incorrect"></a></dt>
 <dd><p>A string, feedback for incorrect answers.</p></dd>
 
 
-<dt id="arg-partially-correct-feedback">partially_correct_feedback<a class="anchor" aria-label="anchor" href="#arg-partially-correct-feedback"></a></dt>
+<dt id="arg-fb-partially">fb_partially<a class="anchor" aria-label="anchor" href="#arg-fb-partially"></a></dt>
 <dd><p>A string, feedback for partially correct answers.</p></dd>
 
 
 <dt id="arg-orientation">orientation<a class="anchor" aria-label="anchor" href="#arg-orientation"></a></dt>
-<dd><p>A char, 'h' or 'v'.</p></dd>
+<dd><p>A string, 'v' or 'h'.</p></dd>
 
 </dl></div>
     <div class="section level2">
