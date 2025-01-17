@@ -43,14 +43,24 @@ define_questions_from_data_frame.question_category <- function(qc, df, extended 
   df$type <- tolower(df$type)
 
   if (extended) {
-    for (opcional in c("category", "id", "name", "author", "fb_correct", "fb_partially", "fb_incorrect")) {
+    for (opcional in c(
+      "category",
+      "id",
+      "name",
+      "author",
+      "fb_general",
+      "fb_correct",
+      "fb_partially",
+      "fb_incorrect"
+    )) {
       if (!(opcional %in% attributes)) {
         df[, opcional] <- ''
       }
     }
     define_extended_questions_from_data_frame(qc, df)
   } else {
-    rest <- setdiff(attributes, c("type", "question", "image", "image_alt", "answer"))
+    rest <- setdiff(attributes,
+                    c("type", "question", "image", "image_alt", "answer"))
     for (i in 1:nrow(df)) {
       text <- paste0(
         'define_question(qc, type = "',
@@ -68,8 +78,7 @@ define_questions_from_data_frame.question_category <- function(qc, df, extended 
       for (r in rest) {
         if (df[i, r][[1]] != '') {
           j <- j + 1
-          text <- paste0(text,
-                         ", a_", j, " = ", string_to_string_vector(df[i, r][[1]]))
+          text <- paste0(text, ", a_", j, " = ", string_to_string_vector(df[i, r][[1]]))
         }
       }
       text <- paste0(text, ")")
