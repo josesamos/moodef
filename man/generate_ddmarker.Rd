@@ -4,7 +4,7 @@
 \alias{generate_ddmarker}
 \title{Generate \code{ddmarker} question}
 \usage{
-generate_ddmarker(image, image_alt, answer, fb_answer = "")
+generate_ddmarker(image, image_alt, answer, fb_answer)
 }
 \arguments{
 \item{image}{A string, optional, image file to include in the question.}

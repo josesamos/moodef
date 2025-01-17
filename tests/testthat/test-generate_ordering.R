@@ -1,7 +1,7 @@
 test_that("generate_ordering generates correct XML for a single answer in vertical orientation", {
   # Inputs
   answer <- "Answer 1"
-  rest <- ""
+  a_values <- ""
   correct_feedback <- "Well done!"
   incorrect_feedback <- "Try again."
   partially_correct_feedback <- "Almost there."
@@ -42,7 +42,7 @@ test_that("generate_ordering generates correct XML for a single answer in vertic
   # Run the function
   result <- generate_ordering(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback,
@@ -56,7 +56,7 @@ test_that("generate_ordering generates correct XML for a single answer in vertic
 test_that("generate_ordering generates correct XML with multiple answers and horizontal orientation", {
   # Inputs
   answer <- "Answer 1"
-  rest <- c("Answer 2", "Answer 3", "Answer 4")
+  a_values <- c("Answer 2", "Answer 3", "Answer 4")
   correct_feedback <- "Correct!"
   incorrect_feedback <- "Not quite."
   partially_correct_feedback <- "You're close."
@@ -103,7 +103,7 @@ test_that("generate_ordering generates correct XML with multiple answers and hor
   # Run the function
   result <- generate_ordering(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback,
@@ -117,7 +117,7 @@ test_that("generate_ordering generates correct XML with multiple answers and hor
 test_that("generate_ordering handles empty feedback gracefully", {
   # Inputs
   answer <- "Answer 1"
-  rest <- c("Answer 2")
+  a_values <- c("Answer 2")
   correct_feedback <- ""
   incorrect_feedback <- ""
   partially_correct_feedback <- ""
@@ -157,7 +157,7 @@ test_that("generate_ordering handles empty feedback gracefully", {
   # Run the function
   result <- generate_ordering(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback,

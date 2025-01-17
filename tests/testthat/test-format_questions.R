@@ -25,14 +25,14 @@ test_that("generate_question_body works correctly for each question type", {
   # Numerical
   mock_answer <- "42"
   mock_rest <- list()
-  result <- generate_question_body("numerical", mock_answer, mock_rest, NULL, NULL, NULL, NULL)
-  expect_equal(result, generate_numerical(mock_answer, mock_rest))
+  result <- generate_question_body("numerical", mock_answer, mock_rest, '', '', '', '', '', NULL, '', '')
+  expect_equal(result, generate_numerical(mock_answer, mock_rest, '', NULL))
 
   # Multichoice
   mock_answer <- "A"
   mock_rest <- list("Option B", "Option C")
-  result <- generate_question_body("multichoice", mock_answer, mock_rest, "Correct!", "Incorrect!", NULL, NULL)
-  expect_equal(result, generate_multichoice(mock_answer, mock_rest, "Correct!", "Incorrect!"))
+  result <- generate_question_body("multichoice", mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', '', NULL, '', '')
+  expect_equal(result, generate_multichoice(mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', NULL))
 
   # Ordering
   mock_answer <- c("Step 1", "Step 2", "Step 3")
@@ -60,32 +60,26 @@ test_that("generate_question_body works correctly for each question type", {
   # True/False
   mock_answer <- "true"
   result <- generate_question_body("truefalse", mock_answer, NULL, NULL, NULL, NULL, NULL)
-  expect_equal(result, generate_truefalse(mock_answer))
+  expect_equal(result, generate_truefalse(mock_answer, '', NULL))
 
   # Shortanswer
   mock_answer <- "Answer"
   result <- generate_question_body("shortanswer", mock_answer, NULL, NULL, NULL, NULL, NULL)
-  expect_equal(result, generate_shortanswer(mock_answer))
+  expect_equal(result, generate_shortanswer(mock_answer, ''))
+
 })
 
-test_that("determine_orientation works correctly", {
-
-  # Test when type is 'h'
-  expect_equal(determine_orientation("h"), "h", info = "Should return 'h' for type 'h'")
-
-  # Test when type is lowercase 'v'
-  expect_equal(determine_orientation("v"), "v", info = "Should return 'v' for type 'v'")
-
-  # Test when type is empty
-  expect_equal(determine_orientation(""), "v", info = "Should return 'v' for an empty type")
-
-  # Test when type is numeric (as string)
-  expect_equal(determine_orientation("1"), "v", info = "Should return 'v' for numeric values passed as strings")
-
-  # Test when type is NULL (should handle it gracefully if wrapped in a higher function)
-  expect_error(determine_orientation(NULL), regexp = "argument is of length zero", info = "Should return an error for NULL input")
+test_that("extract_type_orientation works with type and orientation", {
+  result <- extract_type_orientation("ordering<|>h")
+  expect_equal(result$type, "ordering")
+  expect_equal(result$orientation, "h")
 })
 
+test_that("extract_type_orientation works with type only", {
+  result <- extract_type_orientation("ordering")
+  expect_equal(result$type, "ordering")
+  expect_equal(result$orientation, "v") # Default orientation
+})
 
 test_that("get_vector_answer works correctly", {
 
@@ -125,7 +119,7 @@ test_that("generate_question works correctly for different configurations", {
   answer <- q$answer
 
   expected_result <- structure(
-    "\n<question type=\"multichoice\">\n  <name> <text>q_001_multichoice_what_are_the_basic_arithmetic_operations</text> </name>\n  \n<questiontext format=\"html\">\n  <text><![CDATA[\n     \n     \n     \n     <p>What are the basic arithmetic operations?</p>]]></text>\n     \n</questiontext>\n<generalfeedback format=\"html\">\n  <text></text>\n</generalfeedback>\n<defaultgrade>1.0</defaultgrade>\n<penalty>0.5</penalty>\n<hidden>0</hidden>\n<idnumber></idnumber>\n  \n<single>true</single>\n<shuffleanswers>true</shuffleanswers>\n<answernumbering>abc</answernumbering>\n<showstandardinstruction>0</showstandardinstruction>\n<correctfeedback format=\"moodle_auto_format\"> <text>Correct.</text> </correctfeedback>\n<partiallycorrectfeedback format=\"moodle_auto_format\"> <text></text> </partiallycorrectfeedback>\n<incorrectfeedback format=\"moodle_auto_format\"> <text>Incorrect.</text> </incorrectfeedback>\n<answer fraction=\"100\" format=\"html\">\n   <text>Addition, subtraction, multiplication and division.</text>\n   <feedback format=\"html\"> <text>Correct.</text> </feedback>\n</answer>\n<answer fraction=\"-50.000000000000000\" format=\"html\">\n   <text>Addition and subtraction.</text>\n   <feedback format=\"html\"> <text>Incorrect.</text> </feedback>\n</answer>\n<answer fraction=\"-50.000000000000000\" format=\"html\">\n   <text>Addition, subtraction, multiplication, division and square root.</text>\n   <feedback format=\"html\"> <text>Incorrect.</text> </feedback>\n</answer>\n  \n</question>",
+    "\n<question type=\"multichoice\">\n  <name> <text>q_001_multichoice_what_are_the_basic_arithmetic_operations</text> </name>\n  \n<questiontext format=\"html\">\n  <text><![CDATA[\n     \n     \n     \n     <p>What are the basic arithmetic operations?</p>]]></text>\n     \n</questiontext>\n<generalfeedback format=\"html\">\n  <text></text>\n</generalfeedback>\n<defaultgrade>1.0</defaultgrade>\n<penalty>0.5</penalty>\n<hidden>0</hidden>\n<idnumber></idnumber>\n  \n<single>true</single>\n<shuffleanswers>true</shuffleanswers>\n<answernumbering>abc</answernumbering>\n<showstandardinstruction>0</showstandardinstruction>\n<correctfeedback format=\"moodle_auto_format\"> <text>Correct.</text> </correctfeedback>\n<partiallycorrectfeedback format=\"moodle_auto_format\"> <text>Partially correct.</text> </partiallycorrectfeedback>\n<incorrectfeedback format=\"moodle_auto_format\"> <text>Incorrect.</text> </incorrectfeedback>\n<answer fraction=\"100\" format=\"html\">\n   <text>Addition, subtraction, multiplication and division.</text>\n   <feedback format=\"html\"> <text>Correct.</text> </feedback>\n</answer>\n<answer fraction=\"-50.000000000000000\" format=\"html\">\n   <text>Addition and subtraction.</text>\n   <feedback format=\"html\"> <text>Incorrect.</text> </feedback>\n</answer>\n<answer fraction=\"-50.000000000000000\" format=\"html\">\n   <text>Addition, subtraction, multiplication, division and square root.</text>\n   <feedback format=\"html\"> <text>Incorrect.</text> </feedback>\n</answer>\n  \n</question>",
     class = c("glue", "character")
   )
 

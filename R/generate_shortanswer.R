@@ -7,7 +7,7 @@
 #'
 #' @return A string.
 #' @keywords internal
-generate_shortanswer <- function(answer, fb_answer = '') {
+generate_shortanswer <- function(answer, fb_answer) {
   question_body <- glue::glue(
     '
 

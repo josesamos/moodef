@@ -6,18 +6,18 @@
 \usage{
 generate_multichoice(
   answer,
-  rest,
+  a_values,
   correct_feedback,
   incorrect_feedback,
-  fb_partially = "",
-  fb_answer = "",
-  fb_rest = NULL
+  fb_partially,
+  fb_answer,
+  fb_a_values
 )
 }
 \arguments{
 \item{answer}{A string.}
 
-\item{rest}{A vector, rest of answers.}
+\item{a_values}{A vector, rest of answers.}
 
 \item{correct_feedback}{A string.}
 
@@ -27,7 +27,7 @@ generate_multichoice(
 
 \item{fb_answer}{A string, answer feedback.}
 
-\item{fb_rest}{A vector, rest of answer feedback.}
+\item{fb_a_values}{A vector, rest of answer feedback.}
 }
 \value{
 A string.

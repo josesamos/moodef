@@ -1,3 +1,6 @@
+
+utils::globalVariables(c("simplified_types", "allowed_types"))
+
 utils::globalVariables(
   c(
     "category",
@@ -70,7 +73,7 @@ define_extended_questions_from_data_frame <- function(qc, df) {
 #' @return A character vector containing the updated `type` values.
 #' @keywords internal
 get_detailed_type_names <- function(df) {
-  is_simplified_type <- df$type %in% c('', 'h', 'v', 'x')
+  is_simplified_type <- df$type %in% simplified_types
   if (any(is_simplified_type)) {
     for (i in 1:nrow(df)) {
       if (is_simplified_type[i]) {
@@ -160,11 +163,6 @@ validate_and_adjust_dataframe <- function(df) {
       ))
     }
 
-    simplified_types <- c('', 'h', 'v', 'x')
-
-    allowed_types <- c("numerical", "multichoice", "ordering", "ordering<|>h", "ordering<|>v", "ddwtos",
-                       "gapselect", "matching", "essay", "truefalse",
-                       "shortanswer", "ddmarker")
     all_valid <- all(df$type %in% c(allowed_types, simplified_types))
 
     if (!all_valid) {
@@ -242,18 +240,27 @@ extended_format_questions <- function(qc) {
 ')
 
   for (i in 1:nrow(qc$questions)) {
-    category <- qc$questions[i, "category"]
-    question_category <- xml_question_category(category)
+    question_category <- xml_question_category(qc$questions[i, "category"])
 
-    type <- qc$questions[["type"]][i]
     # "ordering", "ordering<|>h", "ordering<|>v"
-    type <- string_to_vector(type)
-    if (is.na(type[2])) {
-      orientation <- 'v'
-    } else {
-      orientation <- type[2]
-      type <- type[1]
-    }
+    r <- extract_type_orientation(qc$questions[["type"]][i])
+    type <- r$type
+    orientation <- r$orientation
+
+    author <- qc$questions[["author"]][i]
+    idnumber <- qc$questions[["id"]][i]
+    fb_general <- qc$questions[["fb_general"]][i]
+    fb_correct <- qc$questions[["fb_correct"]][i]
+    fb_incorrect <- qc$questions[["fb_incorrect"]][i]
+    fb_partially <- qc$questions[["fb_partially"]][i]
+    question <- qc$questions[["question"]][i]
+    image <- qc$questions[["image"]][i]
+    image_alt <- qc$questions[["image_alt"]][i]
+    name <- xml_question_name(qc$questions[i, "name"])
+    answer <- get_vector_answer(qc$questions[["answer"]][i])
+    a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "a_")
+    fb_answer <- qc$questions[["fb_answer"]][i]
+    fb_a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "fb_a_")
 
     questiontext <- xml_questiontext(
       qc$copyright,
@@ -261,64 +268,27 @@ extended_format_questions <- function(qc) {
       qc$adapt_images,
       qc$width,
       qc$height,
-      qc$questions[["question"]][i],
-      qc$questions[["image"]][i],
-      qc$questions[["image_alt"]][i],
+      question,
+      image,
+      image_alt,
       type,
-      qc$questions[["author"]][i],
-      qc$questions[["fb_general"]][i],
-      qc$questions[["id"]][i]
+      author,
+      fb_general,
+      idnumber
     )
 
-    name <- xml_question_name(qc$questions[i, "name"])
-
-    idnumber <- xml_question_idnumber(qc$questions[i, "id"])
-
-    answer <- qc$questions[["answer"]][i]
-    answer <- string_to_vector(answer)
-    if (is.null(answer)) {
-      answer <- ''
-    }
-    a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "a_")
-    fb_answer <- qc$questions[["fb_answer"]][i]
-    fb_a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "fb_a_")
-    fb_correct <- qc$questions[["fb_correct"]][i]
-    fb_incorrect <- qc$questions[["fb_incorrect"]][i]
-    fb_partially <- qc$questions[["fb_partially"]][i]
-
-    question_body <- switch(
+    question_body <- generate_question_body(
       type,
-      numerical = generate_numerical(answer, a_values, fb_answer, fb_a_values),
-      multichoice = generate_multichoice(
-        answer,
-        a_values,
-        fb_correct,
-        fb_incorrect,
-        fb_partially,
-        fb_answer,
-        fb_a_values
-      ),
-      ordering = generate_ordering(
-        answer,
-        a_values,
-        fb_correct,
-        fb_incorrect,
-        fb_partially,
-        orientation
-      ),
-      ddwtos = generate_ddwtos(answer, a_values, fb_correct, fb_incorrect, fb_partially),
-      gapselect = generate_gapselect(answer, a_values, fb_correct, fb_incorrect, fb_partially),
-      matching = generate_matching(answer, a_values, fb_correct, fb_incorrect, fb_partially),
-      essay = generate_essay(),
-      truefalse = generate_truefalse(answer, fb_answer, fb_a_values),
-      shortanswer = generate_shortanswer(answer, fb_answer),
-      ddmarker = generate_ddmarker(
-        qc$questions[["image"]][i],
-        qc$questions[["image_alt"]][i],
-        answer,
-        a_values
-      ),
-      warning(paste0("Unknown type: ", type))
+      answer,
+      a_values,
+      fb_correct,
+      fb_incorrect,
+      fb_partially,
+      orientation,
+      fb_answer,
+      fb_a_values,
+      image,
+      image_alt
     )
 
     tag_values <- get_non_empty_fields_by_prefix(qc$questions, i, "tag_")

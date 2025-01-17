@@ -1,7 +1,7 @@
 test_that("generate_matching generates correct XML structure for a single pair", {
   # Inputs
   answer <- c("Question 1", "Answer 1")
-  rest <- character(0)  # No additional pairs
+  a_values <- character(0)  # No additional pairs
   correct_feedback <- "Correct!"
   incorrect_feedback <- "Incorrect!"
   partially_correct_feedback <- "Partially correct!"
@@ -30,7 +30,7 @@ test_that("generate_matching generates correct XML structure for a single pair",
   # Run the function
   result <- generate_matching(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback
@@ -43,7 +43,7 @@ test_that("generate_matching generates correct XML structure for a single pair",
 test_that("generate_matching generates correct XML structure for multiple pairs", {
   # Inputs
   answer <- c("Question 1", "Answer 1")
-  rest <- c("Question 2|Answer 2", "Question 3|Answer 3")
+  a_values <- c("Question 2|Answer 2", "Question 3|Answer 3")
   correct_feedback <- "Correct!"
   incorrect_feedback <- "Incorrect!"
   partially_correct_feedback <- "Partially correct!"
@@ -82,7 +82,7 @@ test_that("generate_matching generates correct XML structure for multiple pairs"
   # Run the function
   result <- generate_matching(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback
@@ -95,7 +95,7 @@ test_that("generate_matching generates correct XML structure for multiple pairs"
 test_that("generate_matching handles empty inputs gracefully", {
   # Inputs
   answer <- c("", "")
-  rest <- character(0)  # No additional pairs
+  a_values <- character(0)  # No additional pairs
   correct_feedback <- ""
   incorrect_feedback <- ""
   partially_correct_feedback <- ""
@@ -124,7 +124,7 @@ test_that("generate_matching handles empty inputs gracefully", {
   # Run the function
   result <- generate_matching(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback

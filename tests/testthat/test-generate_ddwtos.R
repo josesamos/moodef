@@ -1,7 +1,7 @@
 test_that("generate_ddwtos produces correct XML structure", {
   # Inputs
   answer <- "Correct Answer"
-  rest <- c("Distractor 1", "Distractor 2")
+  a_values <- c("Distractor 1", "Distractor 2")
   correct_feedback <- "Well done!"
   incorrect_feedback <- "Try again."
   partially_correct_feedback <- "Almost there."
@@ -24,11 +24,11 @@ test_that("generate_ddwtos produces correct XML structure", {
     "\n  <group>1</group>",
     "\n</dragbox>",
     "\n<dragbox>",
-    "\n  <text>", rest[1], "</text>",
+    "\n  <text>", a_values[1], "</text>",
     "\n  <group>1</group>",
     "\n</dragbox>",
     "\n<dragbox>",
-    "\n  <text>", rest[2], "</text>",
+    "\n  <text>", a_values[2], "</text>",
     "\n  <group>1</group>",
     "\n</dragbox>"
   )
@@ -36,7 +36,7 @@ test_that("generate_ddwtos produces correct XML structure", {
   # Run the function
   result <- generate_ddwtos(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback
@@ -46,10 +46,10 @@ test_that("generate_ddwtos produces correct XML structure", {
   expect_equal(result, expected_structure)
 })
 
-test_that("generate_ddwtos handles empty 'rest' gracefully", {
+test_that("generate_ddwtos handles empty 'a_values' gracefully", {
   # Inputs with no distractors
   answer <- "Correct Answer"
-  rest <- c()
+  a_values <- c()
   correct_feedback <- "Good job!"
   incorrect_feedback <- "Incorrect."
   partially_correct_feedback <- "Almost there."
@@ -76,7 +76,7 @@ test_that("generate_ddwtos handles empty 'rest' gracefully", {
   # Run the function
   result <- generate_ddwtos(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback

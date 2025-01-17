@@ -3,23 +3,23 @@
 #' Generate `multichoice` question
 #'
 #' @param answer A string.
-#' @param rest A vector, rest of answers.
+#' @param a_values A vector, rest of answers.
 #' @param correct_feedback A string.
 #' @param incorrect_feedback A string.
 #' @param fb_partially A string.
 #' @param fb_answer A string, answer feedback.
-#' @param fb_rest A vector, rest of answer feedback.
+#' @param fb_a_values A vector, rest of answer feedback.
 #'
 #' @return A string.
 #' @keywords internal
 generate_multichoice <-
   function(answer,
-           rest,
+           a_values,
            correct_feedback,
            incorrect_feedback,
-           fb_partially = '',
-           fb_answer = '',
-           fb_rest = NULL) {
+           fb_partially,
+           fb_answer,
+           fb_a_values) {
 
     if (fb_answer != '') {
       answer_feedback <- fb_answer
@@ -44,14 +44,14 @@ generate_multichoice <-
 '
     )
 
-    n <- length(rest)
+    n <- length(a_values)
 
     value <- sprintf("-%2.15f", 100 / n)
     others <- NULL
     i <- 1
-    for (r in rest) {
-      if (!is.null(fb_rest[i])) {
-        fb <- fb_rest[i]
+    for (r in a_values) {
+      if (!is.null(fb_a_values[i])) {
+        fb <- fb_a_values[i]
       } else {
         fb <- incorrect_feedback
       }

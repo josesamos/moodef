@@ -3,13 +3,13 @@
 #' Generate `numerical` question
 #'
 #' @param answer A vector of strings.
-#' @param rest A vector, rest of answers.
+#' @param a_values A vector, rest of answers.
 #' @param fb_answer A string, answer feedback.
-#' @param fb_rest A vector, rest of answer feedback.
+#' @param fb_a_values A vector, rest of answer feedback.
 #'
 #' @return A string.
 #' @keywords internal
-generate_numerical <- function(answer, rest, fb_answer = '', fb_rest = NULL) {
+generate_numerical <- function(answer, a_values, fb_answer, fb_a_values) {
     answer_1 <- answer[1]
     if (length(answer) > 1) {
       answer_2 <- answer[2]
@@ -31,7 +31,7 @@ generate_numerical <- function(answer, rest, fb_answer = '', fb_rest = NULL) {
 
     others <- NULL
     i <- 1
-    for (r in rest) {
+    for (r in a_values) {
       r <- string_to_vector(r)
       answer_1 <- r[1]
       if (length(r) > 1) {
@@ -39,8 +39,8 @@ generate_numerical <- function(answer, rest, fb_answer = '', fb_rest = NULL) {
       } else {
         answer_2 <- 0
       }
-      if (!is.null(fb_rest[i])) {
-        fb <- fb_rest[i]
+      if (!is.null(fb_a_values[i])) {
+        fb <- fb_a_values[i]
       } else {
         fb <- ''
       }

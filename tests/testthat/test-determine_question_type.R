@@ -13,7 +13,7 @@ test_that("determine_question_type correctly identifies question types", {
 
   # Single answer, no gaps, type specified -> ordering
   result <- determine_question_type("x", "Arrange these in order", "A", "B")
-  expect_equal(result, "ordering")
+  expect_equal(result, "ordering<|>v")
 
   # Single answer, with gaps, type unspecified -> ddwtos
   result <- determine_question_type("", "Fill [[1]] in the [[2]]", "answer", "B")
