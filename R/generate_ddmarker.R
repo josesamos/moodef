@@ -9,7 +9,7 @@
 #'
 #' @return A string.
 #' @keywords internal
-generate_ddmarker <- function(image, image_alt, answer, fb_answer = '') {
+generate_ddmarker <- function(image, image_alt, answer, fb_answer) {
 
   result <- xml_image(image, image_alt)
   fimg <- result$fimg

@@ -65,7 +65,8 @@ test_that("generate_question_body works correctly for each question type", {
   # Shortanswer
   mock_answer <- "Answer"
   result <- generate_question_body("shortanswer", mock_answer, NULL, NULL, NULL, NULL, NULL)
-  expect_equal(result, generate_shortanswer(mock_answer))
+  expect_equal(result, generate_shortanswer(mock_answer, ''))
+
 })
 
 test_that("extract_type_orientation works with type and orientation", {

@@ -4,7 +4,7 @@
 \alias{generate_shortanswer}
 \title{Generate \code{shortanswer} question}
 \usage{
-generate_shortanswer(answer, fb_answer = "")
+generate_shortanswer(answer, fb_answer)
 }
 \arguments{
 \item{answer}{A string.}
