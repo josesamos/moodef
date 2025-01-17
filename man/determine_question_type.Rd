@@ -4,7 +4,7 @@
 \alias{determine_question_type}
 \title{Determine question type}
 \usage{
-determine_question_type(type, question, answer, rest)
+determine_question_type(type, question, answer, a_values)
 }
 \arguments{
 \item{type}{A string, suggested type for the question.}
@@ -13,7 +13,7 @@ determine_question_type(type, question, answer, rest)
 
 \item{answer}{A string or vector, the correct answer(s) for the question.}
 
-\item{rest}{A vector, additional answers for the question.}
+\item{a_values}{A vector, additional answers for the question.}
 }
 \value{
 A string indicating the question type.

@@ -7,10 +7,10 @@
 generate_question_body(
   type,
   answer,
-  rest,
-  correct_feedback,
-  incorrect_feedback,
-  partially_correct_feedback,
+  a_values,
+  fb_correct,
+  fb_incorrect,
+  fb_partially,
   orientation
 )
 }
@@ -19,15 +19,15 @@ generate_question_body(
 
 \item{answer}{A string or vector, the correct answer(s) for the question.}
 
-\item{rest}{A vector, additional answers for the question.}
+\item{a_values}{A vector, additional answers for the question.}
 
-\item{correct_feedback}{A string, feedback for correct answers.}
+\item{fb_correct}{A string, feedback for correct answers.}
 
-\item{incorrect_feedback}{A string, feedback for incorrect answers.}
+\item{fb_incorrect}{A string, feedback for incorrect answers.}
 
-\item{partially_correct_feedback}{A string, feedback for partially correct answers.}
+\item{fb_partially}{A string, feedback for partially correct answers.}
 
-\item{orientation}{A char, 'h' or 'v'.}
+\item{orientation}{A string, 'v' or 'h'.}
 }
 \value{
 A string containing the question body in XML format.

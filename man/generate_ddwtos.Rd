@@ -6,7 +6,7 @@
 \usage{
 generate_ddwtos(
   answer,
-  rest,
+  a_values,
   correct_feedback,
   incorrect_feedback,
   partially_correct_feedback
@@ -15,7 +15,7 @@ generate_ddwtos(
 \arguments{
 \item{answer}{A vector of strings.}
 
-\item{rest}{A vector, rest of answers.}
+\item{a_values}{A vector, rest of answers.}
 
 \item{correct_feedback}{A string.}
 

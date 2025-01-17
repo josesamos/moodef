@@ -1,13 +1,13 @@
 test_that("generate_multichoice generates correct XML for single correct answer", {
   # Inputs
   answer <- "Correct Answer"
-  rest <- c("Wrong Answer 1", "Wrong Answer 2")
+  a_values <- c("Wrong Answer 1", "Wrong Answer 2")
   correct_feedback <- "Correct!"
   incorrect_feedback <- "Incorrect!"
   fb_partially <- "Almost there!"
 
   # Expected output
-  n <- length(rest)
+  n <- length(a_values)
   value <- sprintf("-%2.15f", 100 / n)
   expected_structure <- paste0(
     "\n<single>true</single>",
@@ -34,7 +34,7 @@ test_that("generate_multichoice generates correct XML for single correct answer"
   # Run the function
   result <- generate_multichoice(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     fb_partially = fb_partially
@@ -44,16 +44,16 @@ test_that("generate_multichoice generates correct XML for single correct answer"
   expect_equal(result, expected_structure)
 })
 
-test_that("generate_multichoice handles custom feedback for rest answers", {
+test_that("generate_multichoice handles custom feedback for a_values answers", {
   # Inputs
   answer <- "Correct Answer"
-  rest <- c("Wrong Answer 1", "Wrong Answer 2")
+  a_values <- c("Wrong Answer 1", "Wrong Answer 2")
   correct_feedback <- "Correct!"
   incorrect_feedback <- "Incorrect!"
-  fb_rest <- c("Custom Feedback 1", "Custom Feedback 2")
+  fb_a_values <- c("Custom Feedback 1", "Custom Feedback 2")
 
   # Expected output
-  n <- length(rest)
+  n <- length(a_values)
   value <- sprintf("-%2.15f", 100 / n)
   expected_structure <- paste0(
     "\n<single>true</single>",
@@ -79,10 +79,10 @@ test_that("generate_multichoice handles custom feedback for rest answers", {
   # Run the function
   result <- generate_multichoice(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
-    fb_rest = fb_rest
+    fb_a_values = fb_a_values
   )
 
   # Check if the result matches the expected structure
@@ -92,7 +92,7 @@ test_that("generate_multichoice handles custom feedback for rest answers", {
 test_that("generate_multichoice handles empty inputs gracefully", {
   # Inputs
   answer <- ""
-  rest <- character(0)
+  a_values <- character(0)
   correct_feedback <- ""
   incorrect_feedback <- ""
   fb_partially <- ""
@@ -115,7 +115,7 @@ test_that("generate_multichoice handles empty inputs gracefully", {
   # Run the function
   result <- generate_multichoice(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     fb_partially = fb_partially
@@ -127,21 +127,21 @@ test_that("generate_multichoice handles empty inputs gracefully", {
 
 test_that("generate_multichoice generates correct XML when fb_answer is not empty", {
   answer <- "Correct Answer"
-  rest <- c("Wrong Answer 1", "Wrong Answer 2", "Wrong Answer 3")
+  a_values <- c("Wrong Answer 1", "Wrong Answer 2", "Wrong Answer 3")
   correct_feedback <- "Good job!"
   incorrect_feedback <- "That's not correct."
   fb_partially <- "Partially correct."
   fb_answer <- "Specific feedback for the correct answer."
-  fb_rest <- c("Feedback for Wrong Answer 1", "Feedback for Wrong Answer 2", "Feedback for Wrong Answer 3")
+  fb_a_values <- c("Feedback for Wrong Answer 1", "Feedback for Wrong Answer 2", "Feedback for Wrong Answer 3")
 
   result <- generate_multichoice(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     fb_partially = fb_partially,
     fb_answer = fb_answer,
-    fb_rest = fb_rest
+    fb_a_values = fb_a_values
   )
 
   # Check correct answer and its feedback
@@ -150,9 +150,9 @@ test_that("generate_multichoice generates correct XML when fb_answer is not empt
   expect_match(result, '<text>Specific feedback for the correct answer.</text>', fixed = TRUE)
 
   # Check incorrect answers and their feedback
-  for (i in seq_along(rest)) {
-    expect_match(result, sprintf('<text>%s</text>', rest[i]), fixed = TRUE)
-    expect_match(result, sprintf('<text>%s</text>', fb_rest[i]), fixed = TRUE)
+  for (i in seq_along(a_values)) {
+    expect_match(result, sprintf('<text>%s</text>', a_values[i]), fixed = TRUE)
+    expect_match(result, sprintf('<text>%s</text>', fb_a_values[i]), fixed = TRUE)
   }
 
   # Verify feedback for partially correct
@@ -166,14 +166,14 @@ test_that("generate_multichoice generates correct XML when fb_answer is not empt
 
 test_that("generate_multichoice uses correct_feedback when fb_answer is empty", {
   answer <- "Correct Answer"
-  rest <- c("Wrong Answer 1", "Wrong Answer 2")
+  a_values <- c("Wrong Answer 1", "Wrong Answer 2")
   correct_feedback <- "Well done!"
   incorrect_feedback <- "Try again."
   fb_answer <- ""
 
   result <- generate_multichoice(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     fb_answer = fb_answer
@@ -186,37 +186,37 @@ test_that("generate_multichoice uses correct_feedback when fb_answer is empty", 
 
 test_that("generate_multichoice assigns feedback to incorrect answers correctly", {
   answer <- "Correct Answer"
-  rest <- c("Wrong Answer 1", "Wrong Answer 2", "Wrong Answer 3")
+  a_values <- c("Wrong Answer 1", "Wrong Answer 2", "Wrong Answer 3")
   correct_feedback <- "Good job!"
   incorrect_feedback <- "That's incorrect."
-  fb_rest <- c("Feedback 1", "Feedback 2", NULL)  # Missing feedback for the last incorrect answer
+  fb_a_values <- c("Feedback 1", "Feedback 2", NULL)  # Missing feedback for the last incorrect answer
 
   result <- generate_multichoice(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
-    fb_rest = fb_rest
+    fb_a_values = fb_a_values
   )
 
   # Check specific feedback for each incorrect answer
   expect_match(result, '<text>Feedback 1</text>', fixed = TRUE)
   expect_match(result, '<text>Feedback 2</text>', fixed = TRUE)
 
-  # Check default feedback for missing fb_rest
+  # Check default feedback for missing fb_a_values
   expect_match(result, '<text>That\'s incorrect.</text>', fixed = TRUE)
 })
 
-test_that("generate_multichoice handles empty rest answers gracefully", {
+test_that("generate_multichoice handles empty a_values answers gracefully", {
   answer <- "Correct Answer"
-  rest <- character(0)
+  a_values <- character(0)
   correct_feedback <- "Good job!"
   incorrect_feedback <- "Try again."
   fb_answer <- "Correct answer feedback."
 
   result <- generate_multichoice(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     fb_answer = fb_answer
@@ -229,18 +229,18 @@ test_that("generate_multichoice handles empty rest answers gracefully", {
 
 test_that("generate_multichoice calculates fractions correctly", {
   answer <- "Correct Answer"
-  rest <- c("Wrong Answer 1", "Wrong Answer 2")
+  a_values <- c("Wrong Answer 1", "Wrong Answer 2")
   correct_feedback <- "Excellent!"
   incorrect_feedback <- "Wrong choice."
 
   result <- generate_multichoice(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback
   )
 
   # Verify fractions for incorrect answers
-  fraction_value <- sprintf("-%2.15f", 100 / length(rest))
+  fraction_value <- sprintf("-%2.15f", 100 / length(a_values))
   expect_match(result, sprintf('<answer fraction="%s" format="html">', fraction_value), fixed = TRUE)
 })

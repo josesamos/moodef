@@ -1,7 +1,7 @@
 test_that("generate_gapselect generates correct XML structure with a single answer", {
   # Inputs
   answer <- "Correct Answer"
-  rest <- character(0)  # No additional options
+  a_values <- character(0)  # No additional options
   correct_feedback <- "Well done!"
   incorrect_feedback <- "Try again!"
   partially_correct_feedback <- "Almost there!"
@@ -28,7 +28,7 @@ test_that("generate_gapselect generates correct XML structure with a single answ
   # Run the function
   result <- generate_gapselect(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback
@@ -41,7 +41,7 @@ test_that("generate_gapselect generates correct XML structure with a single answ
 test_that("generate_gapselect generates correct XML structure with multiple options", {
   # Inputs
   answer <- "Correct Answer"
-  rest <- c("Option 1", "Option 2", "Option 3")
+  a_values <- c("Option 1", "Option 2", "Option 3")
   correct_feedback <- "Well done!"
   incorrect_feedback <- "Try again!"
   partially_correct_feedback <- "Almost there!"
@@ -80,7 +80,7 @@ test_that("generate_gapselect generates correct XML structure with multiple opti
   # Run the function
   result <- generate_gapselect(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback
@@ -93,7 +93,7 @@ test_that("generate_gapselect generates correct XML structure with multiple opti
 test_that("generate_gapselect handles empty inputs gracefully", {
   # Inputs with minimal data
   answer <- ""
-  rest <- character(0)
+  a_values <- character(0)
   correct_feedback <- ""
   incorrect_feedback <- ""
   partially_correct_feedback <- ""
@@ -120,7 +120,7 @@ test_that("generate_gapselect handles empty inputs gracefully", {
   # Run the function
   result <- generate_gapselect(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     partially_correct_feedback = partially_correct_feedback

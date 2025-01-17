@@ -48,13 +48,19 @@ generate_question <- function(first_question_number,
                               image_alt,
                               answer,
                               ...) {
-  rest <- filter_non_empty_answers(...)
+  a_values <- filter_non_empty_answers(...)
 
   answer <- get_vector_answer(answer)
 
-  orientation <- determine_orientation(type)
-  type <- determine_question_type(type, question, answer, rest)
-  question_body <- generate_question_body(type, answer, rest, correct_feedback,
+  if (!(type %in% allowed_types)) {
+    type <- determine_question_type(type, question, answer, a_values)
+  }
+  # "ordering", "ordering<|>h", "ordering<|>v"
+  r <- extract_type_orientation(type)
+  type <- r$type
+  orientation <- r$orientation
+
+  question_body <- generate_question_body(type, answer, a_values, correct_feedback,
                                           incorrect_feedback, partially_correct_feedback, orientation)
 
   questiontext <- xml_questiontext(copyright, license, adapt_images, width, height,
@@ -103,14 +109,14 @@ generate_question_name <-
 #' @keywords internal
 filter_non_empty_answers <- function(...) {
   others <- list(...)
-  rest <- NULL
+  a_values <- NULL
   for (s in seq_along(others)) {
     ot <- trimws(others[[s]])
     if (nchar(ot) > 0) {
-      rest <- c(rest, ot)
+      a_values <- c(a_values, ot)
     }
   }
-  rest
+  a_values
 }
 
 
@@ -121,48 +127,26 @@ filter_non_empty_answers <- function(...) {
 #'
 #' @param type A string, the question type.
 #' @param answer A string or vector, the correct answer(s) for the question.
-#' @param rest A vector, additional answers for the question.
-#' @param correct_feedback A string, feedback for correct answers.
-#' @param incorrect_feedback A string, feedback for incorrect answers.
-#' @param partially_correct_feedback A string, feedback for partially correct answers.
-#' @param orientation A char, 'h' or 'v'.
+#' @param a_values A vector, additional answers for the question.
+#' @param fb_correct A string, feedback for correct answers.
+#' @param fb_incorrect A string, feedback for incorrect answers.
+#' @param fb_partially A string, feedback for partially correct answers.
+#' @param orientation A string, 'v' or 'h'.
 #'
 #' @return A string containing the question body in XML format.
 #' @keywords internal
-generate_question_body <- function(type, answer, rest, correct_feedback,
-                                   incorrect_feedback, partially_correct_feedback, orientation) {
+generate_question_body <- function(type, answer, a_values, fb_correct,
+                                   fb_incorrect, fb_partially, orientation) {
   switch(type,
-         "numerical" = generate_numerical(answer, rest),
-         "multichoice" = generate_multichoice(answer, rest, correct_feedback, incorrect_feedback),
-         "ordering" = generate_ordering(answer, rest, correct_feedback, incorrect_feedback, partially_correct_feedback, orientation),
-         "ddwtos" = generate_ddwtos(answer, rest, correct_feedback, incorrect_feedback, partially_correct_feedback),
-         "gapselect" = generate_gapselect(answer, rest, correct_feedback, incorrect_feedback, partially_correct_feedback),
-         "matching" = generate_matching(answer, rest, correct_feedback, incorrect_feedback, partially_correct_feedback),
+         "numerical" = generate_numerical(answer, a_values),
+         "multichoice" = generate_multichoice(answer, a_values, fb_correct, fb_incorrect),
+         "ordering" = generate_ordering(answer, a_values, fb_correct, fb_incorrect, fb_partially, orientation),
+         "ddwtos" = generate_ddwtos(answer, a_values, fb_correct, fb_incorrect, fb_partially),
+         "gapselect" = generate_gapselect(answer, a_values, fb_correct, fb_incorrect, fb_partially),
+         "matching" = generate_matching(answer, a_values, fb_correct, fb_incorrect, fb_partially),
          "essay" = generate_essay(),
          "truefalse" = generate_truefalse(answer),
          "shortanswer" = generate_shortanswer(answer))
-}
-
-
-#' Determine Orientation
-#'
-#' Determines the orientation based on the input type.
-#' If the type is "H" or "h", the orientation will be horizontal ("h").
-#' Otherwise, the orientation will be vertical ("v").
-#'
-#' @param type A character string, typically "H", "h", or any other value.
-#'   - "H" or "h": The orientation will be "h" (horizontal).
-#'   - Any other value: The orientation will be "v" (vertical).
-#'
-#' @return A character string: either "h" for horizontal or "v" for vertical.
-#'
-#' @keywords internal
-determine_orientation <- function(type) {
-  if (type == 'h') {
-    orientation <- 'h'
-  }else {
-    orientation <- 'v'
-  }
 }
 
 
@@ -182,4 +166,28 @@ get_vector_answer <- function(answer) {
   } else {
     answer
   }
+}
+
+#' Extract Type and Orientation
+#'
+#' This function takes a string representing a question type and its optional orientation
+#' (e.g., `"ordering<|>h"`) and splits it into two separate components: the type and
+#' the orientation. If the orientation is not provided, it defaults to `"v"`.
+#'
+#' @param type A character string indicating the type of a question, which may optionally
+#' include an orientation separated by `"<|>"`. For example: `"ordering<|>h"`,
+#' `"ordering<|>v"`, or just `"ordering"`.
+#'
+#' @return A list with two elements:
+#' \describe{
+#'   \item{type}{The main question type as a character string.}
+#'   \item{orientation}{The orientation of the type as a character string. Defaults to `"v"`.}
+#' }
+#'
+#' @keywords internal
+extract_type_orientation <- function(type) {
+  type_components <- string_to_vector(type)
+  orientation <- ifelse(is.na(type_components[2]), "v", type_components[2])
+  type <- type_components[1]
+  data.frame(type, orientation)
 }

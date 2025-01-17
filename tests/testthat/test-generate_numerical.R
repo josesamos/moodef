@@ -1,9 +1,9 @@
 test_that("generate_numerical generates correct XML for a single answer", {
   # Inputs
   answer <- c("42", "0.01")
-  rest <- list()
+  a_values <- list()
   fb_answer <- "Correct!"
-  fb_rest <- NULL
+  fb_a_values <- NULL
 
   # Expected output
   expected_structure <- paste0(
@@ -23,9 +23,9 @@ test_that("generate_numerical generates correct XML for a single answer", {
   # Run the function
   result <- generate_numerical(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     fb_answer = fb_answer,
-    fb_rest = fb_rest
+    fb_a_values = fb_a_values
   )
 
   # Check if the result matches the expected structure
@@ -35,9 +35,9 @@ test_that("generate_numerical generates correct XML for a single answer", {
 test_that("generate_numerical handles multiple answers with feedback", {
   # Inputs
   answer <- c("100", "0.5")
-  rest <- c("90<|>0.1", "110<|>0.1")
+  a_values <- c("90<|>0.1", "110<|>0.1")
   fb_answer <- "Correct answer!"
-  fb_rest <- c("Close enough!", "Too high!")
+  fb_a_values <- c("Close enough!", "Too high!")
 
   # Expected output
   expected_structure <- paste0(
@@ -66,9 +66,9 @@ test_that("generate_numerical handles multiple answers with feedback", {
   # Run the function
   result <- generate_numerical(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     fb_answer = fb_answer,
-    fb_rest = fb_rest
+    fb_a_values = fb_a_values
   )
 
   # Check if the result matches the expected structure
@@ -78,9 +78,9 @@ test_that("generate_numerical handles multiple answers with feedback", {
 test_that("generate_numerical handles empty feedback and tolerance defaults to 0", {
   # Inputs
   answer <- c("50")
-  rest <- c("60")
+  a_values <- c("60")
   fb_answer <- ""
-  fb_rest <- NULL
+  fb_a_values <- NULL
 
   # Expected output
   expected_structure <- paste0(
@@ -106,9 +106,9 @@ test_that("generate_numerical handles empty feedback and tolerance defaults to 0
   # Run the function
   result <- generate_numerical(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     fb_answer = fb_answer,
-    fb_rest = fb_rest
+    fb_a_values = fb_a_values
   )
 
   # Check if the result matches the expected structure
@@ -118,9 +118,9 @@ test_that("generate_numerical handles empty feedback and tolerance defaults to 0
 test_that("generate_numerical handles empty inputs gracefully", {
   # Inputs
   answer <- ""
-  rest <- ""
+  a_values <- ""
   fb_answer <- ""
-  fb_rest <- NULL
+  fb_a_values <- NULL
 
   # Expected output
   expected_structure <- paste0(
@@ -140,9 +140,9 @@ test_that("generate_numerical handles empty inputs gracefully", {
   # Run the function
   result <- generate_numerical(
     answer = answer,
-    rest = rest,
+    a_values = a_values,
     fb_answer = fb_answer,
-    fb_rest = fb_rest
+    fb_a_values = fb_a_values
   )
 
   # Check if the result matches the expected structure

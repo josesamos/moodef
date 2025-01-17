@@ -1,3 +1,6 @@
+
+utils::globalVariables(c("simplified_types", "allowed_types"))
+
 utils::globalVariables(
   c(
     "category",
@@ -70,7 +73,7 @@ define_extended_questions_from_data_frame <- function(qc, df) {
 #' @return A character vector containing the updated `type` values.
 #' @keywords internal
 get_detailed_type_names <- function(df) {
-  is_simplified_type <- df$type %in% c('', 'h', 'v', 'x')
+  is_simplified_type <- df$type %in% simplified_types
   if (any(is_simplified_type)) {
     for (i in 1:nrow(df)) {
       if (is_simplified_type[i]) {
@@ -160,11 +163,6 @@ validate_and_adjust_dataframe <- function(df) {
       ))
     }
 
-    simplified_types <- c('', 'h', 'v', 'x')
-
-    allowed_types <- c("numerical", "multichoice", "ordering", "ordering<|>h", "ordering<|>v", "ddwtos",
-                       "gapselect", "matching", "essay", "truefalse",
-                       "shortanswer", "ddmarker")
     all_valid <- all(df$type %in% c(allowed_types, simplified_types))
 
     if (!all_valid) {
@@ -247,13 +245,9 @@ extended_format_questions <- function(qc) {
 
     type <- qc$questions[["type"]][i]
     # "ordering", "ordering<|>h", "ordering<|>v"
-    type <- string_to_vector(type)
-    if (is.na(type[2])) {
-      orientation <- 'v'
-    } else {
-      orientation <- type[2]
-      type <- type[1]
-    }
+    r <- extract_type_orientation(type)
+    type <- r$type
+    orientation <- r$orientation
 
     questiontext <- xml_questiontext(
       qc$copyright,

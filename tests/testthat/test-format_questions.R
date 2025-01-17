@@ -68,24 +68,17 @@ test_that("generate_question_body works correctly for each question type", {
   expect_equal(result, generate_shortanswer(mock_answer))
 })
 
-test_that("determine_orientation works correctly", {
-
-  # Test when type is 'h'
-  expect_equal(determine_orientation("h"), "h", info = "Should return 'h' for type 'h'")
-
-  # Test when type is lowercase 'v'
-  expect_equal(determine_orientation("v"), "v", info = "Should return 'v' for type 'v'")
-
-  # Test when type is empty
-  expect_equal(determine_orientation(""), "v", info = "Should return 'v' for an empty type")
-
-  # Test when type is numeric (as string)
-  expect_equal(determine_orientation("1"), "v", info = "Should return 'v' for numeric values passed as strings")
-
-  # Test when type is NULL (should handle it gracefully if wrapped in a higher function)
-  expect_error(determine_orientation(NULL), regexp = "argument is of length zero", info = "Should return an error for NULL input")
+test_that("extract_type_orientation works with type and orientation", {
+  result <- extract_type_orientation("ordering<|>h")
+  expect_equal(result$type, "ordering")
+  expect_equal(result$orientation, "h")
 })
 
+test_that("extract_type_orientation works with type only", {
+  result <- extract_type_orientation("ordering")
+  expect_equal(result$type, "ordering")
+  expect_equal(result$orientation, "v") # Default orientation
+})
 
 test_that("get_vector_answer works correctly", {
 
