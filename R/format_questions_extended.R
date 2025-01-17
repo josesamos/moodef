@@ -133,7 +133,7 @@ validate_and_adjust_dataframe <- function(df) {
   # Check if required columns up to 'answer' are present
   missing_cols <- setdiff(required_columns, names(df))
   if (length(missing_cols) > 0) {
-    errors <- c(errors, paste0("Missing required columns: ", paste(missing_cols, collapse = ", ")))
+    stop(paste0("Missing required columns: ", paste(missing_cols, collapse = ", ")))
   }
 
   remaining_columns <- setdiff(names(df), desired_order)

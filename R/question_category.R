@@ -226,6 +226,7 @@ define_question.question_category <- function(qc,
 #' @param id A unique identifier for the question.
 #' @param name A character string representing the name of the question.
 #' @param author The name of the author of the question.
+#' @param fb_general General feedback for the question.
 #' @param fb_correct Feedback displayed when the correct answer is selected.
 #' @param fb_partially Feedback displayed for partially correct answers.
 #' @param fb_incorrect Feedback displayed for incorrect answers.
@@ -262,7 +263,15 @@ define_question.question_category <- function(qc,
 #' the `image_alt` parameter must also be defined to comply with accessibility standards.
 #'
 #' @examples
-#' #
+#'
+#' qc <- question_category(category = 'Initial test') |>
+#'   define_extended_question(
+#'     question = 'What are the basic arithmetic operations?',
+#'     answer = 'Addition, subtraction, multiplication and division.',
+#'     a_1 = 'Addition and subtraction.',
+#'     a_2 = 'Addition, subtraction, multiplication, division and square root.'
+#'   )
+#'
 #' @export
 define_extended_question <- function(qc,
                                      category,
@@ -270,6 +279,7 @@ define_extended_question <- function(qc,
                                      id,
                                      name,
                                      author,
+                                     fb_general,
                                      fb_correct,
                                      fb_partially,
                                      fb_incorrect,
@@ -307,6 +317,7 @@ define_extended_question.question_category <- function(qc,
                                                        id = '',
                                                        name = '',
                                                        author = '',
+                                                       fb_general = '',
                                                        fb_correct = '',
                                                        fb_partially = '',
                                                        fb_incorrect = '',
@@ -352,10 +363,8 @@ define_extended_question.question_category <- function(qc,
   df <- as.data.frame(text_args, stringsAsFactors = FALSE)
 
   if (nrow(qc$questions) > 0) {
-    qc$questions <- rbind(qc$questions, df)
-  } else {
-    qc$questions <- df
+    df <- rbind(qc$questions, df)
   }
-  qc
+  define_extended_questions_from_data_frame(qc, df)
 }
 

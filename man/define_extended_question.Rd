@@ -12,6 +12,7 @@ define_extended_question(
   id,
   name,
   author,
+  fb_general,
   fb_correct,
   fb_partially,
   fb_incorrect,
@@ -47,6 +48,7 @@ define_extended_question(
   id = "",
   name = "",
   author = "",
+  fb_general = "",
   fb_correct = "",
   fb_partially = "",
   fb_incorrect = "",
@@ -88,6 +90,8 @@ where new questions will be added.}
 \item{name}{A character string representing the name of the question.}
 
 \item{author}{The name of the author of the question.}
+
+\item{fb_general}{General feedback for the question.}
 
 \item{fb_correct}{Feedback displayed when the correct answer is selected.}
 
@@ -155,5 +159,13 @@ The function converts the parameters into a data frame and appends it to the
 the \code{image_alt} parameter must also be defined to comply with accessibility standards.
 }
 \examples{
-#
+
+qc <- question_category(category = 'Initial test') |>
+  define_extended_question(
+    question = 'What are the basic arithmetic operations?',
+    answer = 'Addition, subtraction, multiplication and division.',
+    a_1 = 'Addition and subtraction.',
+    a_2 = 'Addition, subtraction, multiplication, division and square root.'
+  )
+
 }
