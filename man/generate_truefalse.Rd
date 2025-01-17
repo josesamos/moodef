@@ -4,7 +4,7 @@
 \alias{generate_truefalse}
 \title{Generate \code{truefalse} question}
 \usage{
-generate_truefalse(answer, fb_answer = "", fb_a_values = NULL)
+generate_truefalse(answer, fb_answer, fb_a_values)
 }
 \arguments{
 \item{answer}{A string.}

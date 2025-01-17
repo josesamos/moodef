@@ -11,7 +11,11 @@ generate_question_body(
   fb_correct,
   fb_incorrect,
   fb_partially,
-  orientation
+  orientation,
+  fb_answer = "",
+  fb_a_values = NULL,
+  image = "",
+  image_alt = ""
 )
 }
 \arguments{

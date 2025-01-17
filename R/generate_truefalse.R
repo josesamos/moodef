@@ -8,7 +8,7 @@
 #'
 #' @return A string.
 #' @keywords internal
-generate_truefalse <- function(answer, fb_answer = '', fb_a_values = NULL) {
+generate_truefalse <- function(answer, fb_answer, fb_a_values) {
   answer <- tolower(answer)
   if (answer == 'true') {
     answer_2 <- 'false'

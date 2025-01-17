@@ -9,7 +9,7 @@
 #'
 #' @return A string.
 #' @keywords internal
-generate_numerical <- function(answer, a_values, fb_answer = '', fb_a_values = NULL) {
+generate_numerical <- function(answer, a_values, fb_answer, fb_a_values) {
     answer_1 <- answer[1]
     if (length(answer) > 1) {
       answer_2 <- answer[2]

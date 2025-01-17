@@ -136,17 +136,20 @@ filter_non_empty_answers <- function(...) {
 #' @return A string containing the question body in XML format.
 #' @keywords internal
 generate_question_body <- function(type, answer, a_values, fb_correct,
-                                   fb_incorrect, fb_partially, orientation) {
+                                   fb_incorrect, fb_partially, orientation,
+                                   fb_answer = '', fb_a_values = NULL,
+                                   image = '', image_alt = '') {
   switch(type,
-         "numerical" = generate_numerical(answer, a_values),
-         "multichoice" = generate_multichoice(answer, a_values, fb_correct, fb_incorrect),
+         "numerical" = generate_numerical(answer, a_values, fb_answer, fb_a_values),
+         "multichoice" = generate_multichoice(answer, a_values, fb_correct, fb_incorrect, fb_partially, fb_answer, fb_a_values),
          "ordering" = generate_ordering(answer, a_values, fb_correct, fb_incorrect, fb_partially, orientation),
          "ddwtos" = generate_ddwtos(answer, a_values, fb_correct, fb_incorrect, fb_partially),
          "gapselect" = generate_gapselect(answer, a_values, fb_correct, fb_incorrect, fb_partially),
          "matching" = generate_matching(answer, a_values, fb_correct, fb_incorrect, fb_partially),
          "essay" = generate_essay(),
-         "truefalse" = generate_truefalse(answer),
-         "shortanswer" = generate_shortanswer(answer))
+         "truefalse" = generate_truefalse(answer, fb_answer, fb_a_values),
+         "shortanswer" = generate_shortanswer(answer, fb_answer),
+         "ddmarker" = generate_ddmarker(image, image_alt, answer, a_values))
 }
 
 

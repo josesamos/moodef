@@ -9,9 +9,9 @@ generate_multichoice(
   a_values,
   correct_feedback,
   incorrect_feedback,
-  fb_partially = "",
-  fb_answer = "",
-  fb_a_values = NULL
+  fb_partially,
+  fb_answer,
+  fb_a_values
 )
 }
 \arguments{

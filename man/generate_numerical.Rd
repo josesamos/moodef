@@ -4,7 +4,7 @@
 \alias{generate_numerical}
 \title{Generate \code{numerical} question}
 \usage{
-generate_numerical(answer, a_values, fb_answer = "", fb_a_values = NULL)
+generate_numerical(answer, a_values, fb_answer, fb_a_values)
 }
 \arguments{
 \item{answer}{A vector of strings.}
