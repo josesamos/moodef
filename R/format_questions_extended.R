@@ -29,7 +29,6 @@ define_extended_questions_from_data_frame <- function(qc, df) {
   df <- df |>
     dplyr::mutate(category = dplyr::if_else(category == "", qc$category, category)) |>
     dplyr::mutate(author = dplyr::if_else(author == "", qc$author, author)) |>
-    dplyr::mutate(fb_general = dplyr::if_else(fb_general == "", qc$general_feedback, fb_general)) |>
     dplyr::mutate(fb_correct = dplyr::if_else(fb_correct == "", qc$correct_feedback, fb_correct)) |>
     dplyr::mutate(fb_partially = dplyr::if_else(fb_partially == "", qc$partially_correct_feedback, fb_partially)) |>
     dplyr::mutate(fb_incorrect = dplyr::if_else(fb_incorrect == "", qc$incorrect_feedback, fb_incorrect))

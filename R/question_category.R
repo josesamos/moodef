@@ -28,7 +28,6 @@
 #' @param height A integer, height of each image.
 #' @param author A string, author name to be included in each question that is
 #' defined.
-#' @param general_feedback A string, general feedback to each question.
 #'
 #' @return A `question_category` object.
 #'
@@ -50,14 +49,12 @@ question_category <-
            adapt_images = FALSE,
            width = 800,
            height = 600,
-           author = '',
-           general_feedback = '') {
+           author = '') {
     questions <-  data.frame(
       first_question_number = integer(),
       copyright = character(),
       license = character(),
       author = character(),
-      general_feedback = character(),
       correct_feedback = character(),
       partially_correct_feedback = character(),
       incorrect_feedback = character(),
@@ -82,7 +79,6 @@ question_category <-
         copyright = copyright,
         license = license,
         author = author,
-        general_feedback = general_feedback,
         correct_feedback = correct_feedback,
         partially_correct_feedback = partially_correct_feedback,
         incorrect_feedback = incorrect_feedback,
@@ -222,6 +218,19 @@ define_question.question_category <- function(qc,
 #'
 #' Parameter values that are not defined are taken from the category definition,
 #' if they are defined there.
+#'
+#' When defining questions using the extended style via files, there is no limit
+#' to the number of fields for answers, feedback for answers, or tags (except for
+#' Moodle's limitations when processing imported data). However, when defining
+#' questions through this function, the number of fields is limited to the parameters
+#' explicitly defined. While it would have been possible to allow a completely
+#' variable number of parameters in each section, simplicity was prioritized, and
+#' we defined a fixed set of parameters that we believe are more than sufficient
+#' for most use cases.
+#'
+#' In the example provided, we have intentionally used the same structure as in
+#' the `define_question()` function to demonstrate that any parameters not needed
+#' do not need to be explicitly defined.
 #'
 #' @param qc A question category object. It should have a `questions` data frame
 #'   where new questions will be added.
