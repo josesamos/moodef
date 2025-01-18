@@ -102,10 +102,11 @@ test_that("generate_question works correctly for different configurations", {
 
   q <- qc$questions[1, ]
 
-  # Asignar cada componente de q a la variable correspondiente
+  # Assign each component of q to the corresponding variable
   first_question_number <- q$first_question_number
   copyright <- q$copyright
   license <- q$license
+  author <- q$author
   correct_feedback <- q$correct_feedback
   partially_correct_feedback <- q$partially_correct_feedback
   incorrect_feedback <- q$incorrect_feedback
@@ -123,7 +124,7 @@ test_that("generate_question works correctly for different configurations", {
     class = c("glue", "character")
   )
 
-  result <- generate_question(first_question_number, copyright, license, correct_feedback,
+  result <- generate_question(first_question_number, copyright, license, author, correct_feedback,
                               partially_correct_feedback, incorrect_feedback, adapt_images,
                               width, height, type, question, image, image_alt, answer,
                               q$a_1,

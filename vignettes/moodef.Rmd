@@ -505,7 +505,7 @@ As mentioned earlier, feedback for the answers can be specified using the extend
 
 ## Ordering (`ordering<|>h` $\rightarrow$ `h` or `ordering<|>v` $\rightarrow$ `v`)
 
-Type `ordering` is defined as type `multichoice`. To distinguish it, we assign the parameter `type` a value other than empty, which is its default value. If we assign the value `h`, the answers will be presented horizontally, if it is `v`, they will be presented vertically.
+The `ordering` type is defined as a `multichoice` type. To differentiate it, the `type` parameter is assigned a value other than its default empty value. Assigning `h` displays the answers horizontally, while `v` displays them vertically. To specify the detailed name, you must also indicate the orientation using `ordering<|>h` for horizontal or `ordering<|>v` for vertical.
 
 In the example below, the two questions are the same, only the way the answers are presented changes.
 

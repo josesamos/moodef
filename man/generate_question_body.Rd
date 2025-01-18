@@ -14,8 +14,8 @@ generate_question_body(
   orientation,
   fb_answer = "",
   fb_a_values = NULL,
-  image = "",
-  image_alt = ""
+  image,
+  image_alt
 )
 }
 \arguments{
