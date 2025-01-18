@@ -66,9 +66,10 @@ generate_question <- function(first_question_number,
   questiontext <- xml_questiontext(copyright, license, adapt_images, width, height,
                                    question, image, image_alt, type)
 
-  name <- generate_question_name(first_question_number, type, "", question)
+  name <- generate_question_name(first_question_number, type, question)
+  question_name <- xml_question_name(name)
 
-  xml_question(type, name, questiontext, question_body)
+  xml_question(type, question_name, questiontext, question_body)
 }
 
 
@@ -77,24 +78,17 @@ generate_question <- function(first_question_number,
 #' @param first_question_number An integer, first number to compose the question
 #' names.
 #' @param type A string, question type (if needed).
-#' @param orientation A string, 'h' or 'v'.
 #' @param question A string, statement of the question.
 #'
 #' @return A string.
 #' @keywords internal
-generate_question_name <-
-  function(first_question_number,
-           type,
-           orientation,
-           question) {
+generate_question_name <- function(first_question_number, type, question) {
     name <-
-      sprintf("q%03d_%s_%s_%s",
+      sprintf("q%03d_%s_%s",
               first_question_number,
               type,
-              orientation,
               substr(question, 1, 40))
-    name <- snakecase::to_snake_case(name)
-    xml_question_name(name)
+    snakecase::to_snake_case(name)
   }
 
 

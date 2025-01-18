@@ -49,6 +49,13 @@ define_extended_questions_from_data_frame <- function(qc, df) {
 
   df$type <- get_detailed_type_names(df)
 
+  # define name of unnamed questions
+  no_name <- which(df$name == "")
+  for (i in no_name) {
+    df$name[i] <- generate_question_name(qc$first_question_number, df$type[i], df$question[i])
+    qc$first_question_number <- qc$first_question_number + 1
+  }
+
   qc$questions <- df
   qc$extended <- TRUE
 

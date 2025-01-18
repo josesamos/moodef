@@ -1,9 +1,9 @@
 ---
-title: "moodef: Defining Moodle Elements from R"
-date: "2024-02-09"
+title: "moodef: Defining Moodle Quizzes from R"
+date: "2025-01-18"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{moodef: Defining Moodle Elements from R}
+  %\VignetteIndexEntry{moodef: Defining Moodle Quizzes from R}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -21,41 +21,73 @@ knitr::opts_chunk$set(
 
 The goal of the `moodef` package is to harness the power of R to make defining *Moodle* elements easier. In particular, this first version is focused on the definition of questions for quizzes.
 
-The process is as follows: we define the questions in R, from the definition, we generate an xml file that we can import directly into *Moodle*.
+The process is as follows: we define the questions in R, from the definition, we generate an XML file that we can import directly into *Moodle*.
 
-What does this package provide? On the one hand, we have simplified the process of manually defining the questions, considering only the essential parameters for each type. On the other hand, the package offers an infrastructure that allows the automatic or semi-automatic generation of questions from R: to define a question we simply need to include a row in a data frame, a csv file or an *Excel* file.
+What does this package provide? On the one hand, we have simplified the process of manually defining the questions, considering only the essential parameters for each type. On the other hand, the package offers an infrastructure that allows the automatic or semi-automatic generation of questions from R: to define a question we simply need to include a row in a data frame, a CSV file or an *Excel* file.
 
-The rest of this document is structured as follows: First, the general process of defining questions is presented. Next, we show the types of questions considered and how to define them. Finally, the document ends with conclusions.
+The rest of this document is structured as follows: First, the question definition styles and the general process of defining questions is presented. Next, we show the types of questions considered and how to define them. Finally, the document ends with conclusions.
 
-# Question definition process
+# Question Definition Styles
 
-One of the main objectives considered in the package design has been to simplify the definition of the questions. To do this, we have considered for each question the default values that we use most frequently and we only have to define the specific components of the question: 
+One of the primary objectives in designing this package has been to simplify the question definition process.  
 
-- statement, 
-- an optional image and 
-- answers. 
+For example, while it is possible to explicitly define the question type, it can also be inferred from the provided definition. In certain cases, you may need to specify additional details, such as the orientation of answer presentation, but generally, the type is deduced from the content of the definition.  
 
-We do not even have to define the type, only, in some cases, indicate some additional detail, such as the orientation of the presentation of the answers. The type is deduced from the definition.
+At a global level, **category level**, several elements can be defined for all questions, including:  
 
-Questions are defined within the framework of a *category* (*Moodle* concept). In its definition we have included the general configuration parameters for all questions.
+- **Category**  
+- **Copyright**  
+- **License**  
+- **Author**  
+- **Feedback** (general, correct, incorrect, or partially correct responses)  
 
-Therefore, the definition process is as follows:
+The package supports two styles of question definition: the **simple style** and the **extended style**. In the extended style, some of the global elements can be redefined for individual questions.  
 
-1. Define the category.
+## Simple Style  
 
-1. Define questions.
+In the simple style, the most frequently used default values are assumed for each question. This allows you to define only the specific components of the question:  
 
-1. Generate the xml file with the result.
+- **Statement**  
+- An **optional image**  
+- **Answers**  
 
-1. Import the xml file from *Moodle*.
+All questions belong to the same category and share the globally defined values for copyright, license, author, and feedback.  
 
-As a result, the questions are added to the question bank within the category and can be used directly in the definition of quizzes. If we need to configure a specific aspect of a question, it can be done there.
+## Extended Style  
 
-In this section we are going to show the first three points of this process.
+The extended style allows you to define or override additional elements for each question. These elements are optional, and if not explicitly defined, the global values are used. In addition to the components of the simple style, the following elements can be specified for each question:  
+
+- **Category**  
+- **Identifier**  
+- **Name**  
+- **Author**  
+- **Feedback** (general, correct, incorrect, or partially correct responses)  
+- Feedback for each **answer**  
+- **Tags**  
+
+
+# Question Definition Process  
+
+Questions are defined within the framework of a *category* (a *Moodle* concept). The **category level** includes the general configuration parameters that apply to all questions, as explained in the previous section.  
+
+Within the category definition, a set of questions is then defined. Questions can be created either by:  
+
+- Using a specific function for each question
+- defining a data frame, or  
+- importing a definition from a CSV or *Excel* file.  
+
+Once the questions are defined, the XML structure can be generated either as a string or as a file for direct import into *Moodle*.  
+
+In this section, we will explain the three steps of this process: 
+
+1. **Define the category**  
+1. **Define questions**  
+1. **Generate the XML file**  
+
 
 ## Define the category
 
-To define a category we use the function `question_category()` and we have to indicate its name: it creates an object of class `question_category`.
+To define a category we use the function `question_category()` and we have to indicate its name: It creates an object of class `question_category`.
 
 Below is a call to the function with the values of the parameters that we usually define.
 
@@ -63,12 +95,12 @@ Below is a call to the function with the values of the parameters that we usuall
 library(moodef)
 
 qc <- question_category(category = 'Initial test',
-                        copyright = 'Copyright © 2024 Universidad de Granada',
+                        copyright = 'Copyright © 2025 Universidad de Granada',
                         license = 'License Creative Commons Attribution-ShareAlike 4.0',
-                        adapt_images = TRUE)
+                        author = 'Jose Samos')
 ```
 
-In addition to the category name in the `category` parameter, we define the `copyright` and `license` parameters that will appear between comments in the xml file associated with each question, as can be seen below.
+In addition to the category name in the `category` parameter, we define the `copyright`, `license` and `author` parameters that will appear between comments in the XML file associated with each question, as can be seen below.
 
 ````{verbatim, lang = "xml"}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -82,8 +114,9 @@ In addition to the category name in the `category` parameter, we define the `cop
 ...
 <questiontext format="html">
   <text><![CDATA[
-     <!-- Copyright © 2024 Universidad de Granada -->
+     <!-- Copyright © 2025 Universidad de Granada -->
      <!-- License Creative Commons Attribution-ShareAlike 4.0 -->
+     <!-- Author: Jose Samos -->
      ... ]]></text>
 ...
 </questiontext>
@@ -92,24 +125,27 @@ In addition to the category name in the `category` parameter, we define the `cop
 </quiz>
 ````
 
-Below is the function call that is being made including the default values of the rest of the parameters.
+Below is the function call being executed, including the values for the remaining parameters. The simple and extended definitions cannot be mixed. For this reason, we define a `question_category` object for each type of definition to be used in the following examples.
 
 ```{r}
 qc <- question_category(category = 'Initial test',
                         first_question_number = 1,
-                        copyright = 'Copyright © 2024 Universidad de Granada',
+                        copyright = 'Copyright © 2025 Universidad de Granada',
                         license = 'License Creative Commons Attribution-ShareAlike 4.0',
+                        author = 'Jose Samos',
                         correct_feedback = 'Correct.',
                         partially_correct_feedback = 'Partially correct.',
                         incorrect_feedback = 'Incorrect.',
                         adapt_images = TRUE,
                         width = 800,
                         height = 600)
+
+qc_extended <- qc
 ```
 
 We are going to discuss the use of each parameter. 
 
-Questions have a name, which is displayed as a summary in the *Moodle* question bank. We compose the name from the number of the question, the type of question that we have deduced and the beginning of its statement. For example, below is a generated question name.
+Questions have a name, which is displayed as a summary in the *Moodle* question bank. In the extended style, the name can be explicitly defined. However, if it is not defined—or in the case of the simple style—we generate the name by combining the question number (obtained from `first_question_number` parameter), the deduced question type, and the beginning of its statement. For example, the following is a generated question name.
 
 ````{verbatim, lang = "xml"}
 <?xml version="1.0" encoding="UTF-8"?>
@@ -126,16 +162,20 @@ Using the parameter `first_question_number`, the number that will be assigned to
 
 For each question we can indicate feedback text for cases in which the answer is correct, partially correct or incorrect: The corresponding values are provided by the `correct_feedback`, `partially_correct_feedback` and `incorrect_feedback` parameters.
 
-Finally, each question stem can include an image. Sometimes the images we use have very different sizes and require a prior transformation to homogenize their presentation. This transformation can be carried out automatically by indicating it using the parameter `adapt_images` (default is `FALSE`). Using the parameters `width` and `height` we indicate the size of the resulting image. It is advisable to test this functionality and adjust the size accordingly by viewing the result when defining a questionnaire in *Moodle*. **The original images are not modified**, only those that are embedded in the xml file.
+Finally, each question stem can include an image. Sometimes the images we use have very different sizes and require a prior transformation to homogenize their presentation. This transformation can be carried out automatically by indicating it using the parameter `adapt_images` (default is `FALSE`). Using the parameters `width` and `height` we indicate the size of the resulting image. It is advisable to test this functionality and adjust the size accordingly by viewing the result when defining a questionnaire in *Moodle*. **The original images are not modified**, only those that are embedded in the XML file.
 
 
 ## Define questions
 
 Once we have a `question_category` object created, we can define questions that are added to it.
 
-We can define the questions one by one using a definition function or in bulk using a data frame, a csv file or an *Excel* file. Below we show the possibilities offered.
+We can define the questions one by one using a definition function or in bulk using a data frame, a CSV file or an *Excel* file. Below we show the possibilities offered.
 
 ### Definition function
+
+We provide two functions for defining questions: `define_question()` and `define_extended_question()`. These are used to define questions in the simple style and the extended style, respectively.
+
+#### Simple Style
 
 The minimum we have to define about a question is its statement. Here's how to define a question using the `define_question()` function.
 
@@ -146,12 +186,12 @@ qc <- qc |>
   )
 ```
 
-Below is the definition of a question with all possible parameters, which we explain below.
+Below is the definition of a simple style question with all possible parameters, which we explain below.
 
 ```{r example2}
 qc <- qc |>
   define_question(
-    type = 'x',
+    type = 'v',
     question = 'Place the name of the operations as they appear in the figure.',
     image = system.file("extdata", "ops.png", package = "moodef"),
     image_alt = 'Operations',
@@ -162,31 +202,89 @@ qc <- qc |>
   )
 ```
 
-The type of question is deduced from the statement and the answers. The `type` parameter is used to distinguish between two types of questions and also to indicate the presentation of the answers. It can have three values: empty, `h` or any other value different from those two. In the above example it is `x`, that is, the third case: As we will see in the next section, it indicates that it is not a `multichoice` question and that the values are not displayed horizontally (`h` value).
+The type of question can be explicitly indicated using its associated code. If it is not specified, it is deduced from the statement and the answers. In this case, the `type` parameter is used to distinguish between two types of questions and to specify the presentation of the answers. It can take four values: empty, `h`, `v`, or `x`. In the example above, the value is `v`. As we will see in the next section, this indicates that it is not a `multichoice` question and that the answers are displayed vertically.
 
-The question statement is defined by the parameter `question`.
+The question statement is defined using the `question` parameter.
 
-An image can be shown after the statement. Using the parameter `image` we indicate the file that contains it: In the example we obtain the name of a file included in this package. Each image must have a description that is indicated by the `image_alt` parameter.
+An image can be displayed after the statement. The file containing the image is specified using the `image` parameter. In the example, we use the name of a file included in this package. Each image must also include a description, which is defined with the `image_alt` parameter.
 
-Finally we define the answers to the question. Using the parameter `answer` we indicate the first one. If necessary, we can indicate the rest in a variable way with the parameter names we want (or without names, if we use all the defined parameters), as many as we need to include.
+Finally, the answers to the question are defined. The first answer is indicated using the `answer` parameter. If additional answers are needed, they can be included as variable parameters using any parameter names (or no names), as many as required.
 
-### Definition using a csv file or an *Excel* file
+#### Extended Style
 
-We can create an empty csv file but with the necessary columns using the `create_question_csv()` function. In addition to the file name, we can also indicate the separator to use (`,` or `;`).
+We can achieve the same definition as above using the extended style. In this case, the result will be exactly the same as before, but this function allows for the definition of additional parameters. 
+
+```{r example2-2}
+qc_extended <- qc_extended |>
+  define_extended_question(
+    type = 'v',
+    question = 'Place the name of the operations as they appear in the figure.',
+    image = system.file("extdata", "ops.png", package = "moodef"),
+    image_alt = 'Operations',
+    answer = 'Addition',
+    a_1 = 'Multiplication',
+    a_2 = 'Division',
+    a_3 = 'Subtraction'
+  )
+```
+
+The previous definition is equivalent to the following. In the code below, the default obtained values have been used. We could modify any of the indicated values or add new ones according to our needs. For example, additional answers, feedback for the answers, and tags to describe the questions can be defined.
+
+```{r example2-3}
+qc_extended <- qc_extended |>
+  define_extended_question(
+    category = 'Initial test',
+    type = 'ordering<|>v',
+    id = '',
+    name = 'q_001_ordering_v_place_the_name_of_the_operations_as_they',
+    author = 'Jose Samos',
+    fb_general = '',
+    fb_correct = 'Correct.',
+    fb_partially = 'Partially correct.',
+    fb_incorrect = 'Incorrect.',
+    question = 'Place the name of the operations as they appear in the figure.',
+    image = system.file("extdata", "ops.png", package = "moodef"),
+    image_alt = 'Operations',
+    answer = 'Addition',
+    a_1 = 'Multiplication',
+    a_2 = 'Division',
+    a_3 = 'Subtraction',
+    fb_a_1 = '',
+    fb_a_2 = '',
+    fb_a_3 = '',
+    tag_1 = ''
+  )
+```
+
+
+### Definition using a CSV file or an *Excel* file
+
+We can create an empty CSV file with the necessary columns using the `create_question_csv()` function. In addition to the file name, we can specify the separator to use (`,` or `;`), and if we need to use the extended style, we indicate it with the parameter `extended = TRUE` (default is `FALSE`). 
 
 ```{r}
 file <- create_question_csv(file = tempfile(fileext = '.csv'))
 ```
 
-The content of the file is shown below.
+The content of the file for the simple style is shown below. 
 
 ````{verbatim, lang = "csv"}
 "type","question","image","image_alt","answer","a_1","a_2","a_3"
 ````
 
-We can add as many additional columns as we consider necessary. From that file, we can include rows using a text editor, R or some tool to edit csv files in spreadsheet format.
+For the extended style, the content is also shown afterward.
 
-Below is the content of a csv file included in this package.
+````{verbatim, lang = "csv"}
+"category", "type", "id", "name", "author", "fb_general", "fb_correct", 
+"fb_partially", "fb_incorrect", "question", "image", "image_alt", 
+"answer", "a_1", "a_2", "a_3", "a_4", "fb_answer", "fb_a_1", 
+"fb_a_2", "fb_a_3", "fb_a_4", "tag_1", "tag_2", "tag_3"
+````
+
+We can add as many additional columns as we deem necessary. In the case of the extended style, the same number of answer columns as feedback columns must be included, and at least one tags column must be present (even if the values in these columns are not defined).
+
+From that file, we can include rows using a text editor, R or some tool to edit CSV files in spreadsheet format.
+
+Below is the content of a CSV file included in this package for the simple style.
 
 ````{verbatim, lang = "csv"}
 "type","question","image","image_alt","answer","a_1","a_2","a_3"
@@ -213,14 +311,14 @@ qc <- qc |>
 
 There are types of questions in which two string values must be indicated for each answer. The criterion we have adopted to include two values in a cell is to use a separator and define them in a single string, the separator is `<|>`: It can be seen in the definition of some of the previous questions, for example, `Addition<|>+` or `1.33<|>0.03`.
 
-In this example, questions with images have not been included due to the difficulty of referencing the image files in the package from the csv file, but they can be included without any problem.
+In this example, questions with images have not been included due to the difficulty of referencing the image files in the package from the CSV file, but they can be included without any problem.
 
 For *Excel* files the definition is carried out in the same way. The corresponding functions are: `create_question_excel()` and `define_questions_from_excel()`.
 
 
 ### Definition using a data frame
 
-We can also massively define the questions using a data frame. We can create an empty one using the `create_question_data_frame()` function or read one from a csv file using the `read_question_csv()` function. In this case we are going to read one that contains images in the statements.
+We can also define questions in bulk using a data frame. An empty data frame can be created with the `create_question_data_frame()` function (which can also be used with the parameter `extended = FALSE`, as shown in the previous example for the CSV file) or read from a CSV file using the `read_question_csv()` function. In this example, we will read a data frame that includes images in the question statements.
 
 ```{r}
 file <- system.file("extdata", "questions_image.csv", package = "moodef")
@@ -255,9 +353,9 @@ qc <- qc |>
 ```
 
 
-## Generate the xml file
+## Generate the XML file
 
-Once the questions we need have been defined, the next step is to generate the xml file. We use the `generate_xml_file()` function, to which we have to indicate a file name.
+Once the questions we need have been defined, the next step is to generate the XML file. We use the `generate_xml_file()` function, to which we have to indicate a file name.
 
 ```{r}
 file <- tempfile(fileext = '.xml')
@@ -267,7 +365,7 @@ qc <- qc |>
 
 The generated file is the one that we can import from *Moodle* in the *Question Bank* section. 
 
-If we have included images, the file size increases considerably because they are embedded in xml (not referenced).
+If we have included images, the file size increases considerably because they are embedded in XML (not referenced).
 
 ```{r}
 file.size(file)
@@ -287,8 +385,9 @@ The definition file for a single question is shown below.
 <name> <text>q_001_multichoice_what_are_the_basic_arithmetic_operations</text> </name>
 <questiontext format="html">
   <text><![CDATA[
-     <!-- Copyright © 2024 Universidad de Granada -->
+     <!-- Copyright © 2025 Universidad de Granada -->
      <!-- License Creative Commons Attribution-ShareAlike 4.0 -->
+     <!-- Author: Jose Samos -->
      <p>What are the basic arithmetic operations?</p>]]></text>
      
 </questiontext>
@@ -322,9 +421,11 @@ The definition file for a single question is shown below.
 
 # Kind of questions
 
-We have simplified and generalized the definition process for 9 types of questions, so that we do not even have to indicate the type to define them, it is deduced from the definition: It depends on the value of the `answer` field. In some cases a character in the `type` field is used to distinguish between two types whose definition is identical or to indicate the orientation of the answers (horizontal or vertical), as we will see below. We dedicate a section to each type with the names that are generated in the xml file.
+We have simplified and generalized the definition process for 10 types of questions, so that we do not even have to indicate the type to define them, it is deduced from the definition: It depends on the value of the `answer` field. In some cases a character in the `type` field is used to distinguish between two types whose definition is identical or to indicate the orientation of the answers (horizontal or vertical), as we will see below. 
 
-## `essay`
+For each kind of questions, the code for its type is specified, followed by (separated by $\rightarrow$) the code that can also be used to deduce the same type. When no value is required, it is expressed as `''` (there is no need to include the quotation marks; simply leave the cell blank or use the default parameter value).
+
+## Essay (`essay` $\rightarrow$ `''`)
 
 Only includes the question statement with or without an image (the `answer` field is empty). The answer to the question is made through free text. Below is an example that we had shown before.
 
@@ -335,9 +436,9 @@ qc <- qc |>
   )
 ```
 
-## `truefalse`
+## True/False (`truefalse` $\rightarrow$ `''`)
 
-The `answer` field contains the correct answer. If this is one of the literals corresponding to the boolean values (`'True'` or `'False'`), nothing else needs to be indicated. Here is an example.
+The `answer` field contains the correct answer. If this is one of the literals corresponding to the Boolean values (`'True'` or `'False'`), nothing else needs to be indicated. Here is an example.
 
 
 ```{r}
@@ -348,7 +449,9 @@ qc <- qc |>
   )
 ```
 
-## `numerical`
+If we use the extended style for defining the question, we can specify feedback for each answer.
+
+## Numerical (`numerical` $\rightarrow$ `''`)
 
 If the value of field `answer` is a number with or without decimal places, or a vector of two numbers, it is a `numerical` question.
 
@@ -367,9 +470,12 @@ qc <- qc |>
   )
 ```
 
-## `shortanswer`
+In this case as well, with the extended definition style, feedback can be defined for each answer.
 
-If only field `answer` is defined and it is not a boolean or numeric value, it is of type `shortanswer`, for example:
+
+## Short Answer (`shortanswer` $\rightarrow$ `''`)
+
+If only field `answer` is defined and it is not a Boolean or numeric value, it is of type `shortanswer`, for example:
 
 ```{r}
 qc <- qc |>
@@ -379,7 +485,9 @@ qc <- qc |>
   )
 ```
 
-## `multichoice`
+Feedback for the answer can also be defined using the extended style.
+
+## Multiple Choice (`multichoice` $\rightarrow$ `''`)
 
 If field `answer` and the rest of the answers are of type string, it is of type `multichoice`. The content of field `answer` is the correct answer. Here is an example.
 
@@ -393,9 +501,11 @@ qc <- qc |>
   )
 ```
 
-## `ordering`
+As mentioned earlier, feedback for the answers can be specified using the extended definition style.
 
-Type `ordering` is defined as type `multichoice`. To distinguish it, we assign the parameter `type` a value other than empty, which is its default value. If we assign the value `h`, the answers will be presented horizontally, if it is different from `h`, they will be presented vertically.
+## Ordering (`ordering<|>h` $\rightarrow$ `h` or `ordering<|>v` $\rightarrow$ `v`)
+
+Type `ordering` is defined as type `multichoice`. To distinguish it, we assign the parameter `type` a value other than empty, which is its default value. If we assign the value `h`, the answers will be presented horizontally, if it is `v`, they will be presented vertically.
 
 In the example below, the two questions are the same, only the way the answers are presented changes.
 
@@ -410,7 +520,7 @@ qc <- qc |>
     a_3 = '6*2'
   ) |>
   define_question(
-    type = 'x',
+    type = 'v',
     question = 'Order the result from smallest to largest.',
     answer = '6/2',
     a_1 = '6-2',
@@ -419,9 +529,9 @@ qc <- qc |>
   ) 
 ```
 
-## `ddwtos` and `gapselect`
+## Drag and Drop into Text (`ddwtos` $\rightarrow$ `''`) and Select Missing Words (`gapselect` $\rightarrow$ `x`)
 
-In questions of these types the objective is to fill in the gaps with the terms indicated. If the variable `type` has the default value (empty string), the values are filled by dragging and dropping. If we define a value other than empty in the variable `type`, they are filled by selecting from a list.
+In questions of these types the objective is to fill in the gaps with the terms indicated. If the variable `type` has the default value (empty string), the values are filled by dragging and dropping. If we define a value `x` in the variable `type`, they are filled by selecting from a list.
 
 Gaps in the statement are defined by numbers in double brackets, as shown in the following examples.
 
@@ -440,9 +550,9 @@ qc <- qc |>
   )
 ```
 
-We have to indicate as many answers as gaps, in the correct order.
+We must specify as many answers as there are gaps, in the correct order. Alternatively, a single gap can be defined with multiple selectable answers, where the correct answer will be the first one.
 
-## `matching`
+## Matching (`matching` $\rightarrow$ `''`)
 
 If the answers are made up of vectors of pairs of strings, we are in a type `matching` question. Below we show an example.
 
@@ -456,13 +566,31 @@ qc <- qc |>
   )
 ```
 
+## Drag and Drop Markers (`ddmarker` $\rightarrow$ `''`)
+
+The `ddmarker` question type allows users to drag markers onto predefined areas of an image. Each marker corresponds to a specific target, enabling visually interactive and location-based assessments.
+
+In this case, even if the **category level** specifies that images should be transformed, the image remains unchanged because the definition specifies the position of the image where the cursors must be placed for the answer to be correct.
+
+```{r example2-dd}
+qc <- qc |>
+  define_question(
+    question = 'Place the cursor over the indicated operation.',
+    image = system.file("extdata", "ops.png", package = "moodef"),
+    image_alt = 'Operations',
+    answer = 'rectangle<|>142,85;554,553<|>Sum'
+  )
+```
+
 
 # Conclusions
 
 The `moodef` package makes it easy to define questions for *Moodle* quizzes.
 
-We can define the questions one by one by calling a function or in bulk using a csv file or a data frame. We have simplified and generalized the definition so that the types considered are defined with the same parameters.
+We can define the questions one by one by calling a function or in bulk using a CSV file, *Excel* file or a data frame. We have simplified and generalized the definition so that the types considered are defined with the same parameters.
+
+Two definition styles are offered: simple and extended. The extended mode allows defining elements that are considered default in the simple mode.
 
 The functionality offered by the package can be used to manually define the questions quickly or to define them automatically or semi-automatically from R.
 
-The result of the definition process is an xml file that can be imported directly into the *Moodle* question bank.
+The result of the definition process is an XML file that can be imported directly into the *Moodle* question bank.

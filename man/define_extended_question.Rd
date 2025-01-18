@@ -3,7 +3,7 @@
 \name{define_extended_question}
 \alias{define_extended_question}
 \alias{define_extended_question.question_category}
-\title{Define an Extended Question in a Question Category}
+\title{Define an extended question}
 \usage{
 define_extended_question(
   qc,
@@ -83,7 +83,7 @@ where new questions will be added.}
 
 \item{category}{A character string specifying the category of the question.}
 
-\item{type}{A character string indicating the type of the question (e.g., "multiple_choice").}
+\item{type}{A character string indicating the type of the question.}
 
 \item{id}{A unique identifier for the question.}
 
@@ -101,62 +101,61 @@ where new questions will be added.}
 
 \item{question}{The text of the question.}
 
-\item{image}{(Optional) Path to an image file associated with the question.}
+\item{image}{Path to an image file associated with the question.}
 
-\item{image_alt}{(Optional) Alternative text describing the image for accessibility.
+\item{image_alt}{Alternative text describing the image for accessibility.
 Required if an image is provided.}
 
 \item{answer}{The correct answer to the question.}
 
-\item{a_1}{Additional possible answers for multiple-choice questions.}
+\item{a_1}{Additional possible answer.}
 
-\item{a_2}{Additional possible answers for multiple-choice questions.}
+\item{a_2}{Additional possible answer.}
 
-\item{a_3}{Additional possible answers for multiple-choice questions.}
+\item{a_3}{Additional possible answer.}
 
-\item{a_4}{Additional possible answers for multiple-choice questions.}
+\item{a_4}{Additional possible answer.}
 
-\item{a_5}{Additional possible answers for multiple-choice questions.}
+\item{a_5}{Additional possible answer.}
 
-\item{a_6}{Additional possible answers for multiple-choice questions.}
+\item{a_6}{Additional possible answer.}
 
 \item{fb_answer}{Feedback for the correct answer.}
 
-\item{fb_a_1}{Feedback for additional answers.}
+\item{fb_a_1}{Feedback for additional answer.}
 
-\item{fb_a_2}{Feedback for additional answers.}
+\item{fb_a_2}{Feedback for additional answer.}
 
-\item{fb_a_3}{Feedback for additional answers.}
+\item{fb_a_3}{Feedback for additional answer.}
 
-\item{fb_a_4}{Feedback for additional answers.}
+\item{fb_a_4}{Feedback for additional answer.}
 
-\item{fb_a_5}{Feedback for additional answers.}
+\item{fb_a_5}{Feedback for additional answer.}
 
-\item{fb_a_6}{Feedback for additional answers.}
+\item{fb_a_6}{Feedback for additional answer.}
 
-\item{tag_1}{Tags to categorize the question.}
+\item{tag_1}{Tag to categorize the question.}
 
-\item{tag_2}{Tags to categorize the question.}
+\item{tag_2}{Tag to categorize the question.}
 
-\item{tag_3}{Tags to categorize the question.}
+\item{tag_3}{Tag to categorize the question.}
 
-\item{tag_4}{Tags to categorize the question.}
+\item{tag_4}{Tag to categorize the question.}
 
-\item{tag_5}{Tags to categorize the question.}
+\item{tag_5}{Tag to categorize the question.}
 
-\item{tag_6}{Tags to categorize the question.}
+\item{tag_6}{Tag to categorize the question.}
 }
 \value{
-Returns the updated question category object with the new question appended.
+Returns the updated question category object.
 }
 \description{
-This function allows users to define an extended question, including metadata, feedback,
-and optional image data, and append it to an existing question category (\code{qc}).
+This function allows users to define an extended question, including metadata,
+feedback and optional image data.
 }
 \details{
-The function converts the parameters into a data frame and appends it to the
-\code{questions} data frame of the provided question category object. If an image is included,
-the \code{image_alt} parameter must also be defined to comply with accessibility standards.
+Parameter values that are not defined are taken from the category definition,
+if they are defined there.
 }
 \examples{
 
@@ -169,3 +168,14 @@ qc <- question_category(category = 'Initial test') |>
   )
 
 }
+\seealso{
+Other question definition functions: 
+\code{\link{define_question}()},
+\code{\link{define_questions_from_csv}()},
+\code{\link{define_questions_from_data_frame}()},
+\code{\link{define_questions_from_excel}()},
+\code{\link{generate_xml}()},
+\code{\link{generate_xml_file}()},
+\code{\link{question_category}()}
+}
+\concept{question definition functions}

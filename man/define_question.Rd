@@ -3,7 +3,7 @@
 \name{define_question}
 \alias{define_question}
 \alias{define_question.question_category}
-\title{Define question}
+\title{Define a question}
 \usage{
 define_question(qc, type, question, image, image_alt, answer, ...)
 
@@ -58,7 +58,8 @@ qc <- question_category(category = 'Initial test') |>
 
 }
 \seealso{
-Other question definition: 
+Other question definition functions: 
+\code{\link{define_extended_question}()},
 \code{\link{define_questions_from_csv}()},
 \code{\link{define_questions_from_data_frame}()},
 \code{\link{define_questions_from_excel}()},
@@ -66,4 +67,4 @@ Other question definition:
 \code{\link{generate_xml_file}()},
 \code{\link{question_category}()}
 }
-\concept{question definition}
+\concept{question definition functions}

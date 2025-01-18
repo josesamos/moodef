@@ -129,7 +129,7 @@ test_that("define_extended_question", {
   expect_equal(qc, structure(
     list(
       category = "Initial test",
-      first_question_number = 1,
+      first_question_number = 2,
       copyright = "",
       license = "",
       author = "",
@@ -146,7 +146,7 @@ test_that("define_extended_question", {
           category = "Initial test",
           type = "multichoice",
           id = "",
-          name = "",
+          name = "q_001_multichoice_what_are_the_basic_arithmetic_operations",
           author = "",
           fb_general = "",
           fb_correct = "Correct.",
@@ -187,7 +187,7 @@ test_that("define_extended_question", {
   expect_equal(qc2, structure(
     list(
       category = "Initial test",
-      first_question_number = 1,
+      first_question_number = 2,
       copyright = "",
       license = "",
       author = "",
@@ -204,7 +204,7 @@ test_that("define_extended_question", {
           category = "Initial test",
           type = "multichoice",
           id = "",
-          name = "",
+          name = "q_001_multichoice_what_are_the_basic_arithmetic_operations",
           author = "",
           fb_general = "",
           fb_correct = "Correct.",

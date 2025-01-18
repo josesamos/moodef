@@ -5,7 +5,7 @@
 #'
 #' @return A string.
 #'
-#' @family question definition
+#' @family question definition functions
 #'
 #' @examples
 #'
@@ -44,7 +44,7 @@ generate_xml.question_category <- function(qc) {
 #'
 #' @return A `question_category`.
 #'
-#' @family question definition
+#' @family question definition functions
 #'
 #' @examples
 #'

@@ -181,7 +181,7 @@ test_that("define_questions_from extended", {
   expect_equal(qc, structure(
     list(
       category = "Initial test",
-      first_question_number = 1,
+      first_question_number = 12,
       copyright = "",
       license = "",
       author = "",
@@ -222,7 +222,17 @@ test_that("define_questions_from extended", {
             "essay"
           ),
           id = c("", "", "", "", "", "", "", "", "", "", ""),
-          name = c("", "", "", "", "", "", "", "", "", "", ""),
+          name = c("q_001_multichoice_what_are_the_basic_arithmetic_operations",
+                   "q_002_matching_match_each_operation_with_its_symbol",
+                   "q_003_truefalse_the_square_root_is_a_basic_arithmetic_op",
+                   "q_004_shortanswer_what_basic_operation_does_it_have_as_a",
+                   "q_005_ddwtos_the_symbol_for_addition_is_1_the_sy",
+                   "q_006_gapselect_the_symbol_for_addition_is_1_the_sy",
+                   "q_007_ordering_h_sort_the_result_from_smallest_to_largest",
+                   "q_008_ordering_v_sort_the_result_from_smallest_to_largest",
+                   "q_009_numerical_what_is_the_result_of_sqrt_4",
+                   "q_010_numerical_what_is_the_result_of_4_3",
+                   "q_011_essay_describe_the_addition_operation"),
           author = c("", "", "", "", "", "", "", "", "", "", ""),
           fb_general = c("", "", "", "", "", "", "", "", "", "", ""),
           fb_correct = c(
