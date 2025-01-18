@@ -622,15 +622,12 @@ of the <code>answer</code> field. In some cases a character in the
 definition is identical or to indicate the orientation of the answers
 (horizontal or vertical), as we will see below.</p>
 <p>For each kind of questions, the code for its type is specified,
-followed by (separated by
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math>)
-the code that can also be used to deduce the same type. When no value is
-required, it is expressed as <code>''</code> (there is no need to
-include the quotation marks; simply leave the cell blank or use the
-default parameter value).</p>
+followed by (separated by ‘:’) the code that can also be used to deduce
+the same type. When no value is required, it is expressed as
+<code>''</code> (there is no need to include the quotation marks; simply
+leave the cell blank or use the default parameter value).</p>
 <div class="section level3">
-<h3 id="essay-essay-rightarrow">Essay (<code>essay</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#essay-essay-rightarrow"></a>
+<h3 id="essay-essay">Essay (<code>essay</code>: <code>''</code>)<a class="anchor" aria-label="anchor" href="#essay-essay"></a>
 </h3>
 <p>Only includes the question statement with or without an image (the
 <code>answer</code> field is empty). The answer to the question is made
@@ -642,8 +639,7 @@ through free text. Below is an example that we had shown before.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="truefalse-truefalse-rightarrow">True/False (<code>truefalse</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#truefalse-truefalse-rightarrow"></a>
+<h3 id="truefalse-truefalse">True/False (<code>truefalse</code>: <code>''</code>)<a class="anchor" aria-label="anchor" href="#truefalse-truefalse"></a>
 </h3>
 <p>The <code>answer</code> field contains the correct answer. If this is
 one of the literals corresponding to the Boolean values
@@ -659,8 +655,7 @@ indicated. Here is an example.</p>
 specify feedback for each answer.</p>
 </div>
 <div class="section level3">
-<h3 id="numerical-numerical-rightarrow">Numerical (<code>numerical</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#numerical-numerical-rightarrow"></a>
+<h3 id="numerical-numerical">Numerical (<code>numerical</code>: <code>''</code>)<a class="anchor" aria-label="anchor" href="#numerical-numerical"></a>
 </h3>
 <p>If the value of field <code>answer</code> is a number with or without
 decimal places, or a vector of two numbers, it is a
@@ -684,8 +679,7 @@ accepted as valid. Below are two examples.</p>
 can be defined for each answer.</p>
 </div>
 <div class="section level3">
-<h3 id="short-answer-shortanswer-rightarrow">Short Answer (<code>shortanswer</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#short-answer-shortanswer-rightarrow"></a>
+<h3 id="short-answer-shortanswer">Short Answer (<code>shortanswer</code>: <code>''</code>)<a class="anchor" aria-label="anchor" href="#short-answer-shortanswer"></a>
 </h3>
 <p>If only field <code>answer</code> is defined and it is not a Boolean
 or numeric value, it is of type <code>shortanswer</code>, for
@@ -700,8 +694,7 @@ example:</p>
 style.</p>
 </div>
 <div class="section level3">
-<h3 id="multiple-choice-multichoice-rightarrow">Multiple Choice (<code>multichoice</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#multiple-choice-multichoice-rightarrow"></a>
+<h3 id="multiple-choice-multichoice">Multiple Choice (<code>multichoice</code>: <code>''</code>)<a class="anchor" aria-label="anchor" href="#multiple-choice-multichoice"></a>
 </h3>
 <p>If field <code>answer</code> and the rest of the answers are of type
 string, it is of type <code>multichoice</code>. The content of field
@@ -718,9 +711,8 @@ string, it is of type <code>multichoice</code>. The content of field
 the extended definition style.</p>
 </div>
 <div class="section level3">
-<h3 id="ordering-orderingh-rightarrow-h-or-orderingv-rightarrow-v">Ordering (<code>ordering&lt;|&gt;h</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>h</code> or <code>ordering&lt;|&gt;v</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>v</code>)<a class="anchor" aria-label="anchor" href="#ordering-orderingh-rightarrow-h-or-orderingv-rightarrow-v"></a>
+<h3 id="ordering-orderingh-h-or-orderingv-v">Ordering (<code>ordering&lt;|&gt;h</code>: <code>h</code> or
+<code>ordering&lt;|&gt;v</code>: <code>v</code>)<a class="anchor" aria-label="anchor" href="#ordering-orderingh-h-or-orderingv-v"></a>
 </h3>
 <p>The <code>ordering</code> type is defined as a
 <code>multichoice</code> type. To differentiate it, the
@@ -752,9 +744,8 @@ the answers are presented changes.</p>
 <span>  <span class="op">)</span> </span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="drag-and-drop-into-text-ddwtos-rightarrow-and-select-missing-words-gapselect-rightarrow-x">Drag and Drop into Text (<code>ddwtos</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>) and Select Missing Words (<code>gapselect</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>x</code>)<a class="anchor" aria-label="anchor" href="#drag-and-drop-into-text-ddwtos-rightarrow-and-select-missing-words-gapselect-rightarrow-x"></a>
+<h3 id="drag-and-drop-into-text-ddwtos-and-select-missing-words-gapselect-x">Drag and Drop into Text (<code>ddwtos</code>: <code>''</code>) and
+Select Missing Words (<code>gapselect</code>: <code>x</code>)<a class="anchor" aria-label="anchor" href="#drag-and-drop-into-text-ddwtos-and-select-missing-words-gapselect-x"></a>
 </h3>
 <p>In questions of these types the objective is to fill in the gaps with
 the terms indicated. If the variable <code>type</code> has the default
@@ -781,8 +772,7 @@ order. Alternatively, a single gap can be defined with multiple
 selectable answers, where the correct answer will be the first one.</p>
 </div>
 <div class="section level3">
-<h3 id="matching-matching-rightarrow">Matching (<code>matching</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#matching-matching-rightarrow"></a>
+<h3 id="matching-matching">Matching (<code>matching</code>: <code>''</code>)<a class="anchor" aria-label="anchor" href="#matching-matching"></a>
 </h3>
 <p>If the answers are made up of vectors of pairs of strings, we are in
 a type <code>matching</code> question. Below we show an example.</p>
@@ -796,8 +786,7 @@ a type <code>matching</code> question. Below we show an example.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="drag-and-drop-markers-ddmarker-rightarrow">Drag and Drop Markers (<code>ddmarker</code>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#drag-and-drop-markers-ddmarker-rightarrow"></a>
+<h3 id="drag-and-drop-markers-ddmarker">Drag and Drop Markers (<code>ddmarker</code>: <code>''</code>)<a class="anchor" aria-label="anchor" href="#drag-and-drop-markers-ddmarker"></a>
 </h3>
 <p>The <code>ddmarker</code> question type allows users to drag markers
 onto predefined areas of an image. Each marker corresponds to a specific
