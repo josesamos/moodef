@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>moodef: Defining Moodle Elements from R • moodef</title>
+<title>moodef: Defining Moodle Quizzes from R • moodef</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -16,7 +16,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="moodef: Defining Moodle Elements from R">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="moodef: Defining Moodle Quizzes from R">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -56,9 +56,9 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>moodef: Defining Moodle Elements from R</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>moodef: Defining Moodle Quizzes from R</h1>
             
-            <h4 data-toc-skip class="date">2024-02-09</h4>
+            <h4 data-toc-skip class="date">2025-01-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/josesamos/moodef/blob/main/vignettes/moodef.Rmd" class="external-link"><code>vignettes/moodef.Rmd</code></a></small>
       <div class="d-none name"><code>moodef.Rmd</code></div>
@@ -78,56 +78,133 @@ of R to make defining <em>Moodle</em> elements easier. In particular,
 this first version is focused on the definition of questions for
 quizzes.</p>
 <p>The process is as follows: we define the questions in R, from the
-definition, we generate an xml file that we can import directly into
+definition, we generate an XML file that we can import directly into
 <em>Moodle</em>.</p>
 <p>What does this package provide? On the one hand, we have simplified
 the process of manually defining the questions, considering only the
 essential parameters for each type. On the other hand, the package
 offers an infrastructure that allows the automatic or semi-automatic
 generation of questions from R: to define a question we simply need to
-include a row in a data frame, a csv file or an <em>Excel</em> file.</p>
+include a row in a data frame, a CSV file or an <em>Excel</em> file.</p>
 <p>The rest of this document is structured as follows: First, the
-general process of defining questions is presented. Next, we show the
-types of questions considered and how to define them. Finally, the
-document ends with conclusions.</p>
+question definition styles and the general process of defining questions
+is presented. Next, we show the types of questions considered and how to
+define them. Finally, the document ends with conclusions.</p>
 </div>
 <div class="section level2">
-<h2 id="question-definition-process">Question definition process<a class="anchor" aria-label="anchor" href="#question-definition-process"></a>
+<h2 id="question-definition-styles">Question Definition Styles<a class="anchor" aria-label="anchor" href="#question-definition-styles"></a>
 </h2>
-<p>One of the main objectives considered in the package design has been
-to simplify the definition of the questions. To do this, we have
-considered for each question the default values that we use most
-frequently and we only have to define the specific components of the
-question:</p>
+<p>One of the primary objectives in designing this package has been to
+simplify the question definition process.</p>
+<p>For example, while it is possible to explicitly define the question
+type, it can also be inferred from the provided definition. In certain
+cases, you may need to specify additional details, such as the
+orientation of answer presentation, but generally, the type is deduced
+from the content of the definition.</p>
+<p>At a global level, <strong>category level</strong>, several elements
+can be defined for all questions, including:</p>
 <ul>
-<li>statement,</li>
-<li>an optional image and</li>
-<li>answers.</li>
+<li>
+<strong>Category</strong><br>
+</li>
+<li>
+<strong>Copyright</strong><br>
+</li>
+<li>
+<strong>License</strong><br>
+</li>
+<li>
+<strong>Author</strong><br>
+</li>
+<li>
+<strong>Feedback</strong> (general, correct, incorrect, or partially
+correct responses)</li>
 </ul>
-<p>We do not even have to define the type, only, in some cases, indicate
-some additional detail, such as the orientation of the presentation of
-the answers. The type is deduced from the definition.</p>
-<p>Questions are defined within the framework of a <em>category</em>
-(<em>Moodle</em> concept). In its definition we have included the
-general configuration parameters for all questions.</p>
-<p>Therefore, the definition process is as follows:</p>
+<p>The package supports two styles of question definition: the
+<strong>simple style</strong> and the <strong>extended style</strong>.
+In the extended style, some of the global elements can be redefined for
+individual questions.</p>
+<div class="section level3">
+<h3 id="simple-style">Simple Style<a class="anchor" aria-label="anchor" href="#simple-style"></a>
+</h3>
+<p>In the simple style, the most frequently used default values are
+assumed for each question. This allows you to define only the specific
+components of the question:</p>
+<ul>
+<li>
+<strong>Statement</strong><br>
+</li>
+<li>An <strong>optional image</strong><br>
+</li>
+<li><strong>Answers</strong></li>
+</ul>
+<p>All questions belong to the same category and share the globally
+defined values for copyright, license, author, and feedback.</p>
+</div>
+<div class="section level3">
+<h3 id="extended-style">Extended Style<a class="anchor" aria-label="anchor" href="#extended-style"></a>
+</h3>
+<p>The extended style allows you to define or override additional
+elements for each question. These elements are optional, and if not
+explicitly defined, the global values are used. In addition to the
+components of the simple style, the following elements can be specified
+for each question:</p>
+<ul>
+<li>
+<strong>Category</strong><br>
+</li>
+<li>
+<strong>Identifier</strong><br>
+</li>
+<li>
+<strong>Name</strong><br>
+</li>
+<li>
+<strong>Author</strong><br>
+</li>
+<li>
+<strong>Feedback</strong> (general, correct, incorrect, or partially
+correct responses)<br>
+</li>
+<li>Feedback for each <strong>answer</strong><br>
+</li>
+<li><strong>Tags</strong></li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="question-definition-process">Question Definition Process<a class="anchor" aria-label="anchor" href="#question-definition-process"></a>
+</h2>
+<p>Questions are defined within the framework of a <em>category</em> (a
+<em>Moodle</em> concept). The <strong>category level</strong> includes
+the general configuration parameters that apply to all questions, as
+explained in the previous section.</p>
+<p>Within the category definition, a set of questions is then defined.
+Questions can be created either by:</p>
+<ul>
+<li>Using a specific function for each question</li>
+<li>defining a data frame, or<br>
+</li>
+<li>importing a definition from a CSV or <em>Excel</em> file.</li>
+</ul>
+<p>Once the questions are defined, the XML structure can be generated
+either as a string or as a file for direct import into
+<em>Moodle</em>.</p>
+<p>In this section, we will explain the three steps of this process:</p>
 <ol style="list-style-type: decimal">
-<li><p>Define the category.</p></li>
-<li><p>Define questions.</p></li>
-<li><p>Generate the xml file with the result.</p></li>
-<li><p>Import the xml file from <em>Moodle</em>.</p></li>
+<li>
+<strong>Define the category</strong><br>
+</li>
+<li>
+<strong>Define questions</strong><br>
+</li>
+<li><strong>Generate the XML file</strong></li>
 </ol>
-<p>As a result, the questions are added to the question bank within the
-category and can be used directly in the definition of quizzes. If we
-need to configure a specific aspect of a question, it can be done
-there.</p>
-<p>In this section we are going to show the first three points of this
-process.</p>
 <div class="section level3">
 <h3 id="define-the-category">Define the category<a class="anchor" aria-label="anchor" href="#define-the-category"></a>
 </h3>
 <p>To define a category we use the function
-<code><a href="../reference/question_category.html">question_category()</a></code> and we have to indicate its name: it
+<code><a href="../reference/question_category.html">question_category()</a></code> and we have to indicate its name: It
 creates an object of class <code>question_category</code>.</p>
 <p>Below is a call to the function with the values of the parameters
 that we usually define.</p>
@@ -135,13 +212,13 @@ that we usually define.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://josesamos.github.io/moodef/">moodef</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/question_category.html">question_category</a></span><span class="op">(</span>category <span class="op">=</span> <span class="st">'Initial test'</span>,</span>
-<span>                        copyright <span class="op">=</span> <span class="st">'Copyright © 2024 Universidad de Granada'</span>,</span>
+<span>                        copyright <span class="op">=</span> <span class="st">'Copyright © 2025 Universidad de Granada'</span>,</span>
 <span>                        license <span class="op">=</span> <span class="st">'License Creative Commons Attribution-ShareAlike 4.0'</span>,</span>
-<span>                        adapt_images <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>                        author <span class="op">=</span> <span class="st">'Jose Samos'</span><span class="op">)</span></span></code></pre></div>
 <p>In addition to the category name in the <code>category</code>
-parameter, we define the <code>copyright</code> and <code>license</code>
-parameters that will appear between comments in the xml file associated
-with each question, as can be seen below.</p>
+parameter, we define the <code>copyright</code>, <code>license</code>
+and <code>author</code> parameters that will appear between comments in
+the XML file associated with each question, as can be seen below.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
@@ -153,33 +230,42 @@ with each question, as can be seen below.</p>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>...</span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>     &lt;!-- Copyright © 2024 Universidad de Granada --&gt;</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>     &lt;!-- Copyright © 2025 Universidad de Granada --&gt;</span>
 <span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>     ... <span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>...</span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>...</span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
-<p>Below is the function call that is being made including the default
-values of the rest of the parameters.</p>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>     &lt;!-- Author: Jose Samos --&gt;</span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>     ... <span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>...</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>...</span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
+<p>Below is the function call being executed, including the values for
+the remaining parameters. The simple and extended definitions cannot be
+mixed. For this reason, we define a <code>question_category</code>
+object for each type of definition to be used in the following
+examples.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/question_category.html">question_category</a></span><span class="op">(</span>category <span class="op">=</span> <span class="st">'Initial test'</span>,</span>
 <span>                        first_question_number <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                        copyright <span class="op">=</span> <span class="st">'Copyright © 2024 Universidad de Granada'</span>,</span>
+<span>                        copyright <span class="op">=</span> <span class="st">'Copyright © 2025 Universidad de Granada'</span>,</span>
 <span>                        license <span class="op">=</span> <span class="st">'License Creative Commons Attribution-ShareAlike 4.0'</span>,</span>
+<span>                        author <span class="op">=</span> <span class="st">'Jose Samos'</span>,</span>
 <span>                        correct_feedback <span class="op">=</span> <span class="st">'Correct.'</span>,</span>
 <span>                        partially_correct_feedback <span class="op">=</span> <span class="st">'Partially correct.'</span>,</span>
 <span>                        incorrect_feedback <span class="op">=</span> <span class="st">'Incorrect.'</span>,</span>
 <span>                        adapt_images <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                        width <span class="op">=</span> <span class="fl">800</span>,</span>
-<span>                        height <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span></code></pre></div>
+<span>                        height <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">qc_extended</span> <span class="op">&lt;-</span> <span class="va">qc</span></span></code></pre></div>
 <p>We are going to discuss the use of each parameter.</p>
 <p>Questions have a name, which is displayed as a summary in the
-<em>Moodle</em> question bank. We compose the name from the number of
-the question, the type of question that we have deduced and the
-beginning of its statement. For example, below is a generated question
-name.</p>
+<em>Moodle</em> question bank. In the extended style, the name can be
+explicitly defined. However, if it is not defined—or in the case of the
+simple style—we generate the name by combining the question number
+(obtained from <code>first_question_number</code> parameter), the
+deduced question type, and the beginning of its statement. For example,
+the following is a generated question name.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>...  </span>
@@ -205,7 +291,7 @@ parameters <code>width</code> and <code>height</code> we indicate the
 size of the resulting image. It is advisable to test this functionality
 and adjust the size accordingly by viewing the result when defining a
 questionnaire in <em>Moodle</em>. <strong>The original images are not
-modified</strong>, only those that are embedded in the xml file.</p>
+modified</strong>, only those that are embedded in the XML file.</p>
 </div>
 <div class="section level3">
 <h3 id="define-questions">Define questions<a class="anchor" aria-label="anchor" href="#define-questions"></a>
@@ -213,11 +299,18 @@ modified</strong>, only those that are embedded in the xml file.</p>
 <p>Once we have a <code>question_category</code> object created, we can
 define questions that are added to it.</p>
 <p>We can define the questions one by one using a definition function or
-in bulk using a data frame, a csv file or an <em>Excel</em> file. Below
+in bulk using a data frame, a CSV file or an <em>Excel</em> file. Below
 we show the possibilities offered.</p>
 <div class="section level4">
 <h4 id="definition-function">Definition function<a class="anchor" aria-label="anchor" href="#definition-function"></a>
 </h4>
+<p>We provide two functions for defining questions:
+<code><a href="../reference/define_question.html">define_question()</a></code> and
+<code><a href="../reference/define_extended_question.html">define_extended_question()</a></code>. These are used to define
+questions in the simple style and the extended style, respectively.</p>
+<div class="section level5">
+<h5 id="simple-style-1">Simple Style<a class="anchor" aria-label="anchor" href="#simple-style-1"></a>
+</h5>
 <p>The minimum we have to define about a question is its statement.
 Here’s how to define a question using the <code><a href="../reference/define_question.html">define_question()</a></code>
 function.</p>
@@ -226,12 +319,12 @@ function.</p>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    question <span class="op">=</span> <span class="st">'Describe the addition operation.'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>Below is the definition of a question with all possible parameters,
-which we explain below.</p>
+<p>Below is the definition of a simple style question with all possible
+parameters, which we explain below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
-<span>    type <span class="op">=</span> <span class="st">'x'</span>,</span>
+<span>    type <span class="op">=</span> <span class="st">'v'</span>,</span>
 <span>    question <span class="op">=</span> <span class="st">'Place the name of the operations as they appear in the figure.'</span>,</span>
 <span>    image <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"ops.png"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span>,</span>
 <span>    image_alt <span class="op">=</span> <span class="st">'Operations'</span>,</span>
@@ -240,42 +333,102 @@ which we explain below.</p>
 <span>    a_2 <span class="op">=</span> <span class="st">'Division'</span>,</span>
 <span>    a_3 <span class="op">=</span> <span class="st">'Subtraction'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>The type of question is deduced from the statement and the answers.
-The <code>type</code> parameter is used to distinguish between two types
-of questions and also to indicate the presentation of the answers. It
-can have three values: empty, <code>h</code> or any other value
-different from those two. In the above example it is <code>x</code>,
-that is, the third case: As we will see in the next section, it
+<p>The type of question can be explicitly indicated using its associated
+code. If it is not specified, it is deduced from the statement and the
+answers. In this case, the <code>type</code> parameter is used to
+distinguish between two types of questions and to specify the
+presentation of the answers. It can take four values: empty,
+<code>h</code>, <code>v</code>, or <code>x</code>. In the example above,
+the value is <code>v</code>. As we will see in the next section, this
 indicates that it is not a <code>multichoice</code> question and that
-the values are not displayed horizontally (<code>h</code> value).</p>
-<p>The question statement is defined by the parameter
-<code>question</code>.</p>
-<p>An image can be shown after the statement. Using the parameter
-<code>image</code> we indicate the file that contains it: In the example
-we obtain the name of a file included in this package. Each image must
-have a description that is indicated by the <code>image_alt</code>
+the answers are displayed vertically.</p>
+<p>The question statement is defined using the <code>question</code>
 parameter.</p>
-<p>Finally we define the answers to the question. Using the parameter
-<code>answer</code> we indicate the first one. If necessary, we can
-indicate the rest in a variable way with the parameter names we want (or
-without names, if we use all the defined parameters), as many as we need
-to include.</p>
+<p>An image can be displayed after the statement. The file containing
+the image is specified using the <code>image</code> parameter. In the
+example, we use the name of a file included in this package. Each image
+must also include a description, which is defined with the
+<code>image_alt</code> parameter.</p>
+<p>Finally, the answers to the question are defined. The first answer is
+indicated using the <code>answer</code> parameter. If additional answers
+are needed, they can be included as variable parameters using any
+parameter names (or no names), as many as required.</p>
+</div>
+<div class="section level5">
+<h5 id="extended-style-1">Extended Style<a class="anchor" aria-label="anchor" href="#extended-style-1"></a>
+</h5>
+<p>We can achieve the same definition as above using the extended style.
+In this case, the result will be exactly the same as before, but this
+function allows for the definition of additional parameters.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qc_extended</span> <span class="op">&lt;-</span> <span class="va">qc_extended</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/define_extended_question.html">define_extended_question</a></span><span class="op">(</span></span>
+<span>    type <span class="op">=</span> <span class="st">'v'</span>,</span>
+<span>    question <span class="op">=</span> <span class="st">'Place the name of the operations as they appear in the figure.'</span>,</span>
+<span>    image <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"ops.png"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span>,</span>
+<span>    image_alt <span class="op">=</span> <span class="st">'Operations'</span>,</span>
+<span>    answer <span class="op">=</span> <span class="st">'Addition'</span>,</span>
+<span>    a_1 <span class="op">=</span> <span class="st">'Multiplication'</span>,</span>
+<span>    a_2 <span class="op">=</span> <span class="st">'Division'</span>,</span>
+<span>    a_3 <span class="op">=</span> <span class="st">'Subtraction'</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>The previous definition is equivalent to the following. In the code
+below, the default obtained values have been used. We could modify any
+of the indicated values or add new ones according to our needs. For
+example, additional answers, feedback for the answers, and tags to
+describe the questions can be defined.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qc_extended</span> <span class="op">&lt;-</span> <span class="va">qc_extended</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/define_extended_question.html">define_extended_question</a></span><span class="op">(</span></span>
+<span>    category <span class="op">=</span> <span class="st">'Initial test'</span>,</span>
+<span>    type <span class="op">=</span> <span class="st">'ordering&lt;|&gt;v'</span>,</span>
+<span>    id <span class="op">=</span> <span class="st">''</span>,</span>
+<span>    name <span class="op">=</span> <span class="st">'q_001_ordering_v_place_the_name_of_the_operations_as_they'</span>,</span>
+<span>    author <span class="op">=</span> <span class="st">'Jose Samos'</span>,</span>
+<span>    fb_general <span class="op">=</span> <span class="st">''</span>,</span>
+<span>    fb_correct <span class="op">=</span> <span class="st">'Correct.'</span>,</span>
+<span>    fb_partially <span class="op">=</span> <span class="st">'Partially correct.'</span>,</span>
+<span>    fb_incorrect <span class="op">=</span> <span class="st">'Incorrect.'</span>,</span>
+<span>    question <span class="op">=</span> <span class="st">'Place the name of the operations as they appear in the figure.'</span>,</span>
+<span>    image <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"ops.png"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span>,</span>
+<span>    image_alt <span class="op">=</span> <span class="st">'Operations'</span>,</span>
+<span>    answer <span class="op">=</span> <span class="st">'Addition'</span>,</span>
+<span>    a_1 <span class="op">=</span> <span class="st">'Multiplication'</span>,</span>
+<span>    a_2 <span class="op">=</span> <span class="st">'Division'</span>,</span>
+<span>    a_3 <span class="op">=</span> <span class="st">'Subtraction'</span>,</span>
+<span>    fb_a_1 <span class="op">=</span> <span class="st">''</span>,</span>
+<span>    fb_a_2 <span class="op">=</span> <span class="st">''</span>,</span>
+<span>    fb_a_3 <span class="op">=</span> <span class="st">''</span>,</span>
+<span>    tag_1 <span class="op">=</span> <span class="st">''</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level4">
-<h4 id="definition-using-a-csv-file-or-an-excel-file">Definition using a csv file or an <em>Excel</em> file<a class="anchor" aria-label="anchor" href="#definition-using-a-csv-file-or-an-excel-file"></a>
+<h4 id="definition-using-a-csv-file-or-an-excel-file">Definition using a CSV file or an <em>Excel</em> file<a class="anchor" aria-label="anchor" href="#definition-using-a-csv-file-or-an-excel-file"></a>
 </h4>
-<p>We can create an empty csv file but with the necessary columns using
-the <code><a href="../reference/create_question_csv.html">create_question_csv()</a></code> function. In addition to the file
-name, we can also indicate the separator to use (<code>,</code> or
-<code>;</code>).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<p>We can create an empty CSV file with the necessary columns using the
+<code><a href="../reference/create_question_csv.html">create_question_csv()</a></code> function. In addition to the file
+name, we can specify the separator to use (<code>,</code> or
+<code>;</code>), and if we need to use the extended style, we indicate
+it with the parameter <code>extended = TRUE</code> (default is
+<code>FALSE</code>).</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_question_csv.html">create_question_csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">'.csv'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>The content of the file is shown below.</p>
+<p>The content of the file for the simple style is shown below.</p>
 <pre class="csv"><code>"type","question","image","image_alt","answer","a_1","a_2","a_3"</code></pre>
-<p>We can add as many additional columns as we consider necessary. From
-that file, we can include rows using a text editor, R or some tool to
-edit csv files in spreadsheet format.</p>
-<p>Below is the content of a csv file included in this package.</p>
+<p>For the extended style, the content is also shown afterward.</p>
+<pre class="csv"><code>"category", "type", "id", "name", "author", "fb_general", "fb_correct", 
+"fb_partially", "fb_incorrect", "question", "image", "image_alt", 
+"answer", "a_1", "a_2", "a_3", "a_4", "fb_answer", "fb_a_1", 
+"fb_a_2", "fb_a_3", "fb_a_4", "tag_1", "tag_2", "tag_3"</code></pre>
+<p>We can add as many additional columns as we deem necessary. In the
+case of the extended style, the same number of answer columns as
+feedback columns must be included, and at least one tags column must be
+present (even if the values in these columns are not defined).</p>
+<p>From that file, we can include rows using a text editor, R or some
+tool to edit CSV files in spreadsheet format.</p>
+<p>Below is the content of a CSV file included in this package for the
+simple style.</p>
 <pre class="csv"><code>"type","question","image","image_alt","answer","a_1","a_2","a_3"
 ,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
 ,"Match each operation with its symbol.",,,"Addition&lt;|&gt;+","Subtraction&lt;|&gt;-","Multiplication&lt;|&gt;*",
@@ -290,7 +443,7 @@ edit csv files in spreadsheet format.</p>
 ,"Describe the addition operation.",,,,,,</code></pre>
 <p>Once available, we can generate all the questions using the
 <code><a href="../reference/define_questions_from_csv.html">define_questions_from_csv()</a></code> function, as shown below.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"questions.csv"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span></span>
 <span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_questions_from_csv.html">define_questions_from_csv</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></code></pre></div>
@@ -302,7 +455,7 @@ definition of some of the previous questions, for example,
 <code>Addition&lt;|&gt;+</code> or <code>1.33&lt;|&gt;0.03</code>.</p>
 <p>In this example, questions with images have not been included due to
 the difficulty of referencing the image files in the package from the
-csv file, but they can be included without any problem.</p>
+CSV file, but they can be included without any problem.</p>
 <p>For <em>Excel</em> files the definition is carried out in the same
 way. The corresponding functions are:
 <code><a href="../reference/create_question_excel.html">create_question_excel()</a></code> and
@@ -311,16 +464,18 @@ way. The corresponding functions are:
 <div class="section level4">
 <h4 id="definition-using-a-data-frame">Definition using a data frame<a class="anchor" aria-label="anchor" href="#definition-using-a-data-frame"></a>
 </h4>
-<p>We can also massively define the questions using a data frame. We can
-create an empty one using the <code><a href="../reference/create_question_data_frame.html">create_question_data_frame()</a></code>
-function or read one from a csv file using the
-<code><a href="../reference/read_question_csv.html">read_question_csv()</a></code> function. In this case we are going to
-read one that contains images in the statements.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>We can also define questions in bulk using a data frame. An empty
+data frame can be created with the
+<code><a href="../reference/create_question_data_frame.html">create_question_data_frame()</a></code> function (which can also be
+used with the parameter <code>extended = FALSE</code>, as shown in the
+previous example for the CSV file) or read from a CSV file using the
+<code><a href="../reference/read_question_csv.html">read_question_csv()</a></code> function. In this example, we will read
+a data frame that includes images in the question statements.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"questions_image.csv"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_question_csv.html">read_question_csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">file</span><span class="op">)</span></span></code></pre></div>
 <p>The content of the data frame is shown below.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pander</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pander/man/pandoc.table.return.html" class="external-link">pandoc.table</a></span><span class="op">(</span><span class="va">df</span>, split.table <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
@@ -370,7 +525,7 @@ the figure.</td>
 </table>
 <p>In this case we are going to update the figure data with the files
 included in the package (in a local example, this is not necessary).</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span><span class="op">[</span><span class="fl">1</span>, <span class="st">'image'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"divide.png"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">[</span><span class="fl">2</span>, <span class="st">'image'</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"ops.png"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span></span></code></pre></div>
 <p>From R we can add new rows or modify existing ones. As we have
@@ -380,7 +535,7 @@ to define two values in a cell using a separator:
 have defined the function <code><a href="../reference/vector_to_string.html">vector_to_string()</a></code> that, from a
 vector, generates a string including that separator, as shown in the
 following example.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vector_to_string.html">vector_to_string</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Addition'</span>, <span class="st">'+'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">s</span></span>
 <span><span class="co">#&gt; [1] "Addition&lt;|&gt;+"</span></span></code></pre></div>
@@ -388,115 +543,124 @@ following example.</p>
 we can add it to the <code>question_category</code> object using the
 <code><a href="../reference/define_questions_from_data_frame.html">define_questions_from_data_frame()</a></code> function, as it’s shown
 in the following.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_questions_from_data_frame.html">define_questions_from_data_frame</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="generate-the-xml-file">Generate the xml file<a class="anchor" aria-label="anchor" href="#generate-the-xml-file"></a>
+<h3 id="generate-the-xml-file">Generate the XML file<a class="anchor" aria-label="anchor" href="#generate-the-xml-file"></a>
 </h3>
 <p>Once the questions we need have been defined, the next step is to
-generate the xml file. We use the <code><a href="../reference/generate_xml_file.html">generate_xml_file()</a></code>
+generate the XML file. We use the <code><a href="../reference/generate_xml_file.html">generate_xml_file()</a></code>
 function, to which we have to indicate a file name.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">'.xml'</span><span class="op">)</span></span>
 <span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/generate_xml_file.html">generate_xml_file</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></code></pre></div>
 <p>The generated file is the one that we can import from <em>Moodle</em>
 in the <em>Question Bank</em> section.</p>
 <p>If we have included images, the file size increases considerably
-because they are embedded in xml (not referenced).</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+because they are embedded in XML (not referenced).</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.size</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 216996</span></span></code></pre></div>
 <p>The definition file for a single question is shown below.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>    &lt;<span class="kw">category</span>&gt; &lt;<span class="kw">text</span>&gt;$course$/top/Initial test&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">category</span>&gt;</span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>    &lt;<span class="kw">info</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">info</span>&gt;</span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>    &lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  &lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"multichoice"</span>&gt;</span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt; &lt;<span class="kw">text</span>&gt;q_001_multichoice_what_are_the_basic_arithmetic_operations&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">name</span>&gt;</span>
-<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
-<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>     &lt;!-- Copyright © 2024 Universidad de Granada --&gt;</span>
-<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
-<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>     &lt;p&gt;What are the basic arithmetic operations?&lt;/p&gt;<span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>     </span>
-<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
-<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a>&lt;<span class="kw">generalfeedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">generalfeedback</span>&gt;</span>
-<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>&lt;<span class="kw">defaultgrade</span>&gt;1.0000000&lt;/<span class="kw">defaultgrade</span>&gt;</span>
-<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a>&lt;<span class="kw">penalty</span>&gt;0.5&lt;/<span class="kw">penalty</span>&gt;</span>
-<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a>&lt;<span class="kw">hidden</span>&gt;0&lt;/<span class="kw">hidden</span>&gt;</span>
-<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>&lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
-<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>&lt;<span class="kw">single</span>&gt;true&lt;/<span class="kw">single</span>&gt;</span>
-<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a>&lt;<span class="kw">shuffleanswers</span>&gt;true&lt;/<span class="kw">shuffleanswers</span>&gt;</span>
-<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a>&lt;<span class="kw">answernumbering</span>&gt;abc&lt;/<span class="kw">answernumbering</span>&gt;</span>
-<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a>&lt;<span class="kw">showstandardinstruction</span>&gt;0&lt;/<span class="kw">showstandardinstruction</span>&gt;</span>
-<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a>&lt;<span class="kw">correctfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">correctfeedback</span>&gt;</span>
-<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a>&lt;<span class="kw">partiallycorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">partiallycorrectfeedback</span>&gt;</span>
-<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a>&lt;<span class="kw">incorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">incorrectfeedback</span>&gt;</span>
-<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"100"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication and division.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb18-32"><a href="#cb18-32" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb18-33"><a href="#cb18-33" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb18-34"><a href="#cb18-34" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition and subtraction.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb18-35"><a href="#cb18-35" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb18-36"><a href="#cb18-36" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb18-37"><a href="#cb18-37" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb18-38"><a href="#cb18-38" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication, division and square root.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb18-39"><a href="#cb18-39" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb18-40"><a href="#cb18-40" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb18-41"><a href="#cb18-41" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb18-42"><a href="#cb18-42" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    &lt;<span class="kw">category</span>&gt; &lt;<span class="kw">text</span>&gt;$course$/top/Initial test&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">category</span>&gt;</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>    &lt;<span class="kw">info</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">info</span>&gt;</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>    &lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  &lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"multichoice"</span>&gt;</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt; &lt;<span class="kw">text</span>&gt;q_001_multichoice_what_are_the_basic_arithmetic_operations&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>     &lt;!-- Copyright © 2025 Universidad de Granada --&gt;</span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>     &lt;!-- Author: Jose Samos --&gt;</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>     &lt;p&gt;What are the basic arithmetic operations?&lt;/p&gt;<span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>     </span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>&lt;<span class="kw">generalfeedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">generalfeedback</span>&gt;</span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>&lt;<span class="kw">defaultgrade</span>&gt;1.0000000&lt;/<span class="kw">defaultgrade</span>&gt;</span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>&lt;<span class="kw">penalty</span>&gt;0.5&lt;/<span class="kw">penalty</span>&gt;</span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a>&lt;<span class="kw">hidden</span>&gt;0&lt;/<span class="kw">hidden</span>&gt;</span>
+<span id="cb21-22"><a href="#cb21-22" tabindex="-1"></a>&lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
+<span id="cb21-23"><a href="#cb21-23" tabindex="-1"></a>&lt;<span class="kw">single</span>&gt;true&lt;/<span class="kw">single</span>&gt;</span>
+<span id="cb21-24"><a href="#cb21-24" tabindex="-1"></a>&lt;<span class="kw">shuffleanswers</span>&gt;true&lt;/<span class="kw">shuffleanswers</span>&gt;</span>
+<span id="cb21-25"><a href="#cb21-25" tabindex="-1"></a>&lt;<span class="kw">answernumbering</span>&gt;abc&lt;/<span class="kw">answernumbering</span>&gt;</span>
+<span id="cb21-26"><a href="#cb21-26" tabindex="-1"></a>&lt;<span class="kw">showstandardinstruction</span>&gt;0&lt;/<span class="kw">showstandardinstruction</span>&gt;</span>
+<span id="cb21-27"><a href="#cb21-27" tabindex="-1"></a>&lt;<span class="kw">correctfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">correctfeedback</span>&gt;</span>
+<span id="cb21-28"><a href="#cb21-28" tabindex="-1"></a>&lt;<span class="kw">partiallycorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">partiallycorrectfeedback</span>&gt;</span>
+<span id="cb21-29"><a href="#cb21-29" tabindex="-1"></a>&lt;<span class="kw">incorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">incorrectfeedback</span>&gt;</span>
+<span id="cb21-30"><a href="#cb21-30" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"100"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb21-31"><a href="#cb21-31" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication and division.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb21-32"><a href="#cb21-32" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb21-33"><a href="#cb21-33" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb21-34"><a href="#cb21-34" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb21-35"><a href="#cb21-35" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition and subtraction.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb21-36"><a href="#cb21-36" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb21-37"><a href="#cb21-37" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb21-38"><a href="#cb21-38" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb21-39"><a href="#cb21-39" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication, division and square root.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb21-40"><a href="#cb21-40" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb21-41"><a href="#cb21-41" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb21-42"><a href="#cb21-42" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb21-43"><a href="#cb21-43" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="kind-of-questions">Kind of questions<a class="anchor" aria-label="anchor" href="#kind-of-questions"></a>
 </h2>
-<p>We have simplified and generalized the definition process for 9 types
-of questions, so that we do not even have to indicate the type to define
-them, it is deduced from the definition: It depends on the value of the
-<code>answer</code> field. In some cases a character in the
+<p>We have simplified and generalized the definition process for 10
+types of questions, so that we do not even have to indicate the type to
+define them, it is deduced from the definition: It depends on the value
+of the <code>answer</code> field. In some cases a character in the
 <code>type</code> field is used to distinguish between two types whose
 definition is identical or to indicate the orientation of the answers
-(horizontal or vertical), as we will see below. We dedicate a section to
-each type with the names that are generated in the xml file.</p>
+(horizontal or vertical), as we will see below.</p>
+<p>For each kind of questions, the code for its type is specified,
+followed by (separated by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math>)
+the code that can also be used to deduce the same type. When no value is
+required, it is expressed as <code>''</code> (there is no need to
+include the quotation marks; simply leave the cell blank or use the
+default parameter value).</p>
 <div class="section level3">
-<h3 id="essay">
-<code>essay</code><a class="anchor" aria-label="anchor" href="#essay"></a>
+<h3 id="essay-essay-rightarrow">Essay (<code>essay</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#essay-essay-rightarrow"></a>
 </h3>
 <p>Only includes the question statement with or without an image (the
 <code>answer</code> field is empty). The answer to the question is made
 through free text. Below is an example that we had shown before.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    question <span class="op">=</span> <span class="st">'Describe the addition operation.'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="truefalse">
-<code>truefalse</code><a class="anchor" aria-label="anchor" href="#truefalse"></a>
+<h3 id="truefalse-truefalse-rightarrow">True/False (<code>truefalse</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#truefalse-truefalse-rightarrow"></a>
 </h3>
 <p>The <code>answer</code> field contains the correct answer. If this is
-one of the literals corresponding to the boolean values
+one of the literals corresponding to the Boolean values
 (<code>'True'</code> or <code>'False'</code>), nothing else needs to be
 indicated. Here is an example.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    question <span class="op">=</span> <span class="st">'The square root is a basic arithmetic operation.'</span>,</span>
 <span>    answer <span class="op">=</span> <span class="st">'False'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p>If we use the extended style for defining the question, we can
+specify feedback for each answer.</p>
 </div>
 <div class="section level3">
-<h3 id="numerical">
-<code>numerical</code><a class="anchor" aria-label="anchor" href="#numerical"></a>
+<h3 id="numerical-numerical-rightarrow">Numerical (<code>numerical</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#numerical-numerical-rightarrow"></a>
 </h3>
 <p>If the value of field <code>answer</code> is a number with or without
 decimal places, or a vector of two numbers, it is a
@@ -505,7 +669,7 @@ decimal places, or a vector of two numbers, it is a
 the answer. If, instead of a value, we indicate a vector of two values,
 the second number represents the margin of error in which the answer is
 accepted as valid. Below are two examples.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    question <span class="op">=</span> <span class="st">'What is the result of SQRT(4)?'</span>,</span>
@@ -516,29 +680,33 @@ accepted as valid. Below are two examples.</p>
 <span>    question <span class="op">=</span> <span class="st">'What is the result of 4/3?'</span>,</span>
 <span>    answer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'1.33'</span>, <span class="st">'0.03'</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p>In this case as well, with the extended definition style, feedback
+can be defined for each answer.</p>
 </div>
 <div class="section level3">
-<h3 id="shortanswer">
-<code>shortanswer</code><a class="anchor" aria-label="anchor" href="#shortanswer"></a>
+<h3 id="short-answer-shortanswer-rightarrow">Short Answer (<code>shortanswer</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#short-answer-shortanswer-rightarrow"></a>
 </h3>
-<p>If only field <code>answer</code> is defined and it is not a boolean
+<p>If only field <code>answer</code> is defined and it is not a Boolean
 or numeric value, it is of type <code>shortanswer</code>, for
 example:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    question <span class="op">=</span> <span class="st">'What basic operation does it have as a + symbol?'</span>,</span>
 <span>    answer <span class="op">=</span> <span class="st">'Addition'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p>Feedback for the answer can also be defined using the extended
+style.</p>
 </div>
 <div class="section level3">
-<h3 id="multichoice">
-<code>multichoice</code><a class="anchor" aria-label="anchor" href="#multichoice"></a>
+<h3 id="multiple-choice-multichoice-rightarrow">Multiple Choice (<code>multichoice</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#multiple-choice-multichoice-rightarrow"></a>
 </h3>
 <p>If field <code>answer</code> and the rest of the answers are of type
 string, it is of type <code>multichoice</code>. The content of field
 <code>answer</code> is the correct answer. Here is an example.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    question <span class="op">=</span> <span class="st">'What are the basic arithmetic operations?'</span>,</span>
@@ -546,20 +714,23 @@ string, it is of type <code>multichoice</code>. The content of field
 <span>    a_1 <span class="op">=</span> <span class="st">'Addition and subtraction.'</span>,</span>
 <span>    a_2 <span class="op">=</span> <span class="st">'Addition, subtraction, multiplication, division and square root.'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+<p>As mentioned earlier, feedback for the answers can be specified using
+the extended definition style.</p>
 </div>
 <div class="section level3">
-<h3 id="ordering">
-<code>ordering</code><a class="anchor" aria-label="anchor" href="#ordering"></a>
+<h3 id="ordering-orderingh-rightarrow-h-or-orderingv-rightarrow-v">Ordering (<code>ordering&lt;|&gt;h</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>h</code> or <code>ordering&lt;|&gt;v</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>v</code>)<a class="anchor" aria-label="anchor" href="#ordering-orderingh-rightarrow-h-or-orderingv-rightarrow-v"></a>
 </h3>
 <p>Type <code>ordering</code> is defined as type
 <code>multichoice</code>. To distinguish it, we assign the parameter
 <code>type</code> a value other than empty, which is its default value.
 If we assign the value <code>h</code>, the answers will be presented
-horizontally, if it is different from <code>h</code>, they will be
-presented vertically.</p>
+horizontally, if it is <code>v</code>, they will be presented
+vertically.</p>
 <p>In the example below, the two questions are the same, only the way
 the answers are presented changes.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    type <span class="op">=</span> <span class="st">'h'</span>,</span>
@@ -570,7 +741,7 @@ the answers are presented changes.</p>
 <span>    a_3 <span class="op">=</span> <span class="st">'6*2'</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
-<span>    type <span class="op">=</span> <span class="st">'x'</span>,</span>
+<span>    type <span class="op">=</span> <span class="st">'v'</span>,</span>
 <span>    question <span class="op">=</span> <span class="st">'Order the result from smallest to largest.'</span>,</span>
 <span>    answer <span class="op">=</span> <span class="st">'6/2'</span>,</span>
 <span>    a_1 <span class="op">=</span> <span class="st">'6-2'</span>,</span>
@@ -579,17 +750,18 @@ the answers are presented changes.</p>
 <span>  <span class="op">)</span> </span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="ddwtos-and-gapselect">
-<code>ddwtos</code> and <code>gapselect</code><a class="anchor" aria-label="anchor" href="#ddwtos-and-gapselect"></a>
+<h3 id="drag-and-drop-into-text-ddwtos-rightarrow-and-select-missing-words-gapselect-rightarrow-x">Drag and Drop into Text (<code>ddwtos</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>) and Select Missing Words (<code>gapselect</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>x</code>)<a class="anchor" aria-label="anchor" href="#drag-and-drop-into-text-ddwtos-rightarrow-and-select-missing-words-gapselect-rightarrow-x"></a>
 </h3>
 <p>In questions of these types the objective is to fill in the gaps with
 the terms indicated. If the variable <code>type</code> has the default
 value (empty string), the values are filled by dragging and dropping. If
-we define a value other than empty in the variable <code>type</code>,
-they are filled by selecting from a list.</p>
+we define a value <code>x</code> in the variable <code>type</code>, they
+are filled by selecting from a list.</p>
 <p>Gaps in the statement are defined by numbers in double brackets, as
 shown in the following examples.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    question <span class="op">=</span> <span class="st">'The symbol for addition is [[1]], the symbol for subtraction is [[2]].'</span>,</span>
@@ -602,22 +774,44 @@ shown in the following examples.</p>
 <span>    answer <span class="op">=</span> <span class="st">'+'</span>,</span>
 <span>    a_1 <span class="op">=</span> <span class="st">'-'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<p>We have to indicate as many answers as gaps, in the correct
-order.</p>
+<p>We must specify as many answers as there are gaps, in the correct
+order. Alternatively, a single gap can be defined with multiple
+selectable answers, where the correct answer will be the first one.</p>
 </div>
 <div class="section level3">
-<h3 id="matching">
-<code>matching</code><a class="anchor" aria-label="anchor" href="#matching"></a>
+<h3 id="matching-matching-rightarrow">Matching (<code>matching</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#matching-matching-rightarrow"></a>
 </h3>
 <p>If the answers are made up of vectors of pairs of strings, we are in
 a type <code>matching</code> question. Below we show an example.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    question <span class="op">=</span> <span class="st">'Match each operation with its symbol.'</span>,</span>
 <span>    answer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Addition'</span>, <span class="st">'+'</span><span class="op">)</span>,</span>
 <span>    a_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Subtraction'</span>, <span class="st">'-'</span><span class="op">)</span>,</span>
 <span>    a_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Multiplication'</span>, <span class="st">'*'</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="drag-and-drop-markers-ddmarker-rightarrow">Drag and Drop Markers (<code>ddmarker</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>''</code>)<a class="anchor" aria-label="anchor" href="#drag-and-drop-markers-ddmarker-rightarrow"></a>
+</h3>
+<p>The <code>ddmarker</code> question type allows users to drag markers
+onto predefined areas of an image. Each marker corresponds to a specific
+target, enabling visually interactive and location-based
+assessments.</p>
+<p>In this case, even if the <strong>category level</strong> specifies
+that images should be transformed, the image remains unchanged because
+the definition specifies the position of the image where the cursors
+must be placed for the answer to be correct.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/define_question.html">define_question</a></span><span class="op">(</span></span>
+<span>    question <span class="op">=</span> <span class="st">'Place the cursor over the indicated operation.'</span>,</span>
+<span>    image <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"ops.png"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span>,</span>
+<span>    image_alt <span class="op">=</span> <span class="st">'Operations'</span>,</span>
+<span>    answer <span class="op">=</span> <span class="st">'rectangle&lt;|&gt;142,85;554,553&lt;|&gt;Sum'</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -627,13 +821,16 @@ a type <code>matching</code> question. Below we show an example.</p>
 <p>The <code>moodef</code> package makes it easy to define questions for
 <em>Moodle</em> quizzes.</p>
 <p>We can define the questions one by one by calling a function or in
-bulk using a csv file or a data frame. We have simplified and
-generalized the definition so that the types considered are defined with
-the same parameters.</p>
+bulk using a CSV file, <em>Excel</em> file or a data frame. We have
+simplified and generalized the definition so that the types considered
+are defined with the same parameters.</p>
+<p>Two definition styles are offered: simple and extended. The extended
+mode allows defining elements that are considered default in the simple
+mode.</p>
 <p>The functionality offered by the package can be used to manually
 define the questions quickly or to define them automatically or
 semi-automatically from R.</p>
-<p>The result of the definition process is an xml file that can be
+<p>The result of the definition process is an XML file that can be
 imported directly into the <em>Moodle</em> question bank.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
