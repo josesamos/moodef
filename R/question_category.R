@@ -217,7 +217,7 @@ define_question.question_category <- function(qc,
 #' Define an extended question
 #'
 #' This function allows users to define an extended question, including metadata,
-#' feedback and optional image data, and append it to an existing question category (`qc`).
+#' feedback and optional image data.
 #'
 #' Parameter values that are not defined are taken from the category definition,
 #' if they are defined there.
@@ -225,7 +225,7 @@ define_question.question_category <- function(qc,
 #' @param qc A question category object. It should have a `questions` data frame
 #'   where new questions will be added.
 #' @param category A character string specifying the category of the question.
-#' @param type A character string indicating the type of the question (e.g., "multiple_choice").
+#' @param type A character string indicating the type of the question.
 #' @param id A unique identifier for the question.
 #' @param name A character string representing the name of the question.
 #' @param author The name of the author of the question.
@@ -234,36 +234,31 @@ define_question.question_category <- function(qc,
 #' @param fb_partially Feedback displayed for partially correct answers.
 #' @param fb_incorrect Feedback displayed for incorrect answers.
 #' @param question The text of the question.
-#' @param image (Optional) Path to an image file associated with the question.
-#' @param image_alt (Optional) Alternative text describing the image for accessibility.
+#' @param image Path to an image file associated with the question.
+#' @param image_alt Alternative text describing the image for accessibility.
 #'   Required if an image is provided.
 #' @param answer The correct answer to the question.
-#' @param a_1 Additional possible answers for multiple-choice questions.
-#' @param a_2 Additional possible answers for multiple-choice questions.
-#' @param a_3 Additional possible answers for multiple-choice questions.
-#' @param a_4 Additional possible answers for multiple-choice questions.
-#' @param a_5 Additional possible answers for multiple-choice questions.
-#' @param a_6 Additional possible answers for multiple-choice questions.
+#' @param a_1 Additional possible answer.
+#' @param a_2 Additional possible answer.
+#' @param a_3 Additional possible answer.
+#' @param a_4 Additional possible answer.
+#' @param a_5 Additional possible answer.
+#' @param a_6 Additional possible answer.
 #' @param fb_answer Feedback for the correct answer.
-#' @param fb_a_1 Feedback for additional answers.
-#' @param fb_a_2 Feedback for additional answers.
-#' @param fb_a_3 Feedback for additional answers.
-#' @param fb_a_4 Feedback for additional answers.
-#' @param fb_a_5 Feedback for additional answers.
-#' @param fb_a_6 Feedback for additional answers.
-#' @param tag_1 Tags to categorize the question.
-#' @param tag_2 Tags to categorize the question.
-#' @param tag_3 Tags to categorize the question.
-#' @param tag_4 Tags to categorize the question.
-#' @param tag_5 Tags to categorize the question.
-#' @param tag_6 Tags to categorize the question.
+#' @param fb_a_1 Feedback for additional answer.
+#' @param fb_a_2 Feedback for additional answer.
+#' @param fb_a_3 Feedback for additional answer.
+#' @param fb_a_4 Feedback for additional answer.
+#' @param fb_a_5 Feedback for additional answer.
+#' @param fb_a_6 Feedback for additional answer.
+#' @param tag_1 Tag to categorize the question.
+#' @param tag_2 Tag to categorize the question.
+#' @param tag_3 Tag to categorize the question.
+#' @param tag_4 Tag to categorize the question.
+#' @param tag_5 Tag to categorize the question.
+#' @param tag_6 Tag to categorize the question.
 #'
-#' @return Returns the updated question category object with the new question appended.
-#'
-#' @details
-#' The function converts the parameters into a data frame and appends it to the
-#' `questions` data frame of the provided question category object. If an image is included,
-#' the `image_alt` parameter must also be defined to comply with accessibility standards.
+#' @return Returns the updated question category object.
 #'
 #' @family question definition functions
 #'
