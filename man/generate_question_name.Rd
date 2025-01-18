@@ -4,15 +4,13 @@
 \alias{generate_question_name}
 \title{generate question \code{name} node}
 \usage{
-generate_question_name(first_question_number, type, orientation, question)
+generate_question_name(first_question_number, type, question)
 }
 \arguments{
 \item{first_question_number}{An integer, first number to compose the question
 names.}
 
 \item{type}{A string, question type (if needed).}
-
-\item{orientation}{A string, 'h' or 'v'.}
 
 \item{question}{A string, statement of the question.}
 }
