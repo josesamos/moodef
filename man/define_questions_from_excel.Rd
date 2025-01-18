@@ -51,7 +51,8 @@ qc <-
 
 }
 \seealso{
-Other question definition: 
+Other question definition functions: 
+\code{\link{define_extended_question}()},
 \code{\link{define_question}()},
 \code{\link{define_questions_from_csv}()},
 \code{\link{define_questions_from_data_frame}()},
@@ -59,4 +60,4 @@ Other question definition:
 \code{\link{generate_xml_file}()},
 \code{\link{question_category}()}
 }
-\concept{question definition}
+\concept{question definition functions}

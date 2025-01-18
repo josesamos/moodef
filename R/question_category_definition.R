@@ -13,7 +13,7 @@
 #'
 #' @return A `question_category`.
 #'
-#' @family question definition
+#' @family question definition functions
 #'
 #' @examples
 #'
@@ -105,7 +105,7 @@ define_questions_from_data_frame.question_category <- function(qc, df, extended 
 #'
 #' @return A `question_category`.
 #'
-#' @family question definition
+#' @family question definition functions
 #'
 #' @examples
 #'
@@ -149,7 +149,7 @@ define_questions_from_csv.question_category <- function(qc, file,
 #'
 #' @return A `question_category`.
 #'
-#' @family question definition
+#' @family question definition functions
 #'
 #' @examples
 #'

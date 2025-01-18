@@ -32,7 +32,7 @@
 #'
 #' @return A `question_category` object.
 #'
-#' @family question definition
+#' @family question definition functions
 #'
 #' @examples
 #'
@@ -118,7 +118,7 @@ question_category <-
 #'
 #' @return A `question_category`.
 #'
-#' @family question definition
+#' @family question definition functions
 #'
 #' @examples
 #'
@@ -216,8 +216,11 @@ define_question.question_category <- function(qc,
 
 #' Define an Extended Question in a Question Category
 #'
-#' This function allows users to define an extended question, including metadata, feedback,
-#' and optional image data, and append it to an existing question category (`qc`).
+#' This function allows users to define an extended question, including metadata,
+#' feedback and optional image data, and append it to an existing question category (`qc`).
+#'
+#' Parameter values that are not defined are taken from the category definition,
+#' if they are defined there.
 #'
 #' @param qc A question category object. It should have a `questions` data frame
 #'   where new questions will be added.
@@ -261,6 +264,8 @@ define_question.question_category <- function(qc,
 #' The function converts the parameters into a data frame and appends it to the
 #' `questions` data frame of the provided question category object. If an image is included,
 #' the `image_alt` parameter must also be defined to comply with accessibility standards.
+#'
+#' @family question definition functions
 #'
 #' @examples
 #'

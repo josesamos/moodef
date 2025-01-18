@@ -150,10 +150,13 @@ Required if an image is provided.}
 Returns the updated question category object with the new question appended.
 }
 \description{
-This function allows users to define an extended question, including metadata, feedback,
-and optional image data, and append it to an existing question category (\code{qc}).
+This function allows users to define an extended question, including metadata,
+feedback and optional image data, and append it to an existing question category (\code{qc}).
 }
 \details{
+Parameter values that are not defined are taken from the category definition,
+if they are defined there.
+
 The function converts the parameters into a data frame and appends it to the
 \code{questions} data frame of the provided question category object. If an image is included,
 the \code{image_alt} parameter must also be defined to comply with accessibility standards.
@@ -169,3 +172,14 @@ qc <- question_category(category = 'Initial test') |>
   )
 
 }
+\seealso{
+Other question definition functions: 
+\code{\link{define_question}()},
+\code{\link{define_questions_from_csv}()},
+\code{\link{define_questions_from_data_frame}()},
+\code{\link{define_questions_from_excel}()},
+\code{\link{generate_xml}()},
+\code{\link{generate_xml_file}()},
+\code{\link{question_category}()}
+}
+\concept{question definition functions}
