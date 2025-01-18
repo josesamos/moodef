@@ -8,6 +8,7 @@ generate_question(
   first_question_number,
   copyright,
   license,
+  author,
   correct_feedback,
   partially_correct_feedback,
   incorrect_feedback,
@@ -28,6 +29,8 @@ generate_question(
 \item{copyright}{A string, copyright text to include in the question.}
 
 \item{license}{A string, license text to include in the question.}
+
+\item{author}{A string, author name.}
 
 \item{correct_feedback}{A string, feedback for correct answers.}
 

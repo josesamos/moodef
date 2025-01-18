@@ -18,6 +18,7 @@ format_questions <- function(questions) {
 #' @param first_question_number An integer, the first number to compose the question names.
 #' @param copyright A string, copyright text to include in the question.
 #' @param license A string, license text to include in the question.
+#' @param author A string, author name.
 #' @param correct_feedback A string, feedback for correct answers.
 #' @param partially_correct_feedback A string, feedback for partially correct answers.
 #' @param incorrect_feedback A string, feedback for incorrect answers.
@@ -36,6 +37,7 @@ format_questions <- function(questions) {
 generate_question <- function(first_question_number,
                               copyright,
                               license,
+                              author,
                               correct_feedback,
                               partially_correct_feedback,
                               incorrect_feedback,
@@ -61,10 +63,11 @@ generate_question <- function(first_question_number,
   orientation <- r$orientation
 
   question_body <- generate_question_body(type, answer, a_values, correct_feedback,
-                                          incorrect_feedback, partially_correct_feedback, orientation)
+                                          incorrect_feedback, partially_correct_feedback, orientation,
+                                          image = image, image_alt = image_alt)
 
   questiontext <- xml_questiontext(copyright, license, adapt_images, width, height,
-                                   question, image, image_alt, type)
+                                   question, image, image_alt, type, author)
 
   name <- generate_question_name(first_question_number, type, question)
   question_name <- xml_question_name(name)
@@ -132,7 +135,7 @@ filter_non_empty_answers <- function(...) {
 generate_question_body <- function(type, answer, a_values, fb_correct,
                                    fb_incorrect, fb_partially, orientation,
                                    fb_answer = '', fb_a_values = NULL,
-                                   image = '', image_alt = '') {
+                                   image, image_alt) {
   switch(type,
          "numerical" = generate_numerical(answer, a_values, fb_answer, fb_a_values),
          "multichoice" = generate_multichoice(answer, a_values, fb_correct, fb_incorrect, fb_partially, fb_answer, fb_a_values),

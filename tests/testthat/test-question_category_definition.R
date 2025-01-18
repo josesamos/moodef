@@ -56,6 +56,7 @@ test_that("define_questions_from", {
           first_question_number = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
           copyright = c("", "", "", "", "", "", "", "", "", "", ""),
           license = c("", "", "", "", "", "", "", "", "", "", ""),
+          author = c("", "", "", "", "", "", "", "", "", "", ""),
           correct_feedback = c(
             "Correct.",
             "Correct.",
