@@ -28,7 +28,6 @@
 #' @param height A integer, height of each image.
 #' @param author A string, author name to be included in each question that is
 #' defined.
-#' @param general_feedback A string, general feedback to each question.
 #'
 #' @return A `question_category` object.
 #'
@@ -50,14 +49,12 @@ question_category <-
            adapt_images = FALSE,
            width = 800,
            height = 600,
-           author = '',
-           general_feedback = '') {
+           author = '') {
     questions <-  data.frame(
       first_question_number = integer(),
       copyright = character(),
       license = character(),
       author = character(),
-      general_feedback = character(),
       correct_feedback = character(),
       partially_correct_feedback = character(),
       incorrect_feedback = character(),
@@ -82,7 +79,6 @@ question_category <-
         copyright = copyright,
         license = license,
         author = author,
-        general_feedback = general_feedback,
         correct_feedback = correct_feedback,
         partially_correct_feedback = partially_correct_feedback,
         incorrect_feedback = incorrect_feedback,
