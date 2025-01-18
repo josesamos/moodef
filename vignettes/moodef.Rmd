@@ -423,9 +423,9 @@ The definition file for a single question is shown below.
 
 We have simplified and generalized the definition process for 10 types of questions, so that we do not even have to indicate the type to define them, it is deduced from the definition: It depends on the value of the `answer` field. In some cases a character in the `type` field is used to distinguish between two types whose definition is identical or to indicate the orientation of the answers (horizontal or vertical), as we will see below. 
 
-For each kind of questions, the code for its type is specified, followed by (separated by $\rightarrow$) the code that can also be used to deduce the same type. When no value is required, it is expressed as `''` (there is no need to include the quotation marks; simply leave the cell blank or use the default parameter value).
+For each kind of questions, the code for its type is specified, followed by (separated by ':') the code that can also be used to deduce the same type. When no value is required, it is expressed as `''` (there is no need to include the quotation marks; simply leave the cell blank or use the default parameter value).
 
-## Essay (`essay` $\rightarrow$ `''`)
+## Essay (`essay`: `''`)
 
 Only includes the question statement with or without an image (the `answer` field is empty). The answer to the question is made through free text. Below is an example that we had shown before.
 
@@ -436,7 +436,7 @@ qc <- qc |>
   )
 ```
 
-## True/False (`truefalse` $\rightarrow$ `''`)
+## True/False (`truefalse`: `''`)
 
 The `answer` field contains the correct answer. If this is one of the literals corresponding to the Boolean values (`'True'` or `'False'`), nothing else needs to be indicated. Here is an example.
 
@@ -451,7 +451,7 @@ qc <- qc |>
 
 If we use the extended style for defining the question, we can specify feedback for each answer.
 
-## Numerical (`numerical` $\rightarrow$ `''`)
+## Numerical (`numerical`: `''`)
 
 If the value of field `answer` is a number with or without decimal places, or a vector of two numbers, it is a `numerical` question.
 
@@ -473,7 +473,7 @@ qc <- qc |>
 In this case as well, with the extended definition style, feedback can be defined for each answer.
 
 
-## Short Answer (`shortanswer` $\rightarrow$ `''`)
+## Short Answer (`shortanswer`: `''`)
 
 If only field `answer` is defined and it is not a Boolean or numeric value, it is of type `shortanswer`, for example:
 
@@ -487,7 +487,7 @@ qc <- qc |>
 
 Feedback for the answer can also be defined using the extended style.
 
-## Multiple Choice (`multichoice` $\rightarrow$ `''`)
+## Multiple Choice (`multichoice`: `''`)
 
 If field `answer` and the rest of the answers are of type string, it is of type `multichoice`. The content of field `answer` is the correct answer. Here is an example.
 
@@ -503,7 +503,7 @@ qc <- qc |>
 
 As mentioned earlier, feedback for the answers can be specified using the extended definition style.
 
-## Ordering (`ordering<|>h` $\rightarrow$ `h` or `ordering<|>v` $\rightarrow$ `v`)
+## Ordering (`ordering<|>h`: `h` or `ordering<|>v`: `v`)
 
 The `ordering` type is defined as a `multichoice` type. To differentiate it, the `type` parameter is assigned a value other than its default empty value. Assigning `h` displays the answers horizontally, while `v` displays them vertically. To specify the detailed name, you must also indicate the orientation using `ordering<|>h` for horizontal or `ordering<|>v` for vertical.
 
@@ -529,7 +529,7 @@ qc <- qc |>
   ) 
 ```
 
-## Drag and Drop into Text (`ddwtos` $\rightarrow$ `''`) and Select Missing Words (`gapselect` $\rightarrow$ `x`)
+## Drag and Drop into Text (`ddwtos`: `''`) and Select Missing Words (`gapselect`: `x`)
 
 In questions of these types the objective is to fill in the gaps with the terms indicated. If the variable `type` has the default value (empty string), the values are filled by dragging and dropping. If we define a value `x` in the variable `type`, they are filled by selecting from a list.
 
@@ -552,7 +552,7 @@ qc <- qc |>
 
 We must specify as many answers as there are gaps, in the correct order. Alternatively, a single gap can be defined with multiple selectable answers, where the correct answer will be the first one.
 
-## Matching (`matching` $\rightarrow$ `''`)
+## Matching (`matching`: `''`)
 
 If the answers are made up of vectors of pairs of strings, we are in a type `matching` question. Below we show an example.
 
@@ -566,7 +566,7 @@ qc <- qc |>
   )
 ```
 
-## Drag and Drop Markers (`ddmarker` $\rightarrow$ `''`)
+## Drag and Drop Markers (`ddmarker`: `''`)
 
 The `ddmarker` question type allows users to drag markers onto predefined areas of an image. Each marker corresponds to a specific target, enabling visually interactive and location-based assessments.
 
