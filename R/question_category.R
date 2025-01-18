@@ -219,6 +219,19 @@ define_question.question_category <- function(qc,
 #' Parameter values that are not defined are taken from the category definition,
 #' if they are defined there.
 #'
+#' When defining questions using the extended style via files, there is no limit
+#' to the number of fields for answers, feedback for answers, or tags (except for
+#' Moodle's limitations when processing imported data). However, when defining
+#' questions through this function, the number of fields is limited to the parameters
+#' explicitly defined. While it would have been possible to allow a completely
+#' variable number of parameters in each section, simplicity was prioritized, and
+#' we defined a fixed set of parameters that we believe are more than sufficient
+#' for most use cases.
+#'
+#' In the example provided, we have intentionally used the same structure as in
+#' the `define_question()` function to demonstrate that any parameters not needed
+#' do not need to be explicitly defined.
+#'
 #' @param qc A question category object. It should have a `questions` data frame
 #'   where new questions will be added.
 #' @param category A character string specifying the category of the question.
