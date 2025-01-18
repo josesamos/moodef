@@ -564,7 +564,7 @@ in the <em>Question Bank</em> section.</p>
 because they are embedded in XML (not referenced).</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.size</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 216996</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 217401</span></span></code></pre></div>
 <p>The definition file for a single question is shown below.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
 <span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
@@ -722,12 +722,14 @@ the extended definition style.</p>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>h</code> or <code>ordering&lt;|&gt;v</code>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\rightarrow</annotation></semantics></math><code>v</code>)<a class="anchor" aria-label="anchor" href="#ordering-orderingh-rightarrow-h-or-orderingv-rightarrow-v"></a>
 </h3>
-<p>Type <code>ordering</code> is defined as type
-<code>multichoice</code>. To distinguish it, we assign the parameter
-<code>type</code> a value other than empty, which is its default value.
-If we assign the value <code>h</code>, the answers will be presented
-horizontally, if it is <code>v</code>, they will be presented
-vertically.</p>
+<p>The <code>ordering</code> type is defined as a
+<code>multichoice</code> type. To differentiate it, the
+<code>type</code> parameter is assigned a value other than its default
+empty value. Assigning <code>h</code> displays the answers horizontally,
+while <code>v</code> displays them vertically. To specify the detailed
+name, you must also indicate the orientation using
+<code>ordering&lt;|&gt;h</code> for horizontal or
+<code>ordering&lt;|&gt;v</code> for vertical.</p>
 <p>In the example below, the two questions are the same, only the way
 the answers are presented changes.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
