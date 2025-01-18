@@ -3,7 +3,7 @@
 \name{define_question}
 \alias{define_question}
 \alias{define_question.question_category}
-\title{Define question}
+\title{Define a question}
 \usage{
 define_question(qc, type, question, image, image_alt, answer, ...)
 

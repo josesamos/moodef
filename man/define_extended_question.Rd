@@ -3,7 +3,7 @@
 \name{define_extended_question}
 \alias{define_extended_question}
 \alias{define_extended_question.question_category}
-\title{Define an Extended Question in a Question Category}
+\title{Define an extended question}
 \usage{
 define_extended_question(
   qc,

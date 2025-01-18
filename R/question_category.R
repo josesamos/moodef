@@ -97,7 +97,7 @@ question_category <-
   }
 
 
-#' Define question
+#' Define a question
 #'
 #' Define a question and the possible answers. The type of question is deduced.
 #'
@@ -214,7 +214,7 @@ define_question.question_category <- function(qc,
 }
 
 
-#' Define an Extended Question in a Question Category
+#' Define an extended question
 #'
 #' This function allows users to define an extended question, including metadata,
 #' feedback and optional image data, and append it to an existing question category (`qc`).
