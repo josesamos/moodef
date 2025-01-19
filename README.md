@@ -22,18 +22,22 @@ quizzes.
 To define the questions for the quizzes we can use the component for
 this purpose that includes *Moodle*, based on entering data through
 screens. It allows the import and export of questions in various
-formats, including xml.
+formats, including XML.
 
 Complementary, using the `moodef` package, we can define questionnaires
-from R. We have generalized 9 types of questions and simplified their
+from R. We have generalized 10 types of questions and simplified their
 definition. So, we define a question by calling a function or simply
-including a row in a data frame, a csv file or an *Excel* file. The
-result is an xml file that we import into *Moodle*. If necessary, some
+including a row in a data frame, a CSV file or an *Excel* file. The
+result is an XML file that we import into *Moodle*. If necessary, some
 parameter not considered in the generalization can be defined or
 adjusted there.
 
+The package supports two styles of question definition: the simple style
+and the extended style. The following example is based on the simple
+style.
+
 Although not shown in the next example, in each question we can include
-an image that is embedded in xml. We can set up the size of the images
+an image that is embedded in XML. We can set up the size of the images
 so that they are homogeneous when displayed in quizzes.
 
 In addition to facilitating the definition of questions manually, the
@@ -65,8 +69,9 @@ the function:
 library(moodef)
 
 qc <- question_category(category = 'Initial test',
-                        copyright = 'Copyright © 2024 Universidad de Granada',
-                        license = 'License Creative Commons Attribution-ShareAlike 4.0') |>
+                        copyright = 'Copyright © 2025 Universidad de Granada',
+                        license = 'License Creative Commons Attribution-ShareAlike 4.0',
+                        author = 'Jose Samos') |>
   define_question(
     question = 'What are the basic arithmetic operations?',
     answer = 'Addition, subtraction, multiplication and division.',
@@ -83,7 +88,7 @@ First, we create an object using the `question_category` function and
 configure general aspects of the definition in it. Next, we define the
 questions, as many as we need, using the `define_question` function (the
 type of the questions is deduced from the definition). Finally, we
-generate the questions in xml format, in the form of a string or file.
+generate the questions in XML format, in the form of a string or file.
 We show the result below.
 
 ``` xml
@@ -98,8 +103,9 @@ We show the result below.
 <name> <text>q_001_multichoice_what_are_the_basic_arithmetic_operations</text> </name>
 <questiontext format="html">
   <text><![CDATA[
-     <!-- Copyright © 2024 Universidad de Granada -->
+     <!-- Copyright © 2025 Universidad de Granada -->
      <!-- License Creative Commons Attribution-ShareAlike 4.0 -->
+     <!-- Author: Jose Samos -->
      <p>What are the basic arithmetic operations?</p>]]></text>
      
 </questiontext>
@@ -133,32 +139,36 @@ We show the result below.
 
 We can call the `define_question` function for each question to be
 defined, with the same parameters. Alternatively, we can create a data
-frame, a csv file or an *Excel* file (with the functions available in
+frame, a CSV file or an *Excel* file (with the functions available in
 the package) and include in them a row for each question, a column for
-each parameter. Below is the content of a csv file.
+each parameter. Below is the content of a CSV file in table format.
 
-``` csv
-"type","question","image","image_alt","answer","a_1","a_2","a_3"
-,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
-,"Match each operation with its symbol.",,,"Addition<|>+","Subtraction<|>-","Multiplication<|>*",
-,"The square root is a basic arithmetic operation.",,,"False",,,
-,"What basic operation does it have as a + symbol?",,,"Addition",,,
-,"The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
-"x","The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
-"h","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
-"x","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
-,"What is the result of SQRT(4)?",,,"2","-2",,
-,"What is the result of 4/3?",,,"1.33<|>0.03",,,
-,"Describe the addition operation.",,,,,,
-```
+<div style="font-size: small;">
+
+| type | question | image | image_alt | answer | a_1 | a_2 |
+|:---|:---|:---|:---|:---|:---|:---|
+|  | What are the basic arithmetic operations? |  |  | Addition, subtraction, multiplication and division. | Addition and subtraction. | Addition, subtraction, multiplication, division and square root. |
+|  | Match each operation with its symbol. |  |  | Addition\<\|\>+ | Subtraction\<\|\>- | Multiplication\<\|\>\* |
+|  | The square root is a basic arithmetic operation. |  |  | False |  |  |
+|  | What basic operation does it have as a + symbol? |  |  | Addition |  |  |
+|  | The symbol for addition is \[\[1\]\], the symbol for subtraction is \[\[2\]\]. |  |  | \+ | \- |  |
+| x | The symbol for addition is \[\[1\]\], the symbol for subtraction is \[\[2\]\]. |  |  | \+ | \- |  |
+| h | Sort the result from smallest to largest. |  |  | 6/2 | 6-2 | 6+2 |
+| v | Sort the result from smallest to largest. |  |  | 6/2 | 6-2 | 6+2 |
+|  | What is the result of SQRT(4)? |  |  | 2 | -2 |  |
+|  | What is the result of 4/3? |  |  | 1.33\<\|\>0.03 |  |  |
+|  | Describe the addition operation. |  |  |  |  |  |
+
+</div>
 
 The generation of the questions would be similar, as shown below.
 
 ``` r
 file <- system.file("extdata", "questions.csv", package = "moodef")
 qc <- question_category(category = 'Initial test',
-                        copyright = 'Copyright © 2024 Universidad de Granada',
-                        license = 'License Creative Commons Attribution-ShareAlike 4.0') |>
+                        copyright = 'Copyright © 2025 Universidad de Granada',
+                        license = 'License Creative Commons Attribution-ShareAlike 4.0',
+                        author = 'Jose Samos') |>
   define_questions_from_csv(file = file)
 
 file <- tempfile(fileext = '.xml')
@@ -166,6 +176,6 @@ qc <- qc |>
   generate_xml_file(file)
 ```
 
-We do not show the content of the xml file obtained because in that
+We do not show the content of the XML file obtained because in that
 example there are several questions defined and it takes up a lot of
 space.
