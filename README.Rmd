@@ -143,66 +143,12 @@ First, we create an object using the `question_category` function and configure 
 We can call the `define_question` function for each question to be defined, with the same parameters. Alternatively, we can create a data frame, a CSV file or an *Excel* file (with the functions available in the package) and include in them a row for each question, a column for each parameter. Below is the content of a CSV file in table format.
 
 <div style="font-size: small;">
-```{r echo=FALSE, results='asis'}
-library(knitr)
-data <- data.frame(
-  type = c("", "", "", "", "", "x", "h", "v", "", "", ""),
-  question = c(
-    "What are the basic arithmetic operations?",
-    "Match each operation with its symbol.",
-    "The square root is a basic arithmetic operation.",
-    "What basic operation does it have as a + symbol?",
-    "The symbol for addition is [[1]], the symbol for subtraction is [[2]].",
-    "The symbol for addition is [[1]], the symbol for subtraction is [[2]].",
-    "Sort the result from smallest to largest.",
-    "Sort the result from smallest to largest.",
-    "What is the result of SQRT(4)?",
-    "What is the result of 4/3?",
-    "Describe the addition operation."
-  ),
-  image = c(rep("", 11)),
-  image_alt = c(rep("", 11)),
-  answer = c(
-    "Addition, subtraction, multiplication and division.",
-    "Addition<|>+",
-    "False",
-    "Addition",
-    "+",
-    "+",
-    "6/2",
-    "6/2",
-    "2",
-    "1.33<|>0.03",
-    ""
-  ),
-  a_1 = c(
-    "Addition and subtraction.",
-    "Subtraction<|>-",
-    "",
-    "",
-    "-",
-    "-",
-    "6-2",
-    "6-2",
-    "-2",
-    "",
-    ""
-  ),
-  a_2 = c(
-    "Addition, subtraction, multiplication, division and square root.",
-    "Multiplication<|>*",
-    "",
-    "",
-    "",
-    "",
-    "6+2",
-    "6+2",
-    "",
-    "",
-    ""
-  )
-)
-kable(data, format = "markdown", align = 'l')
+```{r echo=FALSE, results = "asis"}
+file <- system.file("extdata", "questions.csv", package = "moodef")
+df <- read_question_csv(file = file)
+df$a_3 <- NULL
+
+pander::pandoc.table(df, split.table = Inf)
 ```
 </div>
 

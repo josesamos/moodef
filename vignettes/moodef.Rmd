@@ -287,66 +287,12 @@ From that file, we can include rows using a text editor, R or some tool to edit 
 Below is the content of a CSV file included in this package for the simple style in table format.
 
 <div style="font-size: small;">
-```{r echo=FALSE, results='asis'}
-library(knitr)
-data <- data.frame(
-  type = c("", "", "", "", "", "x", "h", "v", "", "", ""),
-  question = c(
-    "What are the basic arithmetic operations?",
-    "Match each operation with its symbol.",
-    "The square root is a basic arithmetic operation.",
-    "What basic operation does it have as a + symbol?",
-    "The symbol for addition is [[1]], the symbol for subtraction is [[2]].",
-    "The symbol for addition is [[1]], the symbol for subtraction is [[2]].",
-    "Sort the result from smallest to largest.",
-    "Sort the result from smallest to largest.",
-    "What is the result of SQRT(4)?",
-    "What is the result of 4/3?",
-    "Describe the addition operation."
-  ),
-  image = c(rep("", 11)),
-  image_alt = c(rep("", 11)),
-  answer = c(
-    "Addition, subtraction, multiplication and division.",
-    "Addition<|>+",
-    "False",
-    "Addition",
-    "+",
-    "+",
-    "6/2",
-    "6/2",
-    "2",
-    "1.33<|>0.03",
-    ""
-  ),
-  a_1 = c(
-    "Addition and subtraction.",
-    "Subtraction<|>-",
-    "",
-    "",
-    "-",
-    "-",
-    "6-2",
-    "6-2",
-    "-2",
-    "",
-    ""
-  ),
-  a_2 = c(
-    "Addition, subtraction, multiplication, division and square root.",
-    "Multiplication<|>*",
-    "",
-    "",
-    "",
-    "",
-    "6+2",
-    "6+2",
-    "",
-    "",
-    ""
-  )
-)
-kable(data, format = "markdown", align = 'l')
+```{r echo=FALSE, results = "asis"}
+file <- system.file("extdata", "questions.csv", package = "moodef")
+df <- read_question_csv(file = file)
+df$a_3 <- NULL
+
+pander::pandoc.table(df, split.table = Inf)
 ```
 </div>
 
@@ -376,9 +322,11 @@ df <- read_question_csv(file = file)
 
 The content of the data frame is shown below.
 
+<div style="font-size: small;">
 ```{r echo=FALSE, results = "asis"}
 pander::pandoc.table(df, split.table = Inf)
 ```
+</div>
 
 In this case we are going to update the figure data with the files included in the package (in a local example, this is not necessary).
 
@@ -492,7 +440,7 @@ The definition file for a single question is shown below.
 
 We have simplified and generalized the definition process for 10 types of questions, so that we do not even have to indicate the type to define them, it is deduced from the definition: It depends on the value of the `answer` field. In some cases a character in the `type` field is used to distinguish between two types whose definition is identical or to indicate the orientation of the answers (horizontal or vertical), as we will see below. 
 
-For each kind of questions, the code for its type is specified, followed by (separated by ':') the code that can also be used to deduce the same type. When no value is required, it is expressed as `''` (there is no need to include the quotation marks; simply leave the cell blank or use the default parameter value).
+For each kind of questions, the code for its type is specified, followed by (separated by ':') the code that can also be used to deduce the same type. When no value is required, it is expressed as `''` (there is no need to include the quotation marks; simply leave the cell blank or use the default parameter value). **Either of the two codes provided can be used interchangeably to identify the question type.**
 
 ## Essay (`essay`: `''`)
 
