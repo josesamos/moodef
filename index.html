@@ -62,9 +62,10 @@
 <!-- badges: start -->
 
 <p>The goal of the <code>moodef</code> package is to support the definition of <a href="https://moodle.org/" class="external-link"><em>Moodle</em></a> elements taking advantage of the power that R offers. In particular, in this first version, it allows the definition of questions to be included in the question bank to define quizzes.</p>
-<p>To define the questions for the quizzes we can use the component for this purpose that includes <em>Moodle</em>, based on entering data through screens. It allows the import and export of questions in various formats, including xml.</p>
-<p>Complementary, using the <code>moodef</code> package, we can define questionnaires from R. We have generalized 9 types of questions and simplified their definition. So, we define a question by calling a function or simply including a row in a data frame, a csv file or an <em>Excel</em> file. The result is an xml file that we import into <em>Moodle</em>. If necessary, some parameter not considered in the generalization can be defined or adjusted there.</p>
-<p>Although not shown in the next example, in each question we can include an image that is embedded in xml. We can set up the size of the images so that they are homogeneous when displayed in quizzes.</p>
+<p>To define the questions for the quizzes we can use the component for this purpose that includes <em>Moodle</em>, based on entering data through screens. It allows the import and export of questions in various formats, including XML.</p>
+<p>Complementary, using the <code>moodef</code> package, we can define questionnaires from R. We have generalized 10 types of questions and simplified their definition. So, we define a question by calling a function or simply including a row in a data frame, a CSV file or an <em>Excel</em> file. The result is an XML file that we import into <em>Moodle</em>. If necessary, some parameter not considered in the generalization can be defined or adjusted there.</p>
+<p>The package supports two styles of question definition: the simple style and the extended style. The following example is based on the simple style.</p>
+<p>Although not shown in the next example, in each question we can include an image that is embedded in XML. We can set up the size of the images so that they are homogeneous when displayed in quizzes.</p>
 <p>In addition to facilitating the definition of questions manually, the infrastructure offered by this package can be used to generate questions automatically or semi-automatically from R.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -85,8 +86,9 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://josesamos.github.io/moodef/">moodef</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/question_category.html">question_category</a></span><span class="op">(</span>category <span class="op">=</span> <span class="st">'Initial test'</span>,</span>
-<span>                        copyright <span class="op">=</span> <span class="st">'Copyright © 2024 Universidad de Granada'</span>,</span>
-<span>                        license <span class="op">=</span> <span class="st">'License Creative Commons Attribution-ShareAlike 4.0'</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>                        copyright <span class="op">=</span> <span class="st">'Copyright © 2025 Universidad de Granada'</span>,</span>
+<span>                        license <span class="op">=</span> <span class="st">'License Creative Commons Attribution-ShareAlike 4.0'</span>,</span>
+<span>                        author <span class="op">=</span> <span class="st">'Jose Samos'</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/define_question.html">define_question</a></span><span class="op">(</span></span>
 <span>    question <span class="op">=</span> <span class="st">'What are the basic arithmetic operations?'</span>,</span>
 <span>    answer <span class="op">=</span> <span class="st">'Addition, subtraction, multiplication and division.'</span>,</span>
@@ -97,7 +99,7 @@
 <span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">'.xml'</span><span class="op">)</span></span>
 <span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/generate_xml_file.html">generate_xml_file</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></code></pre></div>
-<p>First, we create an object using the <code>question_category</code> function and configure general aspects of the definition in it. Next, we define the questions, as many as we need, using the <code>define_question</code> function (the type of the questions is deduced from the definition). Finally, we generate the questions in xml format, in the form of a string or file. We show the result below.</p>
+<p>First, we create an object using the <code>question_category</code> function and configure general aspects of the definition in it. Next, we define the questions, as many as we need, using the <code>define_question</code> function (the type of the questions is deduced from the definition). Finally, we generate the questions in XML format, in the form of a string or file. We show the result below.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  &lt;<span class="kw">question</span><span class="ot"> type=</span><span class="st">"category"</span>&gt;</span>
@@ -109,62 +111,175 @@
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>&lt;<span class="kw">name</span>&gt; &lt;<span class="kw">text</span>&gt;q_001_multichoice_what_are_the_basic_arithmetic_operations&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">name</span>&gt;</span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>&lt;<span class="kw">questiontext</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  &lt;<span class="kw">text</span>&gt;<span class="bn">&lt;![CDATA[</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>     &lt;!-- Copyright © 2024 Universidad de Granada --&gt;</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>     &lt;!-- Copyright © 2025 Universidad de Granada --&gt;</span>
 <span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>     &lt;!-- License Creative Commons Attribution-ShareAlike 4.0 --&gt;</span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>     &lt;p&gt;What are the basic arithmetic operations?&lt;/p&gt;<span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>     </span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>&lt;<span class="kw">generalfeedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">generalfeedback</span>&gt;</span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>&lt;<span class="kw">defaultgrade</span>&gt;1.0000000&lt;/<span class="kw">defaultgrade</span>&gt;</span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>&lt;<span class="kw">penalty</span>&gt;0.5&lt;/<span class="kw">penalty</span>&gt;</span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>&lt;<span class="kw">hidden</span>&gt;0&lt;/<span class="kw">hidden</span>&gt;</span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>&lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>&lt;<span class="kw">single</span>&gt;true&lt;/<span class="kw">single</span>&gt;</span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>&lt;<span class="kw">shuffleanswers</span>&gt;true&lt;/<span class="kw">shuffleanswers</span>&gt;</span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>&lt;<span class="kw">answernumbering</span>&gt;abc&lt;/<span class="kw">answernumbering</span>&gt;</span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>&lt;<span class="kw">showstandardinstruction</span>&gt;0&lt;/<span class="kw">showstandardinstruction</span>&gt;</span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>&lt;<span class="kw">correctfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">correctfeedback</span>&gt;</span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>&lt;<span class="kw">partiallycorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">partiallycorrectfeedback</span>&gt;</span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>&lt;<span class="kw">incorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">incorrectfeedback</span>&gt;</span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"100"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication and division.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition and subtraction.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
-<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication, division and square root.&lt;/<span class="kw">text</span>&gt;</span>
-<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
-<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
-<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
-<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
-<p>We can call the <code>define_question</code> function for each question to be defined, with the same parameters. Alternatively, we can create a data frame, a csv file or an <em>Excel</em> file (with the functions available in the package) and include in them a row for each question, a column for each parameter. Below is the content of a csv file.</p>
-<pre class="csv"><code>"type","question","image","image_alt","answer","a_1","a_2","a_3"
-,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
-,"Match each operation with its symbol.",,,"Addition&lt;|&gt;+","Subtraction&lt;|&gt;-","Multiplication&lt;|&gt;*",
-,"The square root is a basic arithmetic operation.",,,"False",,,
-,"What basic operation does it have as a + symbol?",,,"Addition",,,
-,"The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
-"x","The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
-"h","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
-"x","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
-,"What is the result of SQRT(4)?",,,"2","-2",,
-,"What is the result of 4/3?",,,"1.33&lt;|&gt;0.03",,,
-,"Describe the addition operation.",,,,,,</code></pre>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>     &lt;!-- Author: Jose Samos --&gt;</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>     &lt;p&gt;What are the basic arithmetic operations?&lt;/p&gt;<span class="bn">]]&gt;</span>&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>     </span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>&lt;/<span class="kw">questiontext</span>&gt;</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>&lt;<span class="kw">generalfeedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">generalfeedback</span>&gt;</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>&lt;<span class="kw">defaultgrade</span>&gt;1.0000000&lt;/<span class="kw">defaultgrade</span>&gt;</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>&lt;<span class="kw">penalty</span>&gt;0.5&lt;/<span class="kw">penalty</span>&gt;</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>&lt;<span class="kw">hidden</span>&gt;0&lt;/<span class="kw">hidden</span>&gt;</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>&lt;<span class="kw">idnumber</span>&gt;&lt;/<span class="kw">idnumber</span>&gt;</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>&lt;<span class="kw">single</span>&gt;true&lt;/<span class="kw">single</span>&gt;</span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>&lt;<span class="kw">shuffleanswers</span>&gt;true&lt;/<span class="kw">shuffleanswers</span>&gt;</span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>&lt;<span class="kw">answernumbering</span>&gt;abc&lt;/<span class="kw">answernumbering</span>&gt;</span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>&lt;<span class="kw">showstandardinstruction</span>&gt;0&lt;/<span class="kw">showstandardinstruction</span>&gt;</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>&lt;<span class="kw">correctfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">correctfeedback</span>&gt;</span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>&lt;<span class="kw">partiallycorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">partiallycorrectfeedback</span>&gt;</span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>&lt;<span class="kw">incorrectfeedback</span><span class="ot"> format=</span><span class="st">"moodle_auto_format"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">incorrectfeedback</span>&gt;</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"100"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication and division.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Correct.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition and subtraction.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a>&lt;<span class="kw">answer</span><span class="ot"> fraction=</span><span class="st">"-50.000000000000000"</span><span class="ot"> format=</span><span class="st">"html"</span>&gt;</span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a>   &lt;<span class="kw">text</span>&gt;Addition, subtraction, multiplication, division and square root.&lt;/<span class="kw">text</span>&gt;</span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>   &lt;<span class="kw">feedback</span><span class="ot"> format=</span><span class="st">"html"</span>&gt; &lt;<span class="kw">text</span>&gt;Incorrect.&lt;/<span class="kw">text</span>&gt; &lt;/<span class="kw">feedback</span>&gt;</span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a>&lt;/<span class="kw">answer</span>&gt;</span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
+<p>We can call the <code>define_question</code> function for each question to be defined, with the same parameters. Alternatively, we can create a data frame, a CSV file or an <em>Excel</em> file (with the functions available in the package) and include in them a row for each question, a column for each parameter. Below is the content of a CSV file in table format.</p>
+<div style="font-size: small;">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="14%">
+<col width="14%">
+<col width="14%">
+<col width="14%">
+<col width="14%">
+<col width="14%">
+<col width="14%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">type</th>
+<th align="left">question</th>
+<th align="left">image</th>
+<th align="left">image_alt</th>
+<th align="left">answer</th>
+<th align="left">a_1</th>
+<th align="left">a_2</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">What are the basic arithmetic operations?</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Addition, subtraction, multiplication and division.</td>
+<td align="left">Addition and subtraction.</td>
+<td align="left">Addition, subtraction, multiplication, division and square root.</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">Match each operation with its symbol.</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Addition&lt;|&gt;+</td>
+<td align="left">Subtraction&lt;|&gt;-</td>
+<td align="left">Multiplication&lt;|&gt;*</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">The square root is a basic arithmetic operation.</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">False</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">What basic operation does it have as a + symbol?</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Addition</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">The symbol for addition is [[1]], the symbol for subtraction is [[2]].</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">+</td>
+<td align="left">-</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">x</td>
+<td align="left">The symbol for addition is [[1]], the symbol for subtraction is [[2]].</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">+</td>
+<td align="left">-</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">h</td>
+<td align="left">Sort the result from smallest to largest.</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">6/2</td>
+<td align="left">6-2</td>
+<td align="left">6+2</td>
+</tr>
+<tr class="even">
+<td align="left">v</td>
+<td align="left">Sort the result from smallest to largest.</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">6/2</td>
+<td align="left">6-2</td>
+<td align="left">6+2</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">What is the result of SQRT(4)?</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">2</td>
+<td align="left">-2</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">What is the result of 4/3?</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">1.33&lt;|&gt;0.03</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">Describe the addition operation.</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>The generation of the questions would be similar, as shown below.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"questions.csv"</span>, package <span class="op">=</span> <span class="st">"moodef"</span><span class="op">)</span></span>
 <span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/question_category.html">question_category</a></span><span class="op">(</span>category <span class="op">=</span> <span class="st">'Initial test'</span>,</span>
-<span>                        copyright <span class="op">=</span> <span class="st">'Copyright © 2024 Universidad de Granada'</span>,</span>
-<span>                        license <span class="op">=</span> <span class="st">'License Creative Commons Attribution-ShareAlike 4.0'</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>                        copyright <span class="op">=</span> <span class="st">'Copyright © 2025 Universidad de Granada'</span>,</span>
+<span>                        license <span class="op">=</span> <span class="st">'License Creative Commons Attribution-ShareAlike 4.0'</span>,</span>
+<span>                        author <span class="op">=</span> <span class="st">'Jose Samos'</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/define_questions_from_csv.html">define_questions_from_csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="va">file</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">'.xml'</span><span class="op">)</span></span>
 <span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="reference/generate_xml_file.html">generate_xml_file</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></code></pre></div>
-<p>We do not show the content of the xml file obtained because in that example there are several questions defined and it takes up a lot of space.</p>
+<p>We do not show the content of the XML file obtained because in that example there are several questions defined and it takes up a lot of space.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
