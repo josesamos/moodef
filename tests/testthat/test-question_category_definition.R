@@ -98,7 +98,7 @@ test_that("define_questions_from", {
           adapt_images = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
           width = c(800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800),
           height = c(600, 600, 600, 600, 600, 600, 600, 600, 600, 600, 600),
-          type = c("", "", "", "", "", "x", "h", "x", "", "", ""),
+          type = c("", "", "", "", "", "x", "h", "v", "", "", ""),
           question = c(
             "What are the basic arithmetic operations?",
             "Match each operation with its symbol.",

@@ -168,3 +168,4 @@ qc <- qc |>
 ```
 
 We do not show the content of the XML file obtained because in that example there are several questions defined and it takes up a lot of space.
+

@@ -174,7 +174,7 @@ each parameter. Below is the content of a CSV file in table format.
 |  | The symbol for addition is \[\[1\]\], the symbol for subtraction is \[\[2\]\]. |  |  | \+ | \- |  |
 | x | The symbol for addition is \[\[1\]\], the symbol for subtraction is \[\[2\]\]. |  |  | \+ | \- |  |
 | h | Sort the result from smallest to largest. |  |  | 6/2 | 6-2 | 6+2 |
-| x | Sort the result from smallest to largest. |  |  | 6/2 | 6-2 | 6+2 |
+| v | Sort the result from smallest to largest. |  |  | 6/2 | 6-2 | 6+2 |
 |  | What is the result of SQRT(4)? |  |  | 2 | -2 |  |
 |  | What is the result of 4/3? |  |  | 1.33\<\|\>0.03 |  |  |
 |  | Describe the addition operation. |  |  |  |  |  |
