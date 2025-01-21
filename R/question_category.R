@@ -57,7 +57,7 @@ question_category <-
     structure(
       list(
         category = category,
-        penalty = penalty,
+        penalty = as.character(penalty),
         first_question_number = first_question_number,
         copyright = copyright,
         license = license,
@@ -326,6 +326,7 @@ define_extended_question.question_category <- function(qc,
 
   # Convert the list to a data frame
   df <- as.data.frame(df_args, stringsAsFactors = FALSE)
+  df$penalty <- as.character(penalty)
 
   df <- rbind(qc$questions, df)
   define_questions_from_df(qc, df)
