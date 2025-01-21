@@ -52,7 +52,7 @@ In the simple style, the most frequently used default values are assumed for eac
 - An **optional image**  
 - **Answers**  
 
-All questions belong to the same category and share the globally defined values for copyright, license, author, fraction, and feedback.  
+All questions belong to the same category and share the globally defined values for copyright, license, author, fraction, and feedback. Fraction does not make sense for all question types.
 
 ## Extended Style  
 
@@ -161,7 +161,7 @@ Questions have a name, which is displayed as a summary in the *Moodle* question 
 
 Using the parameter `first_question_number`, the number that will be assigned to the first question is defined, with a three-digit format. This number will increase for each question.
 
-**********fraction***********
+The `fraction` attribute is used in various question types to determine how a specific answer impacts the question's score. Specifically, for incorrect answers in the `multichoice` and `truefalse` types, the value calculated by dividing `fraction` by the number of incorrect answers available is considered as the amount deducted in case of an incorrect response. If it has a value of 0, incorrect answers for those question types are not penalized.
 
 For each question we can indicate feedback text for cases in which the answer is correct, partially correct or incorrect: The corresponding values are provided by the `correct_feedback`, `partially_correct_feedback` and `incorrect_feedback` parameters.
 

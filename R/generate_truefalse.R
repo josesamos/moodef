@@ -23,6 +23,14 @@ generate_truefalse <- function(answer, fb_answer, fb_a_values, fraction) {
     fb_a_values <- fb_a_values[1]
   }
 
+  if (fraction == 0) {
+    value <- "0"
+  } else if (fraction == 1) {
+    value <- "-100"
+  } else {
+    value <- sprintf("-%2.15f", 100 * fraction)
+  }
+
   question_body <- glue::glue(
     '
 
@@ -32,7 +40,7 @@ generate_truefalse <- function(answer, fb_answer, fb_a_values, fraction) {
         <text>{fb_answer}</text>
       </feedback>
     </answer>
-    <answer fraction="0" format="moodle_auto_format">
+    <answer fraction="{value}" format="moodle_auto_format">
       <text>{answer_2}</text>
       <feedback format="html">
         <text>{fb_a_values}</text>

@@ -48,7 +48,12 @@ generate_multichoice <-
 
     n <- length(a_values)
 
-    value <- sprintf("-%2.15f", 100 / n)
+    if (fraction == 0) {
+      value <- "0"
+    } else {
+      value <- sprintf("-%2.15f", 100 * fraction / n)
+    }
+
     others <- NULL
     i <- 1
     for (r in a_values) {

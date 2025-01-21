@@ -38,7 +38,9 @@ test_that("generate_multichoice generates correct XML for single correct answer"
     correct_feedback = correct_feedback,
     incorrect_feedback = incorrect_feedback,
     fb_partially = fb_partially,
-    fb_answer = '', fb_a_values = NULL
+    fb_answer = '',
+    fb_a_values = NULL,
+    fraction = 1
   )
 
   # Check if the result matches the expected structure
@@ -86,7 +88,8 @@ test_that("generate_multichoice handles custom feedback for a_values answers", {
     incorrect_feedback = incorrect_feedback,
     fb_partially = fb_partially,
     fb_a_values = fb_a_values,
-    fb_answer = ''
+    fb_answer = '',
+    fraction = 1
   )
 
   # Check if the result matches the expected structure
@@ -110,7 +113,8 @@ test_that("generate_multichoice generates correct XML when fb_answer is not empt
     incorrect_feedback = incorrect_feedback,
     fb_partially = fb_partially,
     fb_answer = fb_answer,
-    fb_a_values = fb_a_values
+    fb_a_values = fb_a_values,
+    fraction = 1
   )
 
   # Check correct answer and its feedback

@@ -65,6 +65,12 @@ correct, partially correct and incorrect questions.
 Each question can include an image after the text. We can also configure if
 we want to automatically transform the images so that they have a standard
 size that we can also indicate.
+
+The \code{fraction} attribute is used in various question types to determine how a
+specific answer impacts the question's score. Specifically, for incorrect answers
+in the \code{multichoice} and \code{truefalse} types, the value calculated by dividing
+\code{fraction} by the number of incorrect answers available is considered as the
+amount deducted in case of an incorrect response.
 }
 \examples{
 

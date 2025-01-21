@@ -31,8 +31,8 @@ test_that("generate_question_body works correctly for each question type", {
   # Multichoice
   mock_answer <- "A"
   mock_rest <- list("Option B", "Option C")
-  result <- generate_question_body("multichoice", mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', '', NULL, '', '')
-  expect_equal(result, generate_multichoice(mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', NULL))
+  result <- generate_question_body("multichoice", mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', '', NULL, '', '', 1)
+  expect_equal(result, generate_multichoice(mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', NULL, 1))
 
   # Ordering
   mock_answer <- c("Step 1", "Step 2", "Step 3")
@@ -59,8 +59,8 @@ test_that("generate_question_body works correctly for each question type", {
 
   # True/False
   mock_answer <- "true"
-  result <- generate_question_body("truefalse", mock_answer, NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, NULL)
-  expect_equal(result, generate_truefalse(mock_answer, '', NULL, NULL))
+  result <- generate_question_body("truefalse", mock_answer, NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, 1)
+  expect_equal(result, generate_truefalse(mock_answer, '', NULL, 1))
 
   # Shortanswer
   mock_answer <- "Answer"
