@@ -50,7 +50,8 @@
 <span>  adapt_images <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  width <span class="op">=</span> <span class="fl">800</span>,</span>
 <span>  height <span class="op">=</span> <span class="fl">600</span>,</span>
-<span>  author <span class="op">=</span> <span class="st">""</span></span>
+<span>  author <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  fraction <span class="op">=</span> <span class="fl">0</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -106,6 +107,10 @@ to each question.</p></dd>
 <dd><p>A string, author name to be included in each question that is
 defined.</p></dd>
 
+
+<dt id="arg-fraction">fraction<a class="anchor" aria-label="anchor" href="#arg-fraction"></a></dt>
+<dd><p>A number between 0 and 1.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -120,6 +125,11 @@ correct, partially correct and incorrect questions.</p>
 <p>Each question can include an image after the text. We can also configure if
 we want to automatically transform the images so that they have a standard
 size that we can also indicate.</p>
+<p>The <code>fraction</code> attribute is used in various question types to determine how a
+specific answer impacts the question's score. Specifically, for incorrect answers
+in the <code>multichoice</code> and <code>truefalse</code> types, the value calculated by dividing
+<code>fraction</code> by the number of incorrect answers available is considered as the
+amount deducted in case of an incorrect response.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

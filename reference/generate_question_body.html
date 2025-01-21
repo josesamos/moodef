@@ -50,10 +50,11 @@ such as feedback and orientation.</p>
 <span>  <span class="va">fb_incorrect</span>,</span>
 <span>  <span class="va">fb_partially</span>,</span>
 <span>  <span class="va">orientation</span>,</span>
-<span>  fb_answer <span class="op">=</span> <span class="st">""</span>,</span>
-<span>  fb_a_values <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">fb_answer</span>,</span>
+<span>  <span class="va">fb_a_values</span>,</span>
 <span>  <span class="va">image</span>,</span>
-<span>  <span class="va">image_alt</span></span>
+<span>  <span class="va">image_alt</span>,</span>
+<span>  <span class="va">fraction</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -87,6 +88,26 @@ such as feedback and orientation.</p>
 
 <dt id="arg-orientation">orientation<a class="anchor" aria-label="anchor" href="#arg-orientation"></a></dt>
 <dd><p>A string, 'v' or 'h'.</p></dd>
+
+
+<dt id="arg-fb-answer">fb_answer<a class="anchor" aria-label="anchor" href="#arg-fb-answer"></a></dt>
+<dd><p>A string, answer feedback.</p></dd>
+
+
+<dt id="arg-fb-a-values">fb_a_values<a class="anchor" aria-label="anchor" href="#arg-fb-a-values"></a></dt>
+<dd><p>A vector, rest of answer feedback.</p></dd>
+
+
+<dt id="arg-image">image<a class="anchor" aria-label="anchor" href="#arg-image"></a></dt>
+<dd><p>Path to an image file associated with the question.</p></dd>
+
+
+<dt id="arg-image-alt">image_alt<a class="anchor" aria-label="anchor" href="#arg-image-alt"></a></dt>
+<dd><p>Alternative text describing the image for accessibility.</p></dd>
+
+
+<dt id="arg-fraction">fraction<a class="anchor" aria-label="anchor" href="#arg-fraction"></a></dt>
+<dd><p>A number between 0 and 1.</p></dd>
 
 </dl></div>
     <div class="section level2">

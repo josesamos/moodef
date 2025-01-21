@@ -46,6 +46,7 @@ feedback and optional image data.</p>
 <span>  <span class="va">qc</span>,</span>
 <span>  <span class="va">category</span>,</span>
 <span>  <span class="va">type</span>,</span>
+<span>  <span class="va">fraction</span>,</span>
 <span>  <span class="va">id</span>,</span>
 <span>  <span class="va">name</span>,</span>
 <span>  <span class="va">author</span>,</span>
@@ -63,6 +64,7 @@ feedback and optional image data.</p>
 <span>  <span class="va">a_4</span>,</span>
 <span>  <span class="va">a_5</span>,</span>
 <span>  <span class="va">a_6</span>,</span>
+<span>  <span class="va">a_7</span>,</span>
 <span>  <span class="va">fb_answer</span>,</span>
 <span>  <span class="va">fb_a_1</span>,</span>
 <span>  <span class="va">fb_a_2</span>,</span>
@@ -70,12 +72,16 @@ feedback and optional image data.</p>
 <span>  <span class="va">fb_a_4</span>,</span>
 <span>  <span class="va">fb_a_5</span>,</span>
 <span>  <span class="va">fb_a_6</span>,</span>
+<span>  <span class="va">fb_a_7</span>,</span>
 <span>  <span class="va">tag_1</span>,</span>
 <span>  <span class="va">tag_2</span>,</span>
 <span>  <span class="va">tag_3</span>,</span>
 <span>  <span class="va">tag_4</span>,</span>
 <span>  <span class="va">tag_5</span>,</span>
-<span>  <span class="va">tag_6</span></span>
+<span>  <span class="va">tag_6</span>,</span>
+<span>  <span class="va">tag_7</span>,</span>
+<span>  <span class="va">tag_8</span>,</span>
+<span>  <span class="va">tag_9</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'question_category'</span></span>
@@ -83,6 +89,7 @@ feedback and optional image data.</p>
 <span>  <span class="va">qc</span>,</span>
 <span>  category <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  fraction <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  id <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  name <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  author <span class="op">=</span> <span class="st">""</span>,</span>
@@ -100,6 +107,7 @@ feedback and optional image data.</p>
 <span>  a_4 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  a_5 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  a_6 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  a_7 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  fb_answer <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  fb_a_1 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  fb_a_2 <span class="op">=</span> <span class="st">""</span>,</span>
@@ -107,12 +115,16 @@ feedback and optional image data.</p>
 <span>  fb_a_4 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  fb_a_5 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  fb_a_6 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  fb_a_7 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  tag_1 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  tag_2 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  tag_3 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  tag_4 <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  tag_5 <span class="op">=</span> <span class="st">""</span>,</span>
-<span>  tag_6 <span class="op">=</span> <span class="st">""</span></span>
+<span>  tag_6 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  tag_7 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  tag_8 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  tag_9 <span class="op">=</span> <span class="st">""</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -131,6 +143,10 @@ where new questions will be added.</p></dd>
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>A character string indicating the type of the question.</p></dd>
+
+
+<dt id="arg-fraction">fraction<a class="anchor" aria-label="anchor" href="#arg-fraction"></a></dt>
+<dd><p>A number between 0 and 1.</p></dd>
 
 
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
@@ -202,6 +218,10 @@ Required if an image is provided.</p></dd>
 <dd><p>Additional possible answer.</p></dd>
 
 
+<dt id="arg-a-">a_7<a class="anchor" aria-label="anchor" href="#arg-a-"></a></dt>
+<dd><p>Additional possible answer.</p></dd>
+
+
 <dt id="arg-fb-answer">fb_answer<a class="anchor" aria-label="anchor" href="#arg-fb-answer"></a></dt>
 <dd><p>Feedback for the correct answer.</p></dd>
 
@@ -230,6 +250,10 @@ Required if an image is provided.</p></dd>
 <dd><p>Feedback for additional answer.</p></dd>
 
 
+<dt id="arg-fb-a-">fb_a_7<a class="anchor" aria-label="anchor" href="#arg-fb-a-"></a></dt>
+<dd><p>Feedback for additional answer.</p></dd>
+
+
 <dt id="arg-tag-">tag_1<a class="anchor" aria-label="anchor" href="#arg-tag-"></a></dt>
 <dd><p>Tag to categorize the question.</p></dd>
 
@@ -253,6 +277,18 @@ Required if an image is provided.</p></dd>
 <dt id="arg-tag-">tag_6<a class="anchor" aria-label="anchor" href="#arg-tag-"></a></dt>
 <dd><p>Tag to categorize the question.</p></dd>
 
+
+<dt id="arg-tag-">tag_7<a class="anchor" aria-label="anchor" href="#arg-tag-"></a></dt>
+<dd><p>Tag to categorize the question.</p></dd>
+
+
+<dt id="arg-tag-">tag_8<a class="anchor" aria-label="anchor" href="#arg-tag-"></a></dt>
+<dd><p>Tag to categorize the question.</p></dd>
+
+
+<dt id="arg-tag-">tag_9<a class="anchor" aria-label="anchor" href="#arg-tag-"></a></dt>
+<dd><p>Tag to categorize the question.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -262,14 +298,11 @@ Required if an image is provided.</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Parameter values that are not defined are taken from the category definition,
 if they are defined there.</p>
-<p>When defining questions using the extended style via files, there is no limit
-to the number of fields for answers, feedback for answers, or tags (except for
-Moodle's limitations when processing imported data). However, when defining
-questions through this function, the number of fields is limited to the parameters
-explicitly defined. While it would have been possible to allow a completely
-variable number of parameters in each section, simplicity was prioritized, and
-we defined a fixed set of parameters that we believe are more than sufficient
-for most use cases.</p>
+<p>The <code>fraction</code> attribute is used in various question types to determine how a
+specific answer impacts the question's score. Specifically, for incorrect answers
+in the <code>multichoice</code> and <code>truefalse</code> types, the value calculated by dividing
+<code>fraction</code> by the number of incorrect answers available is considered as the
+amount deducted in case of an incorrect response.</p>
 <p>In the example provided, we have intentionally used the same structure as in
 the <code><a href="define_question.html">define_question()</a></code> function to demonstrate that any parameters not needed
 do not need to be explicitly defined.</p>

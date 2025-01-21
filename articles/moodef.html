@@ -117,6 +117,9 @@ can be defined for all questions, including:</p>
 <strong>Author</strong><br>
 </li>
 <li>
+<strong>Fraction</strong><br>
+</li>
+<li>
 <strong>Feedback</strong> (correct, incorrect, or partially correct
 responses)</li>
 </ul>
@@ -139,7 +142,8 @@ components of the question:</p>
 <li><strong>Answers</strong></li>
 </ul>
 <p>All questions belong to the same category and share the globally
-defined values for copyright, license, author, and feedback.</p>
+defined values for copyright, license, author, fraction, and feedback.
+Fraction does not make sense for all question types.</p>
 </div>
 <div class="section level3">
 <h3 id="extended-style">Extended Style<a class="anchor" aria-label="anchor" href="#extended-style"></a>
@@ -152,6 +156,9 @@ for each question:</p>
 <ul>
 <li>
 <strong>Category</strong><br>
+</li>
+<li>
+<strong>Fraction</strong><br>
 </li>
 <li>
 <strong>Identifier</strong><br>
@@ -240,24 +247,20 @@ the XML file associated with each question, as can be seen below.</p>
 <span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>&lt;/<span class="kw">question</span>&gt;</span>
 <span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>&lt;/<span class="kw">quiz</span>&gt;</span></code></pre></div>
 <p>Below is the function call being executed, including the values for
-the remaining parameters. <strong>The simple and extended definitions
-cannot be mixed</strong>. For this reason, we define a
-<code>question_category</code> object for each type of definition to be
-used in the following examples.</p>
+the remaining parameters.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/question_category.html">question_category</a></span><span class="op">(</span>category <span class="op">=</span> <span class="st">'Initial test'</span>,</span>
 <span>                        first_question_number <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>                        copyright <span class="op">=</span> <span class="st">'Copyright © 2025 Universidad de Granada'</span>,</span>
 <span>                        license <span class="op">=</span> <span class="st">'License Creative Commons Attribution-ShareAlike 4.0'</span>,</span>
 <span>                        author <span class="op">=</span> <span class="st">'Jose Samos'</span>,</span>
+<span>                        fraction <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>                        correct_feedback <span class="op">=</span> <span class="st">'Correct.'</span>,</span>
 <span>                        partially_correct_feedback <span class="op">=</span> <span class="st">'Partially correct.'</span>,</span>
 <span>                        incorrect_feedback <span class="op">=</span> <span class="st">'Incorrect.'</span>,</span>
 <span>                        adapt_images <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                        width <span class="op">=</span> <span class="fl">800</span>,</span>
-<span>                        height <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">qc_extended</span> <span class="op">&lt;-</span> <span class="va">qc</span></span></code></pre></div>
+<span>                        height <span class="op">=</span> <span class="fl">600</span><span class="op">)</span></span></code></pre></div>
 <p>We are going to discuss the use of each parameter.</p>
 <p>Questions have a name, which is displayed as a summary in the
 <em>Moodle</em> question bank. In the extended style, the name can be
@@ -277,6 +280,14 @@ the following is a generated question name.</p>
 <p>Using the parameter <code>first_question_number</code>, the number
 that will be assigned to the first question is defined, with a
 three-digit format. This number will increase for each question.</p>
+<p>The <code>fraction</code> attribute is used in various question types
+to determine how a specific answer impacts the question’s score.
+Specifically, for incorrect answers in the <code>multichoice</code> and
+<code>truefalse</code> types, the value calculated by dividing
+<code>fraction</code> by the number of incorrect answers available is
+considered as the amount deducted in case of an incorrect response. If
+it has a value of 0, incorrect answers for those question types are not
+penalized.</p>
 <p>For each question we can indicate feedback text for cases in which
 the answer is correct, partially correct or incorrect: The corresponding
 values are provided by the <code>correct_feedback</code>,
@@ -308,8 +319,7 @@ we show the possibilities offered.</p>
 <code><a href="../reference/define_question.html">define_question()</a></code> and
 <code><a href="../reference/define_extended_question.html">define_extended_question()</a></code>. These are used to define
 questions in the simple style and the extended style, respectively.
-<strong>The simple and extended definitions cannot be
-mixed</strong>.</p>
+<strong>They can be mixed</strong>.</p>
 <div class="section level5">
 <h5 id="simple-style-1">Simple Style<a class="anchor" aria-label="anchor" href="#simple-style-1"></a>
 </h5>
@@ -363,7 +373,7 @@ parameter names (or no names), as many as required.</p>
 In this case, the result will be exactly the same as before, but this
 function allows for the definition of additional parameters.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">qc_extended</span> <span class="op">&lt;-</span> <span class="va">qc_extended</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_extended_question.html">define_extended_question</a></span><span class="op">(</span></span>
 <span>    type <span class="op">=</span> <span class="st">'v'</span>,</span>
 <span>    question <span class="op">=</span> <span class="st">'Place the name of the operations as they appear in the figure.'</span>,</span>
@@ -380,10 +390,11 @@ of the indicated values or add new ones according to our needs. For
 example, additional answers, feedback for the answers, and tags to
 describe the questions can be defined.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">qc_extended</span> <span class="op">&lt;-</span> <span class="va">qc_extended</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="va">qc</span> <span class="op">&lt;-</span> <span class="va">qc</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/define_extended_question.html">define_extended_question</a></span><span class="op">(</span></span>
 <span>    category <span class="op">=</span> <span class="st">'Initial test'</span>,</span>
 <span>    type <span class="op">=</span> <span class="st">'ordering&lt;|&gt;v'</span>,</span>
+<span>    fraction <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>    id <span class="op">=</span> <span class="st">''</span>,</span>
 <span>    name <span class="op">=</span> <span class="st">'q_001_ordering_v_place_the_name_of_the_operations_as_they'</span>,</span>
 <span>    author <span class="op">=</span> <span class="st">'Jose Samos'</span>,</span>
@@ -419,10 +430,10 @@ it with the parameter <code>extended = TRUE</code> (default is
 <p>The content of the file for the simple style is shown below.</p>
 <pre class="csv"><code>"type","question","image","image_alt","answer","a_1","a_2","a_3"</code></pre>
 <p>For the extended style, the content is also shown afterward.</p>
-<pre class="csv"><code>"category", "type", "id", "name", "author", "fb_general", "fb_correct", 
-"fb_partially", "fb_incorrect", "question", "image", "image_alt", 
-"answer", "a_1", "a_2", "a_3", "a_4", "fb_answer", "fb_a_1", 
-"fb_a_2", "fb_a_3", "fb_a_4", "tag_1", "tag_2", "tag_3"</code></pre>
+<pre class="csv"><code>"category", "type", "fraction", "id", "name", "author", "fb_general", 
+"fb_correct", "fb_partially", "fb_incorrect", "question", "image", 
+"image_alt", "answer", "a_1", "a_2", "a_3", "a_4", "fb_answer", 
+"fb_a_1", "fb_a_2", "fb_a_3", "fb_a_4", "tag_1", "tag_2", "tag_3"</code></pre>
 <p>We can add as many additional columns as we deem necessary. In the
 case of the extended style, the same number of answer columns as
 feedback columns must be included, and at least one tags column must be
@@ -681,7 +692,7 @@ in the <em>Question Bank</em> section.</p>
 because they are embedded in XML (not referenced).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.size</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 217401</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 277408</span></span></code></pre></div>
 <p>The definition file for a single question is shown below.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">&lt;?xml</span><span class="ot"> version=</span><span class="st">"1.0"</span><span class="ot"> encoding=</span><span class="st">"UTF-8"</span><span class="fu">?&gt;</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>&lt;<span class="kw">quiz</span>&gt;</span>
