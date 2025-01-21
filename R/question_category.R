@@ -12,6 +12,12 @@
 #' we want to automatically transform the images so that they have a standard
 #' size that we can also indicate.
 #'
+#' The `fraction` attribute is used in various question types to determine how a
+#' specific answer impacts the question's score. Specifically, for incorrect answers
+#' in the `multichoice` and `truefalse` types, the value calculated by dividing
+#' `fraction` by the number of incorrect answers available is considered as the
+#' amount deducted in case of an incorrect response.
+#'
 #' @param category A string, category name.
 #' @param first_question_number An integer, first number to compose the question
 #' names.
@@ -28,6 +34,7 @@
 #' @param height A integer, height of each image.
 #' @param author A string, author name to be included in each question that is
 #' defined.
+#' @param fraction A number between 0 and 1.
 #'
 #' @return A `question_category` object.
 #'
@@ -49,32 +56,13 @@ question_category <-
            adapt_images = FALSE,
            width = 800,
            height = 600,
-           author = '') {
-    questions <-  data.frame(
-      first_question_number = integer(),
-      copyright = character(),
-      license = character(),
-      author = character(),
-      correct_feedback = character(),
-      partially_correct_feedback = character(),
-      incorrect_feedback = character(),
-      adapt_images = logical(),
-      width = integer(),
-      height = integer(),
-      type = character(),
-      question = character(),
-      image = character(),
-      image_alt = character(),
-      answer = character(),
-      a_1 = character(),
-      a_2 = character(),
-      a_3 = character(),
-      stringsAsFactors = FALSE
-    )
+           author = '',
+           fraction = 0) {
 
     structure(
       list(
         category = category,
+        fraction = as.character(fraction),
         first_question_number = first_question_number,
         copyright = copyright,
         license = license,
@@ -85,8 +73,7 @@ question_category <-
         adapt_images = adapt_images,
         width = width,
         height = height,
-        a_n = 3,
-        questions = questions
+        questions = create_common_question_df()
       ),
       class = "question_category"
     )
@@ -146,68 +133,31 @@ define_question.question_category <- function(qc,
                                               image_alt = '',
                                               answer = '',
                                               ...) {
-  if (image != '') {
-    stopifnot('If an image is included, the associated alt field must also be defined.' = image_alt != '')
-  }
-
-  others <- list(...)
-  wrong <- NULL
-  for (s in seq_along(others)) {
-    w <- trimws(others[[s]])
-    if (length(w) > 1) {
-      w <- vector_to_string(w)
-    }
-    if (nchar(w) > 0) {
-      wrong <- c(wrong, w)
-    }
-  }
   if (length(answer) > 1) {
     answer <- vector_to_string(answer)
   }
-  n <- length(wrong)
-  nq <- data.frame(
-    first_question_number = qc$first_question_number,
-    copyright = qc$copyright,
-    license = qc$license,
-    author = qc$author,
-    correct_feedback = qc$correct_feedback,
-    partially_correct_feedback = qc$partially_correct_feedback,
-    incorrect_feedback = qc$incorrect_feedback,
-    adapt_images = qc$adapt_images,
-    width = qc$width,
-    height = qc$height,
-    type = type,
-    question = question,
-    image = image,
-    image_alt = image_alt,
-    answer = answer
-  )
+
+  df <- create_default_value_question_df()
+  df$type <- type
+  df$question <- question
+  df$image <- image
+  df$image_alt <- image_alt
+  df$answer <- answer
+
+  a_values <- filter_non_empty_answers(...)
+  n <- length(a_values)
+  if (n > 7) {
+    warning("No more than 7 alternative answers to the correct one can be indicated.")
+    n <- 7
+  }
   if (n > 0) {
     for (i in 1:n) {
-      nq[1, paste0('a_', i)] <- wrong[i]
+      df[1, paste0('a_', i)] <- a_values[i]
     }
   }
-  if (n < qc$a_n) {
-    for (i in (n + 1):qc$a_n) {
-      nq[1, paste0('a_', i)] <- ''
-    }
-  }
-  if (nrow(qc$questions) > 0) {
-    if (n > qc$a_n) {
-      for (i in (qc$a_n + 1):n) {
-        qc$questions[, paste0('a_', i)] <- ''
-      }
-      qc$a_n <- n
-    }
-    qc$questions <- rbind(qc$questions, nq)
-  } else {
-    if (n > qc$a_n) {
-      qc$a_n <- n
-    }
-    qc$questions <- nq
-  }
-  qc$first_question_number <- qc$first_question_number + 1
-  qc
+
+  df <- rbind(qc$questions, df)
+  define_questions_from_df(qc, df)
 }
 
 
@@ -219,14 +169,11 @@ define_question.question_category <- function(qc,
 #' Parameter values that are not defined are taken from the category definition,
 #' if they are defined there.
 #'
-#' When defining questions using the extended style via files, there is no limit
-#' to the number of fields for answers, feedback for answers, or tags (except for
-#' Moodle's limitations when processing imported data). However, when defining
-#' questions through this function, the number of fields is limited to the parameters
-#' explicitly defined. While it would have been possible to allow a completely
-#' variable number of parameters in each section, simplicity was prioritized, and
-#' we defined a fixed set of parameters that we believe are more than sufficient
-#' for most use cases.
+#' The `fraction` attribute is used in various question types to determine how a
+#' specific answer impacts the question's score. Specifically, for incorrect answers
+#' in the `multichoice` and `truefalse` types, the value calculated by dividing
+#' `fraction` by the number of incorrect answers available is considered as the
+#' amount deducted in case of an incorrect response.
 #'
 #' In the example provided, we have intentionally used the same structure as in
 #' the `define_question()` function to demonstrate that any parameters not needed
@@ -236,6 +183,7 @@ define_question.question_category <- function(qc,
 #'   where new questions will be added.
 #' @param category A character string specifying the category of the question.
 #' @param type A character string indicating the type of the question.
+#' @param fraction A number between 0 and 1.
 #' @param id A unique identifier for the question.
 #' @param name A character string representing the name of the question.
 #' @param author The name of the author of the question.
@@ -254,6 +202,7 @@ define_question.question_category <- function(qc,
 #' @param a_4 Additional possible answer.
 #' @param a_5 Additional possible answer.
 #' @param a_6 Additional possible answer.
+#' @param a_7 Additional possible answer.
 #' @param fb_answer Feedback for the correct answer.
 #' @param fb_a_1 Feedback for additional answer.
 #' @param fb_a_2 Feedback for additional answer.
@@ -261,12 +210,16 @@ define_question.question_category <- function(qc,
 #' @param fb_a_4 Feedback for additional answer.
 #' @param fb_a_5 Feedback for additional answer.
 #' @param fb_a_6 Feedback for additional answer.
+#' @param fb_a_7 Feedback for additional answer.
 #' @param tag_1 Tag to categorize the question.
 #' @param tag_2 Tag to categorize the question.
 #' @param tag_3 Tag to categorize the question.
 #' @param tag_4 Tag to categorize the question.
 #' @param tag_5 Tag to categorize the question.
 #' @param tag_6 Tag to categorize the question.
+#' @param tag_7 Tag to categorize the question.
+#' @param tag_8 Tag to categorize the question.
+#' @param tag_9 Tag to categorize the question.
 #'
 #' @return Returns the updated question category object.
 #'
@@ -286,6 +239,7 @@ define_question.question_category <- function(qc,
 define_extended_question <- function(qc,
                                      category,
                                      type,
+                                     fraction,
                                      id,
                                      name,
                                      author,
@@ -303,6 +257,7 @@ define_extended_question <- function(qc,
                                      a_4,
                                      a_5,
                                      a_6,
+                                     a_7,
                                      fb_answer,
                                      fb_a_1,
                                      fb_a_2,
@@ -310,12 +265,16 @@ define_extended_question <- function(qc,
                                      fb_a_4,
                                      fb_a_5,
                                      fb_a_6,
+                                     fb_a_7,
                                      tag_1,
                                      tag_2,
                                      tag_3,
                                      tag_4,
                                      tag_5,
-                                     tag_6)
+                                     tag_6,
+                                     tag_7,
+                                     tag_8,
+                                     tag_9)
 UseMethod("define_extended_question")
 
 
@@ -324,6 +283,7 @@ UseMethod("define_extended_question")
 define_extended_question.question_category <- function(qc,
                                                        category = '',
                                                        type = '',
+                                                       fraction = 0,
                                                        id = '',
                                                        name = '',
                                                        author = '',
@@ -341,6 +301,7 @@ define_extended_question.question_category <- function(qc,
                                                        a_4 = '',
                                                        a_5 = '',
                                                        a_6 = '',
+                                                       a_7 = '',
                                                        fb_answer = '',
                                                        fb_a_1 = '',
                                                        fb_a_2 = '',
@@ -348,33 +309,27 @@ define_extended_question.question_category <- function(qc,
                                                        fb_a_4 = '',
                                                        fb_a_5 = '',
                                                        fb_a_6 = '',
+                                                       fb_a_7 = '',
                                                        tag_1 = '',
                                                        tag_2 = '',
                                                        tag_3 = '',
                                                        tag_4 = '',
                                                        tag_5 = '',
-                                                       tag_6 = '') {
-  if (image != '') {
-    stopifnot('If an image is included, the associated alt field must also be defined.' = image_alt != '')
-  }
-
-  # Get parameter names and their default values
-  params <- formals(define_extended_question.question_category)
-
-  # Filter only those parameters with default values of '' (empty strings)
-  text_params <- names(params)[sapply(params, function(x)
-    identical(x, ""))]
+                                                       tag_6 = '',
+                                                       tag_7 = '',
+                                                       tag_8 = '',
+                                                       tag_9 = '') {
+  df_params <- names(create_common_question_df())
 
   # Create a named list of argument values
   args <- as.list(environment())
-  text_args <- args[text_params]
+  df_args <- args[df_params]
 
   # Convert the list to a data frame
-  df <- as.data.frame(text_args, stringsAsFactors = FALSE)
+  df <- as.data.frame(df_args, stringsAsFactors = FALSE)
+  df$fraction <- as.character(fraction)
 
-  if (nrow(qc$questions) > 0) {
-    df <- rbind(qc$questions, df)
-  }
-  define_extended_questions_from_data_frame(qc, df)
+  df <- rbind(qc$questions, df)
+  define_questions_from_df(qc, df)
 }
 

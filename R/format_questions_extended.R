@@ -4,6 +4,7 @@ utils::globalVariables(c("simplified_types", "allowed_types"))
 utils::globalVariables(
   c(
     "category",
+    "fraction",
     "author",
     "fb_general",
     "fb_correct",
@@ -14,12 +15,11 @@ utils::globalVariables(
   )
 )
 
-#' Define extended questions from a data frame
+#' Define questions from a data frame
 #'
 #' @keywords internal
-define_extended_questions_from_data_frame <- function(qc, df) {
+define_questions_from_df <- function(qc, df) {
 
-  df <- validate_and_adjust_dataframe(df)
   invalid_rows <- which((df$image != "" & df$image_alt == "") | (df$image == "" & df$image_alt != ""))
   if (length(invalid_rows) > 0) {
     message("Validation failed at rows: ", paste(invalid_rows, collapse = ", "))
@@ -28,10 +28,14 @@ define_extended_questions_from_data_frame <- function(qc, df) {
 
   df <- df |>
     dplyr::mutate(category = dplyr::if_else(category == "", qc$category, category)) |>
+    dplyr::mutate(fraction = dplyr::if_else(fraction == "", qc$fraction, fraction)) |>
     dplyr::mutate(author = dplyr::if_else(author == "", qc$author, author)) |>
     dplyr::mutate(fb_correct = dplyr::if_else(fb_correct == "", qc$correct_feedback, fb_correct)) |>
     dplyr::mutate(fb_partially = dplyr::if_else(fb_partially == "", qc$partially_correct_feedback, fb_partially)) |>
     dplyr::mutate(fb_incorrect = dplyr::if_else(fb_incorrect == "", qc$incorrect_feedback, fb_incorrect))
+
+  valid_fraction <- all(!is.na(as.numeric(df$fraction)) & as.numeric(df$fraction) >= 0 & as.numeric(df$fraction) <= 1)
+  stopifnot('Fraction must be a number between 0 and 1.' = valid_fraction == TRUE)
 
   # check duplicate id values within category
   filtered_df <- df[df$id != "", ]
@@ -56,8 +60,6 @@ define_extended_questions_from_data_frame <- function(qc, df) {
   }
 
   qc$questions <- df
-  qc$extended <- TRUE
-
   qc
 }
 
@@ -92,119 +94,6 @@ get_detailed_type_names <- function(df) {
   df$type
 }
 
-
-#' Validate and Adjust a Dataframe Structure
-#'
-#' This function validates the structure of a dataframe to ensure it adheres to the expected format.
-#' Specifically, it checks for the presence of required columns, verifies that the columns following
-#' "answer" and "fb_answer" have a consistent structure, and renames columns as needed to match
-#' the expected naming convention. If errors are detected, they are reported as warnings.
-#'
-#' @param df A dataframe to validate and adjust. The dataframe must have column names.
-#'
-#' @return If the dataframe structure is valid, it returns the dataframe with updated column names
-#' for the sections following "answer", "fb_answer", and "tag_1". If there are validation errors,
-#' the function issues warnings and returns the input dataframe unchanged.
-#'
-#' @details
-#' The function performs the following checks:
-#' 1. Ensures all required columns up to `"answer"` are present.
-#' 2. Verifies that the column names between `"answer"` and `"fb_answer"`, and between `"fb_answer"`
-#'    and `"tag_1"`, have the same count.
-#' 3. Renames the columns after `"answer"` (e.g., `"a_1"`, `"a_2"`), `"fb_answer"` (e.g., `"fb_a_1"`,
-#'    `"fb_a_2"`), and `"tag_1"` (e.g., `"tag_1"`, `"tag_2"`) based on their respective positions.
-#'
-#' @keywords internal
-validate_and_adjust_dataframe <- function(df) {
-  desired_order <- c(
-    "category",
-    "type",
-    "id",
-    "name",
-    "author",
-    "fb_general",
-    "fb_correct",
-    "fb_partially",
-    "fb_incorrect",
-    "question",
-    "image",
-    "image_alt",
-    "answer"
-  )
-  required_columns <- c(
-    desired_order,
-    "fb_answer",
-    "tag_1"
-  )
-
-  errors <- c()  # Initialize a list to store errors
-
-  # Check if required columns up to 'answer' are present
-  missing_cols <- setdiff(required_columns, names(df))
-  if (length(missing_cols) > 0) {
-    stop(paste0("Missing required columns: ", paste(missing_cols, collapse = ", ")))
-  }
-
-  remaining_columns <- setdiff(names(df), desired_order)
-  final_order <- c(desired_order, remaining_columns)
-  df <- df[, final_order, drop = FALSE]
-
-  # Identify key column positions
-  answer_idx <- which(names(df) == "answer")
-  fb_answer_idx <- which(names(df) == "fb_answer")
-  tag_1_idx <- which(names(df) == "tag_1")
-
-  # Validate column structure only if critical columns are present
-  if (length(errors) == 0) {
-    # Calculate number of columns between "answer" and "fb_answer"
-    cols_after_answer <- names(df)[(answer_idx + 1):(fb_answer_idx - 1)]
-    cols_after_fb_answer <- names(df)[(fb_answer_idx + 1):(tag_1_idx - 1)]
-
-    # Check if the number of columns matches
-    if (length(cols_after_answer) != length(cols_after_fb_answer)) {
-      errors <- c(errors, paste0(
-        "Mismatch: ", length(cols_after_answer),
-        " columns after 'answer' but ", length(cols_after_fb_answer),
-        " columns after 'fb_answer'."
-      ))
-    }
-
-    all_valid <- all(df$type %in% c(allowed_types, simplified_types))
-
-    if (!all_valid) {
-      invalid_values <- unique(df$type[!df$type %in% c(allowed_types, simplified_types)])
-      errors <- c(errors, paste0(
-        "The 'type' column contains invalid values: ",
-        paste(invalid_values, collapse = ", ")
-      ))
-    }
-
-    # Rename columns if valid structure
-    if (length(errors) == 0) {
-      new_cols_after_answer <- paste0("a_", seq_along(cols_after_answer))
-      new_cols_after_fb_answer <- paste0("fb_a_", seq_along(cols_after_fb_answer))
-      new_cols_tags <- paste0("tag_", seq_len(ncol(df) - tag_1_idx + 1))
-
-      # Rename columns
-      names(df)[(answer_idx + 1):(fb_answer_idx - 1)] <- new_cols_after_answer
-      names(df)[(fb_answer_idx + 1):(tag_1_idx - 1)] <- new_cols_after_fb_answer
-      names(df)[tag_1_idx:ncol(df)] <- new_cols_tags
-
-      return(df)
-    }
-  }
-
-  # Return errors if any
-  if (length(errors) > 0) {
-    for (error in errors) {
-      warning(error)
-    }
-  }
-
-  return(df)
-}
-
-
 #' Get non-empty values from fields with a specific prefix
 #'
 #' This function takes a dataframe, a row index, and a prefix, returning a vector
@@ -231,81 +120,4 @@ get_non_empty_fields_by_prefix <- function(df, i, prefix) {
     unlist(use.names = FALSE)
 
   return(non_empty_values)
-}
-
-
-#' Format all questions in the data frame
-#'
-#' @param qc A `question_category` object.
-#'
-#' @return A string.
-#' @keywords internal
-extended_format_questions <- function(qc) {
-  fq <- glue::glue('<?xml version="1.0" encoding="UTF-8"?>
-<quiz>
-')
-
-  for (i in 1:nrow(qc$questions)) {
-    question_category <- xml_question_category(qc$questions[i, "category"])
-
-    # "ordering", "ordering<|>h", "ordering<|>v"
-    r <- extract_type_orientation(qc$questions[["type"]][i])
-    type <- r$type
-    orientation <- r$orientation
-
-    author <- qc$questions[["author"]][i]
-    idnumber <- qc$questions[["id"]][i]
-    fb_general <- qc$questions[["fb_general"]][i]
-    fb_correct <- qc$questions[["fb_correct"]][i]
-    fb_incorrect <- qc$questions[["fb_incorrect"]][i]
-    fb_partially <- qc$questions[["fb_partially"]][i]
-    question <- qc$questions[["question"]][i]
-    image <- qc$questions[["image"]][i]
-    image_alt <- qc$questions[["image_alt"]][i]
-    name <- xml_question_name(qc$questions[i, "name"])
-    answer <- get_vector_answer(qc$questions[["answer"]][i])
-    a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "a_")
-    fb_answer <- qc$questions[["fb_answer"]][i]
-    fb_a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "fb_a_")
-
-    questiontext <- xml_questiontext(
-      qc$copyright,
-      qc$license,
-      qc$adapt_images,
-      qc$width,
-      qc$height,
-      question,
-      image,
-      image_alt,
-      type,
-      author,
-      fb_general,
-      idnumber
-    )
-
-    question_body <- generate_question_body(
-      type,
-      answer,
-      a_values,
-      fb_correct,
-      fb_incorrect,
-      fb_partially,
-      orientation,
-      fb_answer,
-      fb_a_values,
-      image,
-      image_alt
-    )
-
-    tag_values <- get_non_empty_fields_by_prefix(qc$questions, i, "tag_")
-    question_tags <- xml_question_tags(tag_values)
-
-    question <- xml_question(type, name, questiontext, question_body, question_tags)
-    fq <- glue::glue(fq, question_category, question)
-  }
-
-  fq <- glue::glue(fq, '
-</quiz>
-')
-  fq
 }

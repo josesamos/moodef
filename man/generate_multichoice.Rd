@@ -11,7 +11,8 @@ generate_multichoice(
   incorrect_feedback,
   fb_partially,
   fb_answer,
-  fb_a_values
+  fb_a_values,
+  fraction
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ generate_multichoice(
 \item{fb_answer}{A string, answer feedback.}
 
 \item{fb_a_values}{A vector, rest of answer feedback.}
+
+\item{fraction}{A number between 0 and 1.}
 }
 \value{
 A string.

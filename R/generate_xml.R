@@ -155,9 +155,9 @@ xml_questiontext <- function(copyright,
                              image,
                              image_alt,
                              type,
-                             author = '',
-                             fb_general = '',
-                             idnumber = '') {
+                             author,
+                             fb_general,
+                             idnumber) {
   # ddmarker image is out of question text
   if (type != "ddmarker") {
     result <- xml_image(image, image_alt, adapt_images, width, height)

@@ -9,6 +9,7 @@
 #' @param fb_partially A string.
 #' @param fb_answer A string, answer feedback.
 #' @param fb_a_values A vector, rest of answer feedback.
+#' @param fraction A number between 0 and 1.
 #'
 #' @return A string.
 #' @keywords internal
@@ -19,7 +20,8 @@ generate_multichoice <-
            incorrect_feedback,
            fb_partially,
            fb_answer,
-           fb_a_values) {
+           fb_a_values,
+           fraction) {
 
     if (fb_answer != '') {
       answer_feedback <- fb_answer
@@ -32,7 +34,7 @@ generate_multichoice <-
 
     <single>true</single>
     <shuffleanswers>true</shuffleanswers>
-    <answernumbering>abc</answernumbering>
+    <answernumbering>none</answernumbering>
     <showstandardinstruction>0</showstandardinstruction>
     <correctfeedback format="moodle_auto_format"> <text>{correct_feedback}</text> </correctfeedback>
     <partiallycorrectfeedback format="moodle_auto_format"> <text>{fb_partially}</text> </partiallycorrectfeedback>
@@ -46,7 +48,12 @@ generate_multichoice <-
 
     n <- length(a_values)
 
-    value <- sprintf("-%2.15f", 100 / n)
+    if (fraction == 0) {
+      value <- "0"
+    } else {
+      value <- sprintf("-%2.15f", 100 * fraction / n)
+    }
+
     others <- NULL
     i <- 1
     for (r in a_values) {

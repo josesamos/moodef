@@ -39,6 +39,7 @@ At a global level, **category level**, several elements can be defined for all q
 - **Copyright**  
 - **License**  
 - **Author**  
+- **Fraction**  
 - **Feedback** (correct, incorrect, or partially correct responses)  
 
 The package supports two styles of question definition: the **simple style** and the **extended style**. In the extended style, some of the global elements can be redefined for individual questions.  
@@ -51,13 +52,14 @@ In the simple style, the most frequently used default values are assumed for eac
 - An **optional image**  
 - **Answers**  
 
-All questions belong to the same category and share the globally defined values for copyright, license, author, and feedback.  
+All questions belong to the same category and share the globally defined values for copyright, license, author, fraction, and feedback. Fraction does not make sense for all question types.
 
 ## Extended Style  
 
 The extended style allows you to define or override additional elements for each question. These elements are optional, and if not explicitly defined, the global values are used. In addition to the components of the simple style, the following elements can be specified for each question:  
 
 - **Category**  
+- **Fraction**  
 - **Identifier**  
 - **Name**  
 - **Author**  
@@ -125,7 +127,7 @@ In addition to the category name in the `category` parameter, we define the `cop
 </quiz>
 ````
 
-Below is the function call being executed, including the values for the remaining parameters. **The simple and extended definitions cannot be mixed**. For this reason, we define a `question_category` object for each type of definition to be used in the following examples.
+Below is the function call being executed, including the values for the remaining parameters. 
 
 ```{r}
 qc <- question_category(category = 'Initial test',
@@ -133,14 +135,13 @@ qc <- question_category(category = 'Initial test',
                         copyright = 'Copyright © 2025 Universidad de Granada',
                         license = 'License Creative Commons Attribution-ShareAlike 4.0',
                         author = 'Jose Samos',
+                        fraction = 0,
                         correct_feedback = 'Correct.',
                         partially_correct_feedback = 'Partially correct.',
                         incorrect_feedback = 'Incorrect.',
                         adapt_images = TRUE,
                         width = 800,
                         height = 600)
-
-qc_extended <- qc
 ```
 
 We are going to discuss the use of each parameter. 
@@ -160,6 +161,8 @@ Questions have a name, which is displayed as a summary in the *Moodle* question 
 
 Using the parameter `first_question_number`, the number that will be assigned to the first question is defined, with a three-digit format. This number will increase for each question.
 
+The `fraction` attribute is used in various question types to determine how a specific answer impacts the question's score. Specifically, for incorrect answers in the `multichoice` and `truefalse` types, the value calculated by dividing `fraction` by the number of incorrect answers available is considered as the amount deducted in case of an incorrect response. If it has a value of 0, incorrect answers for those question types are not penalized.
+
 For each question we can indicate feedback text for cases in which the answer is correct, partially correct or incorrect: The corresponding values are provided by the `correct_feedback`, `partially_correct_feedback` and `incorrect_feedback` parameters.
 
 Finally, each question stem can include an image. Sometimes the images we use have very different sizes and require a prior transformation to homogenize their presentation. This transformation can be carried out automatically by indicating it using the parameter `adapt_images` (default is `FALSE`). Using the parameters `width` and `height` we indicate the size of the resulting image. It is advisable to test this functionality and adjust the size accordingly by viewing the result when defining a questionnaire in *Moodle*. **The original images are not modified**, only those that are embedded in the XML file.
@@ -173,7 +176,7 @@ We can define the questions one by one using a definition function or in bulk us
 
 ### Definition function
 
-We provide two functions for defining questions: `define_question()` and `define_extended_question()`. These are used to define questions in the simple style and the extended style, respectively. **The simple and extended definitions cannot be mixed**.
+We provide two functions for defining questions: `define_question()` and `define_extended_question()`. These are used to define questions in the simple style and the extended style, respectively. **They can be mixed**.
 
 #### Simple Style
 
@@ -215,7 +218,7 @@ Finally, the answers to the question are defined. The first answer is indicated 
 We can achieve the same definition as above using the extended style. In this case, the result will be exactly the same as before, but this function allows for the definition of additional parameters. 
 
 ```{r example2-2}
-qc_extended <- qc_extended |>
+qc <- qc |>
   define_extended_question(
     type = 'v',
     question = 'Place the name of the operations as they appear in the figure.',
@@ -231,10 +234,11 @@ qc_extended <- qc_extended |>
 The previous definition is equivalent to the following. In the code below, the default obtained values have been used. We could modify any of the indicated values or add new ones according to our needs. For example, additional answers, feedback for the answers, and tags to describe the questions can be defined.
 
 ```{r example2-3}
-qc_extended <- qc_extended |>
+qc <- qc |>
   define_extended_question(
     category = 'Initial test',
     type = 'ordering<|>v',
+    fraction = 0,
     id = '',
     name = 'q_001_ordering_v_place_the_name_of_the_operations_as_they',
     author = 'Jose Samos',
@@ -274,10 +278,10 @@ The content of the file for the simple style is shown below.
 For the extended style, the content is also shown afterward.
 
 ````{verbatim, lang = "csv"}
-"category", "type", "id", "name", "author", "fb_general", "fb_correct", 
-"fb_partially", "fb_incorrect", "question", "image", "image_alt", 
-"answer", "a_1", "a_2", "a_3", "a_4", "fb_answer", "fb_a_1", 
-"fb_a_2", "fb_a_3", "fb_a_4", "tag_1", "tag_2", "tag_3"
+"category", "type", "fraction", "id", "name", "author", "fb_general", 
+"fb_correct", "fb_partially", "fb_incorrect", "question", "image", 
+"image_alt", "answer", "a_1", "a_2", "a_3", "a_4", "fb_answer", 
+"fb_a_1", "fb_a_2", "fb_a_3", "fb_a_4", "tag_1", "tag_2", "tag_3"
 ````
 
 We can add as many additional columns as we deem necessary. In the case of the extended style, the same number of answer columns as feedback columns must be included, and at least one tags column must be present (even if the values in these columns are not defined).

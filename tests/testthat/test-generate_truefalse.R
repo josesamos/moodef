@@ -11,7 +11,7 @@ test_that("generate_truefalse generates correct XML for 'true' answer", {
   )
 
   # Run the function
-  result <- generate_truefalse(answer, fb_answer, fb_rest)
+  result <- generate_truefalse(answer, fb_answer, fb_rest, 0)
 
   # Check if the result matches the expected structure
   expect_equal(result, expected_structure)
@@ -30,7 +30,7 @@ test_that("generate_truefalse generates correct XML for 'false' answer", {
   )
 
   # Run the function
-  result <- generate_truefalse(answer, fb_answer, fb_rest)
+  result <- generate_truefalse(answer, fb_answer, fb_rest, 0)
 
   # Check if the result matches the expected structure
   expect_equal(result, expected_structure)
@@ -49,7 +49,7 @@ test_that("generate_truefalse handles NULL feedback for incorrect answer", {
   )
 
   # Run the function
-  result <- generate_truefalse(answer, fb_answer, fb_rest)
+  result <- generate_truefalse(answer, fb_answer, fb_rest, 0)
 
   # Check if the result matches the expected structure
   expect_equal(result, expected_structure)

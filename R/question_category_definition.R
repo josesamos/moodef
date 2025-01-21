@@ -9,7 +9,6 @@
 #'
 #' @param qc A `question_category` object.
 #' @param df A data frame.
-#' @param extended A Boolean, use extended question definition.
 #'
 #' @return A `question_category`.
 #'
@@ -25,67 +24,31 @@
 #'   define_questions_from_data_frame(df)
 #'
 #' @export
-define_questions_from_data_frame <- function(qc, df, extended)
+define_questions_from_data_frame <- function(qc, df)
   UseMethod("define_questions_from_data_frame")
 
 #' @rdname define_questions_from_data_frame
 #' @export
-define_questions_from_data_frame.question_category <- function(qc, df, extended = FALSE) {
-  attributes <- names(df)
+define_questions_from_data_frame.question_category <- function(qc, df) {
 
-  for (opcional in c('type', 'image', 'image_alt')) {
-    if (!(opcional %in% attributes)) {
-      df[, opcional] <- ''
-    }
+  df <- process_question_dataframe(df)
+
+  q_df <- create_default_value_question_df()
+  q_df$fraction <- ''
+
+  additional_fields <- setdiff(names(df), names(q_df))
+  if (length(additional_fields) > 0) {
+    stop(paste("The data frame contains additional fields not allowed:",
+               paste(additional_fields, collapse = ", ")))
+  }
+  # Copy the columns from df
+  q_df <- do.call(rbind, replicate(nrow(df), q_df, simplify = FALSE))
+  for (col in names(df)) {
+    q_df[[col]] <- df[[col]]
   }
 
-  # type lowercase
-  df$type <- tolower(df$type)
-
-  if (extended) {
-    for (opcional in c(
-      "category",
-      "id",
-      "name",
-      "author",
-      "fb_general",
-      "fb_correct",
-      "fb_partially",
-      "fb_incorrect"
-    )) {
-      if (!(opcional %in% attributes)) {
-        df[, opcional] <- ''
-      }
-    }
-    define_extended_questions_from_data_frame(qc, df)
-  } else {
-    rest <- setdiff(attributes,
-                    c("type", "question", "image", "image_alt", "answer"))
-    for (i in 1:nrow(df)) {
-      text <- paste0(
-        'define_question(qc, type = "',
-        df[i, 'type'],
-        '", question = "',
-        df[i, 'question'],
-        '", image = "',
-        df[i, 'image'],
-        '", image_alt = "',
-        df[i, 'image_alt'],
-        '", answer = ',
-        string_to_string_vector(df[i, 'answer'][[1]])
-      )
-      j <- 0
-      for (r in rest) {
-        if (df[i, r][[1]] != '') {
-          j <- j + 1
-          text <- paste0(text, ", a_", j, " = ", string_to_string_vector(df[i, r][[1]]))
-        }
-      }
-      text <- paste0(text, ")")
-      qc <- eval(parse(text = text))
-    }
-    qc
-  }
+  df <- rbind(qc$questions, q_df)
+  define_questions_from_df(qc, df)
 }
 
 
@@ -101,7 +64,6 @@ define_questions_from_data_frame.question_category <- function(qc, df, extended 
 #' @param qc A `question_category` object.
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
-#' @param extended A Boolean, use extended question definition.
 #'
 #' @return A `question_category`.
 #'
@@ -115,16 +77,15 @@ define_questions_from_data_frame.question_category <- function(qc, df, extended 
 #'   define_questions_from_csv(file = file)
 #'
 #' @export
-define_questions_from_csv <- function(qc, file, sep, extended)
+define_questions_from_csv <- function(qc, file, sep)
   UseMethod("define_questions_from_csv")
 
 #' @rdname define_questions_from_csv
 #' @export
 define_questions_from_csv.question_category <- function(qc, file,
-                                                        sep = ',',
-                                                        extended = FALSE) {
+                                                        sep = ',') {
   df <- read_question_csv(file, sep)
-  define_questions_from_data_frame(qc, df, extended)
+  define_questions_from_data_frame(qc, df)
 }
 
 
@@ -145,7 +106,6 @@ define_questions_from_csv.question_category <- function(qc, file,
 #' @param file A string, name of an Excel file.
 #' @param sheet_index A number, sheet index in the workbook.
 #' @param sheet_name A string, sheet name.
-#' @param extended A Boolean, use extended question definition.
 #'
 #' @return A `question_category`.
 #'
@@ -164,8 +124,7 @@ define_questions_from_csv.question_category <- function(qc, file,
 define_questions_from_excel <- function(qc,
                                         file,
                                         sheet_index,
-                                        sheet_name,
-                                        extended)
+                                        sheet_name)
   UseMethod("define_questions_from_excel")
 
 #' @rdname define_questions_from_excel
@@ -173,8 +132,7 @@ define_questions_from_excel <- function(qc,
 define_questions_from_excel.question_category <- function(qc,
                                                           file,
                                                           sheet_index = NULL,
-                                                          sheet_name = NULL,
-                                                          extended = FALSE) {
+                                                          sheet_name = NULL) {
   df <- read_question_excel(file, sheet_index, sheet_name)
-  define_questions_from_data_frame(qc, df, extended)
+  define_questions_from_data_frame(qc, df)
 }

@@ -27,13 +27,75 @@ generate_xml <- function(qc)
 #' @rdname generate_xml
 #' @export
 generate_xml.question_category <- function(qc) {
-  if (is.null(qc$extended)) {
-    questions <- format_questions(qc$questions)
-    xml <- category_question(qc$category, questions)
-  } else {
-    xml <- extended_format_questions(qc)
+  fq <- glue::glue('<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+')
+
+  for (i in seq_len(nrow(qc$questions))) {
+    question_category <- xml_question_category(qc$questions[i, "category"])
+
+    # "ordering", "ordering<|>h", "ordering<|>v"
+    r <- extract_type_orientation(qc$questions[["type"]][i])
+    type <- r$type
+    orientation <- r$orientation
+
+    author <- qc$questions[["author"]][i]
+    fraction <- as.numeric(qc$questions[["fraction"]][i])
+    idnumber <- qc$questions[["id"]][i]
+    fb_general <- qc$questions[["fb_general"]][i]
+    fb_correct <- qc$questions[["fb_correct"]][i]
+    fb_incorrect <- qc$questions[["fb_incorrect"]][i]
+    fb_partially <- qc$questions[["fb_partially"]][i]
+    question <- qc$questions[["question"]][i]
+    image <- qc$questions[["image"]][i]
+    image_alt <- qc$questions[["image_alt"]][i]
+    name <- xml_question_name(qc$questions[i, "name"])
+    answer <- get_vector_answer(qc$questions[["answer"]][i])
+    a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "a_")
+    fb_answer <- qc$questions[["fb_answer"]][i]
+    fb_a_values <- get_non_empty_fields_by_prefix(qc$questions, i, "fb_a_")
+
+    questiontext <- xml_questiontext(
+      qc$copyright,
+      qc$license,
+      qc$adapt_images,
+      qc$width,
+      qc$height,
+      question,
+      image,
+      image_alt,
+      type,
+      author,
+      fb_general,
+      idnumber
+    )
+
+    question_body <- generate_question_body(
+      type,
+      answer,
+      a_values,
+      fb_correct,
+      fb_incorrect,
+      fb_partially,
+      orientation,
+      fb_answer,
+      fb_a_values,
+      image,
+      image_alt,
+      fraction
+    )
+
+    tag_values <- get_non_empty_fields_by_prefix(qc$questions, i, "tag_")
+    question_tags <- xml_question_tags(tag_values)
+
+    question <- xml_question(type, name, questiontext, question_body, question_tags)
+    fq <- glue::glue(fq, question_category, question)
   }
-  xml
+
+  fq <- glue::glue(fq, '
+</quiz>
+')
+  fq
 }
 
 
@@ -68,3 +130,5 @@ generate_xml_file.question_category <- function(qc, file = NULL) {
   cat(xml, file = file)
   qc
 }
+
+

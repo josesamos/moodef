@@ -14,9 +14,9 @@ xml_questiontext(
   image,
   image_alt,
   type,
-  author = "",
-  fb_general = "",
-  idnumber = ""
+  author,
+  fb_general,
+  idnumber
 )
 }
 \arguments{

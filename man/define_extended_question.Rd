@@ -9,6 +9,7 @@ define_extended_question(
   qc,
   category,
   type,
+  fraction,
   id,
   name,
   author,
@@ -26,6 +27,7 @@ define_extended_question(
   a_4,
   a_5,
   a_6,
+  a_7,
   fb_answer,
   fb_a_1,
   fb_a_2,
@@ -33,18 +35,23 @@ define_extended_question(
   fb_a_4,
   fb_a_5,
   fb_a_6,
+  fb_a_7,
   tag_1,
   tag_2,
   tag_3,
   tag_4,
   tag_5,
-  tag_6
+  tag_6,
+  tag_7,
+  tag_8,
+  tag_9
 )
 
 \method{define_extended_question}{question_category}(
   qc,
   category = "",
   type = "",
+  fraction = 0,
   id = "",
   name = "",
   author = "",
@@ -62,6 +69,7 @@ define_extended_question(
   a_4 = "",
   a_5 = "",
   a_6 = "",
+  a_7 = "",
   fb_answer = "",
   fb_a_1 = "",
   fb_a_2 = "",
@@ -69,12 +77,16 @@ define_extended_question(
   fb_a_4 = "",
   fb_a_5 = "",
   fb_a_6 = "",
+  fb_a_7 = "",
   tag_1 = "",
   tag_2 = "",
   tag_3 = "",
   tag_4 = "",
   tag_5 = "",
-  tag_6 = ""
+  tag_6 = "",
+  tag_7 = "",
+  tag_8 = "",
+  tag_9 = ""
 )
 }
 \arguments{
@@ -84,6 +96,8 @@ where new questions will be added.}
 \item{category}{A character string specifying the category of the question.}
 
 \item{type}{A character string indicating the type of the question.}
+
+\item{fraction}{A number between 0 and 1.}
 
 \item{id}{A unique identifier for the question.}
 
@@ -120,6 +134,8 @@ Required if an image is provided.}
 
 \item{a_6}{Additional possible answer.}
 
+\item{a_7}{Additional possible answer.}
+
 \item{fb_answer}{Feedback for the correct answer.}
 
 \item{fb_a_1}{Feedback for additional answer.}
@@ -134,6 +150,8 @@ Required if an image is provided.}
 
 \item{fb_a_6}{Feedback for additional answer.}
 
+\item{fb_a_7}{Feedback for additional answer.}
+
 \item{tag_1}{Tag to categorize the question.}
 
 \item{tag_2}{Tag to categorize the question.}
@@ -145,6 +163,12 @@ Required if an image is provided.}
 \item{tag_5}{Tag to categorize the question.}
 
 \item{tag_6}{Tag to categorize the question.}
+
+\item{tag_7}{Tag to categorize the question.}
+
+\item{tag_8}{Tag to categorize the question.}
+
+\item{tag_9}{Tag to categorize the question.}
 }
 \value{
 Returns the updated question category object.
@@ -157,14 +181,11 @@ feedback and optional image data.
 Parameter values that are not defined are taken from the category definition,
 if they are defined there.
 
-When defining questions using the extended style via files, there is no limit
-to the number of fields for answers, feedback for answers, or tags (except for
-Moodle's limitations when processing imported data). However, when defining
-questions through this function, the number of fields is limited to the parameters
-explicitly defined. While it would have been possible to allow a completely
-variable number of parameters in each section, simplicity was prioritized, and
-we defined a fixed set of parameters that we believe are more than sufficient
-for most use cases.
+The \code{fraction} attribute is used in various question types to determine how a
+specific answer impacts the question's score. Specifically, for incorrect answers
+in the \code{multichoice} and \code{truefalse} types, the value calculated by dividing
+\code{fraction} by the number of incorrect answers available is considered as the
+amount deducted in case of an incorrect response.
 
 In the example provided, we have intentionally used the same structure as in
 the \code{define_question()} function to demonstrate that any parameters not needed

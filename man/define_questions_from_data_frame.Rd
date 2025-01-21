@@ -5,16 +5,14 @@
 \alias{define_questions_from_data_frame.question_category}
 \title{Define questions from a data frame}
 \usage{
-define_questions_from_data_frame(qc, df, extended)
+define_questions_from_data_frame(qc, df)
 
-\method{define_questions_from_data_frame}{question_category}(qc, df, extended = FALSE)
+\method{define_questions_from_data_frame}{question_category}(qc, df)
 }
 \arguments{
 \item{qc}{A \code{question_category} object.}
 
 \item{df}{A data frame.}
-
-\item{extended}{A Boolean, use extended question definition.}
 }
 \value{
 A \code{question_category}.

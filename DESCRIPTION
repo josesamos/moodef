@@ -1,6 +1,6 @@
 Type: Package
 Package: moodef
-Title: Defining 'Moodle' Quizzes from R
+Title: Defining 'Moodle' Elements from R
 Version: 1.1.0.9000
 Authors@R: c(
     person("Jose", "Samos", , "jsamos@ugr.es", role = c("aut", "cre"),
@@ -20,7 +20,6 @@ Imports:
     dplyr,
     glue,
     magick,
-    purrr,
     readr,
     readxl,
     snakecase,

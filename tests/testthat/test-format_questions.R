@@ -31,8 +31,8 @@ test_that("generate_question_body works correctly for each question type", {
   # Multichoice
   mock_answer <- "A"
   mock_rest <- list("Option B", "Option C")
-  result <- generate_question_body("multichoice", mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', '', NULL, '', '')
-  expect_equal(result, generate_multichoice(mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', NULL))
+  result <- generate_question_body("multichoice", mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', '', NULL, '', '', 1)
+  expect_equal(result, generate_multichoice(mock_answer, mock_rest, "Correct!", "Incorrect!", '', '', NULL, 1))
 
   # Ordering
   mock_answer <- c("Step 1", "Step 2", "Step 3")
@@ -59,12 +59,12 @@ test_that("generate_question_body works correctly for each question type", {
 
   # True/False
   mock_answer <- "true"
-  result <- generate_question_body("truefalse", mock_answer, NULL, NULL, NULL, NULL, NULL)
-  expect_equal(result, generate_truefalse(mock_answer, '', NULL))
+  result <- generate_question_body("truefalse", mock_answer, NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, 1)
+  expect_equal(result, generate_truefalse(mock_answer, '', NULL, 1))
 
   # Shortanswer
   mock_answer <- "Answer"
-  result <- generate_question_body("shortanswer", mock_answer, NULL, NULL, NULL, NULL, NULL)
+  result <- generate_question_body("shortanswer", mock_answer, NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, NULL)
   expect_equal(result, generate_shortanswer(mock_answer, ''))
 
 })
@@ -92,47 +92,6 @@ test_that("get_vector_answer works correctly", {
                info = "Should return a vector with an empty string for an empty input string")
 })
 
-test_that("generate_question works correctly for different configurations", {
-  file <- system.file("extdata", "questions.csv", package = "moodef")
-  qc <-
-    question_category(category = 'Initial test', adapt_images = TRUE) |>
-    define_questions_from_csv(file = file)
-
-  questions <- format_questions(qc$questions)
-
-  q <- qc$questions[1, ]
-
-  # Assign each component of q to the corresponding variable
-  first_question_number <- q$first_question_number
-  copyright <- q$copyright
-  license <- q$license
-  author <- q$author
-  correct_feedback <- q$correct_feedback
-  partially_correct_feedback <- q$partially_correct_feedback
-  incorrect_feedback <- q$incorrect_feedback
-  adapt_images <- q$adapt_images
-  width <- q$width
-  height <- q$height
-  type <- q$type
-  question <- q$question
-  image <- q$image
-  image_alt <- q$image_alt
-  answer <- q$answer
-
-  expected_result <- structure(
-    "\n<question type=\"multichoice\">\n  <name> <text>q_001_multichoice_what_are_the_basic_arithmetic_operations</text> </name>\n  \n<questiontext format=\"html\">\n  <text><![CDATA[\n     \n     \n     \n     <p>What are the basic arithmetic operations?</p>]]></text>\n     \n</questiontext>\n<generalfeedback format=\"html\">\n  <text></text>\n</generalfeedback>\n<defaultgrade>1.0</defaultgrade>\n<penalty>0.5</penalty>\n<hidden>0</hidden>\n<idnumber></idnumber>\n  \n<single>true</single>\n<shuffleanswers>true</shuffleanswers>\n<answernumbering>abc</answernumbering>\n<showstandardinstruction>0</showstandardinstruction>\n<correctfeedback format=\"moodle_auto_format\"> <text>Correct.</text> </correctfeedback>\n<partiallycorrectfeedback format=\"moodle_auto_format\"> <text>Partially correct.</text> </partiallycorrectfeedback>\n<incorrectfeedback format=\"moodle_auto_format\"> <text>Incorrect.</text> </incorrectfeedback>\n<answer fraction=\"100\" format=\"html\">\n   <text>Addition, subtraction, multiplication and division.</text>\n   <feedback format=\"html\"> <text>Correct.</text> </feedback>\n</answer>\n<answer fraction=\"-50.000000000000000\" format=\"html\">\n   <text>Addition and subtraction.</text>\n   <feedback format=\"html\"> <text>Incorrect.</text> </feedback>\n</answer>\n<answer fraction=\"-50.000000000000000\" format=\"html\">\n   <text>Addition, subtraction, multiplication, division and square root.</text>\n   <feedback format=\"html\"> <text>Incorrect.</text> </feedback>\n</answer>\n  \n</question>",
-    class = c("glue", "character")
-  )
-
-  result <- generate_question(first_question_number, copyright, license, author, correct_feedback,
-                              partially_correct_feedback, incorrect_feedback, adapt_images,
-                              width, height, type, question, image, image_alt, answer,
-                              q$a_1,
-                              q$a_2,
-                              q$a_3)
-
-  expect_equal(result, expected_result)
-})
 
 test_that("generate_question_name generates correct XML with valid inputs", {
   # Input
