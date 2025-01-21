@@ -32,7 +32,7 @@ generate_multichoice <-
 
     <single>true</single>
     <shuffleanswers>true</shuffleanswers>
-    <answernumbering>abc</answernumbering>
+    <answernumbering>none</answernumbering>
     <showstandardinstruction>0</showstandardinstruction>
     <correctfeedback format="moodle_auto_format"> <text>{correct_feedback}</text> </correctfeedback>
     <partiallycorrectfeedback format="moodle_auto_format"> <text>{fb_partially}</text> </partiallycorrectfeedback>
