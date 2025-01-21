@@ -1,81 +1,4 @@
 
-#' Format all questions in the data frame
-#'
-#' @param questions A question data frame.
-#'
-#' @return A string.
-#' @keywords internal
-format_questions <- function(questions) {
-  paste(unlist(purrr::pmap(questions, generate_question)), collapse = "\n")
-}
-
-
-#' Generate a question
-#'
-#' Main function to generate a question in XML format. Combines various components
-#' such as type, text, and body to construct the complete XML question.
-#'
-#' @param first_question_number An integer, the first number to compose the question names.
-#' @param copyright A string, copyright text to include in the question.
-#' @param license A string, license text to include in the question.
-#' @param author A string, author name.
-#' @param correct_feedback A string, feedback for correct answers.
-#' @param partially_correct_feedback A string, feedback for partially correct answers.
-#' @param incorrect_feedback A string, feedback for incorrect answers.
-#' @param adapt_images A boolean, whether to adapt images for size consistency.
-#' @param width An integer, width of the images.
-#' @param height An integer, height of the images.
-#' @param type A string, question type (if applicable).
-#' @param question A string, the main question text.
-#' @param image A string, optional image file to include in the question.
-#' @param image_alt A string, description of the image for accessibility.
-#' @param answer A string, correct answer for the question.
-#' @param ... Additional strings, other possible answers.
-#'
-#' @return A string containing the question in XML format.
-#' @keywords internal
-generate_question <- function(first_question_number,
-                              copyright,
-                              license,
-                              author,
-                              correct_feedback,
-                              partially_correct_feedback,
-                              incorrect_feedback,
-                              adapt_images,
-                              width,
-                              height,
-                              type,
-                              question,
-                              image,
-                              image_alt,
-                              answer,
-                              ...) {
-  a_values <- filter_non_empty_answers(...)
-
-  answer <- get_vector_answer(answer)
-
-  if (!(type %in% allowed_types)) {
-    type <- determine_question_type(type, question, answer, a_values)
-  }
-  # "ordering", "ordering<|>h", "ordering<|>v"
-  r <- extract_type_orientation(type)
-  type <- r$type
-  orientation <- r$orientation
-
-  question_body <- generate_question_body(type, answer, a_values, correct_feedback,
-                                          incorrect_feedback, partially_correct_feedback, orientation,
-                                          image = image, image_alt = image_alt)
-
-  questiontext <- xml_questiontext(copyright, license, adapt_images, width, height,
-                                   question, image, image_alt, type, author)
-
-  name <- generate_question_name(first_question_number, type, question)
-  question_name <- xml_question_name(name)
-
-  xml_question(type, question_name, questiontext, question_body)
-}
-
-
 #' generate question `name` node
 #'
 #' @param first_question_number An integer, first number to compose the question
@@ -108,9 +31,12 @@ filter_non_empty_answers <- function(...) {
   others <- list(...)
   a_values <- NULL
   for (s in seq_along(others)) {
-    ot <- trimws(others[[s]])
-    if (nchar(ot) > 0) {
-      a_values <- c(a_values, ot)
+    w <- trimws(others[[s]])
+    if (length(w) > 1) {
+      w <- vector_to_string(w)
+    }
+    if (nchar(w) > 0) {
+      a_values <- c(a_values, w)
     }
   }
   a_values

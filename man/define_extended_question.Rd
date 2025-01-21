@@ -9,6 +9,7 @@ define_extended_question(
   qc,
   category,
   type,
+  penalty,
   id,
   name,
   author,
@@ -26,6 +27,7 @@ define_extended_question(
   a_4,
   a_5,
   a_6,
+  a_7,
   fb_answer,
   fb_a_1,
   fb_a_2,
@@ -33,18 +35,23 @@ define_extended_question(
   fb_a_4,
   fb_a_5,
   fb_a_6,
+  fb_a_7,
   tag_1,
   tag_2,
   tag_3,
   tag_4,
   tag_5,
-  tag_6
+  tag_6,
+  tag_7,
+  tag_8,
+  tag_9
 )
 
 \method{define_extended_question}{question_category}(
   qc,
   category = "",
   type = "",
+  penalty = 0,
   id = "",
   name = "",
   author = "",
@@ -62,6 +69,7 @@ define_extended_question(
   a_4 = "",
   a_5 = "",
   a_6 = "",
+  a_7 = "",
   fb_answer = "",
   fb_a_1 = "",
   fb_a_2 = "",
@@ -69,12 +77,16 @@ define_extended_question(
   fb_a_4 = "",
   fb_a_5 = "",
   fb_a_6 = "",
+  fb_a_7 = "",
   tag_1 = "",
   tag_2 = "",
   tag_3 = "",
   tag_4 = "",
   tag_5 = "",
-  tag_6 = ""
+  tag_6 = "",
+  tag_7 = "",
+  tag_8 = "",
+  tag_9 = ""
 )
 }
 \arguments{
@@ -84,6 +96,9 @@ where new questions will be added.}
 \item{category}{A character string specifying the category of the question.}
 
 \item{type}{A character string indicating the type of the question.}
+
+\item{penalty}{A number between 0 and 1, which will be divided by the number of
+options minus 1.}
 
 \item{id}{A unique identifier for the question.}
 
@@ -120,6 +135,8 @@ Required if an image is provided.}
 
 \item{a_6}{Additional possible answer.}
 
+\item{a_7}{Additional possible answer.}
+
 \item{fb_answer}{Feedback for the correct answer.}
 
 \item{fb_a_1}{Feedback for additional answer.}
@@ -134,6 +151,8 @@ Required if an image is provided.}
 
 \item{fb_a_6}{Feedback for additional answer.}
 
+\item{fb_a_7}{Feedback for additional answer.}
+
 \item{tag_1}{Tag to categorize the question.}
 
 \item{tag_2}{Tag to categorize the question.}
@@ -145,6 +164,12 @@ Required if an image is provided.}
 \item{tag_5}{Tag to categorize the question.}
 
 \item{tag_6}{Tag to categorize the question.}
+
+\item{tag_7}{Tag to categorize the question.}
+
+\item{tag_8}{Tag to categorize the question.}
+
+\item{tag_9}{Tag to categorize the question.}
 }
 \value{
 Returns the updated question category object.

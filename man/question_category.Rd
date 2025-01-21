@@ -15,7 +15,8 @@ question_category(
   adapt_images = FALSE,
   width = 800,
   height = 600,
-  author = ""
+  author = "",
+  penalty = 0
 )
 }
 \arguments{
@@ -45,6 +46,9 @@ to each question.}
 
 \item{author}{A string, author name to be included in each question that is
 defined.}
+
+\item{penalty}{A number between 0 and 1, which will be divided by the number of
+options minus 1.}
 }
 \value{
 A \code{question_category} object.

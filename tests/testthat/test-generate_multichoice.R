@@ -12,7 +12,7 @@ test_that("generate_multichoice generates correct XML for single correct answer"
   expected_structure <- paste0(
     "\n<single>true</single>",
     "\n<shuffleanswers>true</shuffleanswers>",
-    "\n<answernumbering>abc</answernumbering>",
+    "\n<answernumbering>none</answernumbering>",
     "\n<showstandardinstruction>0</showstandardinstruction>",
     "\n<correctfeedback format=\"moodle_auto_format\"> <text>Correct!</text> </correctfeedback>",
     "\n<partiallycorrectfeedback format=\"moodle_auto_format\"> <text>Almost there!</text> </partiallycorrectfeedback>",
@@ -60,7 +60,7 @@ test_that("generate_multichoice handles custom feedback for a_values answers", {
   expected_structure <- paste0(
     "\n<single>true</single>",
     "\n<shuffleanswers>true</shuffleanswers>",
-    "\n<answernumbering>abc</answernumbering>",
+    "\n<answernumbering>none</answernumbering>",
     "\n<showstandardinstruction>0</showstandardinstruction>",
     "\n<correctfeedback format=\"moodle_auto_format\"> <text>Correct!</text> </correctfeedback>",
     "\n<partiallycorrectfeedback format=\"moodle_auto_format\"> <text>Almost there!</text> </partiallycorrectfeedback>",

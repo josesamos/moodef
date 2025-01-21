@@ -414,18 +414,6 @@ test_that("xml_question_idnumber handles special characters correctly", {
   expect_match(result, "</idnumber>", fixed = TRUE)
 })
 
-test_that("format_questions returns an empty string for empty input", {
-  questions <- list()
-  result <- format_questions(questions)
-  expect_equal(result, "")
-})
-
-test_that("format_questions handles NULL input gracefully", {
-  questions <- NULL
-  result <- format_questions(questions)
-  expect_equal(result, "")
-})
-
 xml_question_category <- function(category) {
   glue::glue('<question type="category">
 <category>

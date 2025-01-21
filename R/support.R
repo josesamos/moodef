@@ -54,6 +54,7 @@ create_question_data_frame <- function(extended = FALSE) {
     questions <-  data.frame(
       category = character(),
       type = character(),
+      penalty = character(),
       id = character(),
       name = character(),
       author = character(),
@@ -82,6 +83,64 @@ create_question_data_frame <- function(extended = FALSE) {
   }
   questions
 }
+
+
+#' Create a question data frame common to normal and extended questions.
+#'
+#' @keywords internal
+create_common_question_df <- function() {
+  df <- create_default_value_question_df()
+  df[0, ]
+}
+
+#' Create a question data frame common to normal and extended questions with
+#' default values.
+#'
+#' @keywords internal
+create_default_value_question_df <- function() {
+  data.frame(
+    category = '',
+    type = '',
+    penalty = '',
+    id = '',
+    name = '',
+    author = '',
+    fb_general = '',
+    fb_correct = '',
+    fb_partially = '',
+    fb_incorrect = '',
+    question = '',
+    image = '',
+    image_alt = '',
+    answer = '',
+    a_1 = '',
+    a_2 = '',
+    a_3 = '',
+    a_4 = '',
+    a_5 = '',
+    a_6 = '',
+    a_7 = '',
+    fb_answer = '',
+    fb_a_1 = '',
+    fb_a_2 = '',
+    fb_a_3 = '',
+    fb_a_4 = '',
+    fb_a_5 = '',
+    fb_a_6 = '',
+    fb_a_7 = '',
+    tag_1 = '',
+    tag_2 = '',
+    tag_3 = '',
+    tag_4 = '',
+    tag_5 = '',
+    tag_6 = '',
+    tag_7 = '',
+    tag_8 = '',
+    tag_9 = '',
+    stringsAsFactors = FALSE
+  )
+}
+
 
 #' Create a question csv file
 #'
