@@ -39,7 +39,7 @@ test_that("define_questions_from", {
   expect_equal(qc, structure(
     list(
       category = "Initial test",
-      penalty = "0",
+      fraction = "0",
       first_question_number = 12,
       copyright = "",
       license = "",
@@ -78,7 +78,7 @@ test_that("define_questions_from", {
             "numerical",
             "essay"
           ),
-          penalty = c("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"),
+          fraction = c("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"),
           id = c("", "", "", "", "", "", "", "", "", "", ""),
           name = c(
             "q_001_multichoice_what_are_the_basic_arithmetic_operations",

@@ -9,7 +9,7 @@ define_extended_question(
   qc,
   category,
   type,
-  penalty,
+  fraction,
   id,
   name,
   author,
@@ -51,7 +51,7 @@ define_extended_question(
   qc,
   category = "",
   type = "",
-  penalty = 0,
+  fraction = 0,
   id = "",
   name = "",
   author = "",
@@ -97,8 +97,7 @@ where new questions will be added.}
 
 \item{type}{A character string indicating the type of the question.}
 
-\item{penalty}{A number between 0 and 1, which will be divided by the number of
-options minus 1.}
+\item{fraction}{A number between 0 and 1.}
 
 \item{id}{A unique identifier for the question.}
 

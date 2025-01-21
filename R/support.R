@@ -54,7 +54,7 @@ create_question_data_frame <- function(extended = FALSE) {
     questions <-  data.frame(
       category = character(),
       type = character(),
-      penalty = character(),
+      fraction = character(),
       id = character(),
       name = character(),
       author = character(),
@@ -101,7 +101,7 @@ create_default_value_question_df <- function() {
   data.frame(
     category = '',
     type = '',
-    penalty = '',
+    fraction = '',
     id = '',
     name = '',
     author = '',

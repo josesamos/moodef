@@ -9,7 +9,7 @@
 #' @param fb_partially A string.
 #' @param fb_answer A string, answer feedback.
 #' @param fb_a_values A vector, rest of answer feedback.
-#' @param penalty A number between 0 and 1.
+#' @param fraction A number between 0 and 1.
 #'
 #' @return A string.
 #' @keywords internal
@@ -21,7 +21,7 @@ generate_multichoice <-
            fb_partially,
            fb_answer,
            fb_a_values,
-           penalty) {
+           fraction) {
 
     if (fb_answer != '') {
       answer_feedback <- fb_answer

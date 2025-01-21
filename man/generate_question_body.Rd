@@ -12,10 +12,11 @@ generate_question_body(
   fb_incorrect,
   fb_partially,
   orientation,
-  fb_answer = "",
-  fb_a_values = NULL,
+  fb_answer,
+  fb_a_values,
   image,
-  image_alt
+  image_alt,
+  fraction
 )
 }
 \arguments{
@@ -32,6 +33,16 @@ generate_question_body(
 \item{fb_partially}{A string, feedback for partially correct answers.}
 
 \item{orientation}{A string, 'v' or 'h'.}
+
+\item{fb_answer}{A string, answer feedback.}
+
+\item{fb_a_values}{A vector, rest of answer feedback.}
+
+\item{image}{Path to an image file associated with the question.}
+
+\item{image_alt}{Alternative text describing the image for accessibility.}
+
+\item{fraction}{A number between 0 and 1.}
 }
 \value{
 A string containing the question body in XML format.

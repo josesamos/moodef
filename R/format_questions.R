@@ -59,7 +59,7 @@ filter_non_empty_answers <- function(...) {
 #' @param fb_a_values A vector, rest of answer feedback.
 #' @param image Path to an image file associated with the question.
 #' @param image_alt Alternative text describing the image for accessibility.
-#' @param penalty A number between 0 and 1.
+#' @param fraction A number between 0 and 1.
 #'
 #' @return A string containing the question body in XML format.
 #' @keywords internal
@@ -74,7 +74,7 @@ generate_question_body <- function(type,
                                    fb_a_values,
                                    image,
                                    image_alt,
-                                   penalty) {
+                                   fraction) {
   switch(
     type,
     "numerical" = generate_numerical(answer, a_values, fb_answer, fb_a_values),
@@ -86,7 +86,7 @@ generate_question_body <- function(type,
       fb_partially,
       fb_answer,
       fb_a_values,
-      penalty
+      fraction
     ),
     "ordering" = generate_ordering(
       answer,
@@ -100,7 +100,7 @@ generate_question_body <- function(type,
     "gapselect" = generate_gapselect(answer, a_values, fb_correct, fb_incorrect, fb_partially),
     "matching" = generate_matching(answer, a_values, fb_correct, fb_incorrect, fb_partially),
     "essay" = generate_essay(),
-    "truefalse" = generate_truefalse(answer, fb_answer, fb_a_values),
+    "truefalse" = generate_truefalse(answer, fb_answer, fb_a_values, fraction),
     "shortanswer" = generate_shortanswer(answer, fb_answer),
     "ddmarker" = generate_ddmarker(image, image_alt, answer, a_values)
   )

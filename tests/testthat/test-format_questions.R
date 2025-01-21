@@ -59,12 +59,12 @@ test_that("generate_question_body works correctly for each question type", {
 
   # True/False
   mock_answer <- "true"
-  result <- generate_question_body("truefalse", mock_answer, NULL, NULL, NULL, NULL, NULL)
-  expect_equal(result, generate_truefalse(mock_answer, '', NULL))
+  result <- generate_question_body("truefalse", mock_answer, NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, NULL)
+  expect_equal(result, generate_truefalse(mock_answer, '', NULL, NULL))
 
   # Shortanswer
   mock_answer <- "Answer"
-  result <- generate_question_body("shortanswer", mock_answer, NULL, NULL, NULL, NULL, NULL)
+  result <- generate_question_body("shortanswer", mock_answer, NULL, NULL, NULL, NULL, NULL, '', '', NULL, NULL, NULL)
   expect_equal(result, generate_shortanswer(mock_answer, ''))
 
 })

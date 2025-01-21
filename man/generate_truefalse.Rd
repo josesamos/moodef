@@ -4,7 +4,7 @@
 \alias{generate_truefalse}
 \title{Generate \code{truefalse} question}
 \usage{
-generate_truefalse(answer, fb_answer, fb_a_values)
+generate_truefalse(answer, fb_answer, fb_a_values, fraction)
 }
 \arguments{
 \item{answer}{A string.}
@@ -12,6 +12,8 @@ generate_truefalse(answer, fb_answer, fb_a_values)
 \item{fb_answer}{A string, answer feedback.}
 
 \item{fb_a_values}{A vector, rest of answer feedback.}
+
+\item{fraction}{A number between 0 and 1.}
 }
 \value{
 A string.

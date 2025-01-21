@@ -5,10 +5,11 @@
 #' @param answer A string.
 #' @param fb_answer A string, answer feedback.
 #' @param fb_a_values A vector, rest of answer feedback.
+#' @param fraction A number between 0 and 1.
 #'
 #' @return A string.
 #' @keywords internal
-generate_truefalse <- function(answer, fb_answer, fb_a_values) {
+generate_truefalse <- function(answer, fb_answer, fb_a_values, fraction) {
   answer <- tolower(answer)
   if (answer == 'true') {
     answer_2 <- 'false'

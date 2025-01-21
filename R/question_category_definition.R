@@ -34,7 +34,7 @@ define_questions_from_data_frame.question_category <- function(qc, df) {
   df <- process_question_dataframe(df)
 
   q_df <- create_default_value_question_df()
-  q_df$penalty <- ''
+  q_df$fraction <- ''
 
   additional_fields <- setdiff(names(df), names(q_df))
   if (length(additional_fields) > 0) {

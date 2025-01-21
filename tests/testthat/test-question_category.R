@@ -21,7 +21,7 @@ test_that("define_question", {
   expect_equal(qc, structure(
     list(
       category = "Initial test",
-      penalty = "0",
+      fraction = "0",
       first_question_number = 2,
       copyright = "",
       license = "",
@@ -36,7 +36,7 @@ test_that("define_question", {
         list(
           category = "Initial test",
           type = "multichoice",
-          penalty = "0",
+          fraction = "0",
           id = "",
           name = "q_001_multichoice_what_are_the_basic_arithmetic_operations",
           author = "",
@@ -83,7 +83,7 @@ test_that("define_question", {
   expect_equal(qc2, structure(
     list(
       category = "Initial test",
-      penalty = "0",
+      fraction = "0",
       first_question_number = 2,
       copyright = "",
       license = "",
@@ -98,7 +98,7 @@ test_that("define_question", {
         list(
           category = "Initial test",
           type = "multichoice",
-          penalty = "0",
+          fraction = "0",
           id = "",
           name = "q_001_multichoice_what_are_the_basic_arithmetic_operations",
           author = "",
@@ -168,7 +168,7 @@ test_that("define_extended_question", {
   expect_equal(qc, structure(
     list(
       category = "Initial test",
-      penalty = "0",
+      fraction = "0",
       first_question_number = 2,
       copyright = "",
       license = "",
@@ -183,7 +183,7 @@ test_that("define_extended_question", {
         list(
           category = "Initial test",
           type = "multichoice",
-          penalty = "0",
+          fraction = "0",
           id = "",
           name = "q_001_multichoice_what_are_the_basic_arithmetic_operations",
           author = "",
@@ -230,7 +230,7 @@ test_that("define_extended_question", {
   expect_equal(qc2, structure(
     list(
       category = "Initial test",
-      penalty = "0",
+      fraction = "0",
       first_question_number = 2,
       copyright = "",
       license = "",
@@ -245,7 +245,7 @@ test_that("define_extended_question", {
         list(
           category = "Initial test",
           type = "multichoice",
-          penalty = "0",
+          fraction = "0",
           id = "",
           name = "q_001_multichoice_what_are_the_basic_arithmetic_operations",
           author = "",

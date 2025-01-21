@@ -28,7 +28,7 @@
 #' @param height A integer, height of each image.
 #' @param author A string, author name to be included in each question that is
 #' defined.
-#' @param penalty A number between 0 and 1.
+#' @param fraction A number between 0 and 1.
 #'
 #' @return A `question_category` object.
 #'
@@ -51,12 +51,12 @@ question_category <-
            width = 800,
            height = 600,
            author = '',
-           penalty = 0) {
+           fraction = 0) {
 
     structure(
       list(
         category = category,
-        penalty = as.character(penalty),
+        fraction = as.character(fraction),
         first_question_number = first_question_number,
         copyright = copyright,
         license = license,
@@ -180,7 +180,7 @@ define_question.question_category <- function(qc,
 #'   where new questions will be added.
 #' @param category A character string specifying the category of the question.
 #' @param type A character string indicating the type of the question.
-#' @param penalty A number between 0 and 1.
+#' @param fraction A number between 0 and 1.
 #' @param id A unique identifier for the question.
 #' @param name A character string representing the name of the question.
 #' @param author The name of the author of the question.
@@ -236,7 +236,7 @@ define_question.question_category <- function(qc,
 define_extended_question <- function(qc,
                                      category,
                                      type,
-                                     penalty,
+                                     fraction,
                                      id,
                                      name,
                                      author,
@@ -280,7 +280,7 @@ UseMethod("define_extended_question")
 define_extended_question.question_category <- function(qc,
                                                        category = '',
                                                        type = '',
-                                                       penalty = 0,
+                                                       fraction = 0,
                                                        id = '',
                                                        name = '',
                                                        author = '',
@@ -324,7 +324,7 @@ define_extended_question.question_category <- function(qc,
 
   # Convert the list to a data frame
   df <- as.data.frame(df_args, stringsAsFactors = FALSE)
-  df$penalty <- as.character(penalty)
+  df$fraction <- as.character(fraction)
 
   df <- rbind(qc$questions, df)
   define_questions_from_df(qc, df)

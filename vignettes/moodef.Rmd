@@ -39,7 +39,7 @@ At a global level, **category level**, several elements can be defined for all q
 - **Copyright**  
 - **License**  
 - **Author**  
-- **Penalty**  
+- **Fraction**  
 - **Feedback** (correct, incorrect, or partially correct responses)  
 
 The package supports two styles of question definition: the **simple style** and the **extended style**. In the extended style, some of the global elements can be redefined for individual questions.  
@@ -52,14 +52,14 @@ In the simple style, the most frequently used default values are assumed for eac
 - An **optional image**  
 - **Answers**  
 
-All questions belong to the same category and share the globally defined values for copyright, license, author, penalty, and feedback.  
+All questions belong to the same category and share the globally defined values for copyright, license, author, fraction, and feedback.  
 
 ## Extended Style  
 
 The extended style allows you to define or override additional elements for each question. These elements are optional, and if not explicitly defined, the global values are used. In addition to the components of the simple style, the following elements can be specified for each question:  
 
 - **Category**  
-- **Penalty**  
+- **Fraction**  
 - **Identifier**  
 - **Name**  
 - **Author**  
@@ -135,7 +135,7 @@ qc <- question_category(category = 'Initial test',
                         copyright = 'Copyright © 2025 Universidad de Granada',
                         license = 'License Creative Commons Attribution-ShareAlike 4.0',
                         author = 'Jose Samos',
-                        penalty = 0,
+                        fraction = 0,
                         correct_feedback = 'Correct.',
                         partially_correct_feedback = 'Partially correct.',
                         incorrect_feedback = 'Incorrect.',
@@ -161,7 +161,7 @@ Questions have a name, which is displayed as a summary in the *Moodle* question 
 
 Using the parameter `first_question_number`, the number that will be assigned to the first question is defined, with a three-digit format. This number will increase for each question.
 
-**********PENALTY***********
+**********fraction***********
 
 For each question we can indicate feedback text for cases in which the answer is correct, partially correct or incorrect: The corresponding values are provided by the `correct_feedback`, `partially_correct_feedback` and `incorrect_feedback` parameters.
 
@@ -238,7 +238,7 @@ qc <- qc |>
   define_extended_question(
     category = 'Initial test',
     type = 'ordering<|>v',
-    penalty = 0,
+    fraction = 0,
     id = '',
     name = 'q_001_ordering_v_place_the_name_of_the_operations_as_they',
     author = 'Jose Samos',
@@ -278,7 +278,7 @@ The content of the file for the simple style is shown below.
 For the extended style, the content is also shown afterward.
 
 ````{verbatim, lang = "csv"}
-"category", "type", "penalty", "id", "name", "author", "fb_general", 
+"category", "type", "fraction", "id", "name", "author", "fb_general", 
 "fb_correct", "fb_partially", "fb_incorrect", "question", "image", 
 "image_alt", "answer", "a_1", "a_2", "a_3", "a_4", "fb_answer", 
 "fb_a_1", "fb_a_2", "fb_a_3", "fb_a_4", "tag_1", "tag_2", "tag_3"

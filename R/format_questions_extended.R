@@ -4,7 +4,7 @@ utils::globalVariables(c("simplified_types", "allowed_types"))
 utils::globalVariables(
   c(
     "category",
-    "penalty",
+    "fraction",
     "author",
     "fb_general",
     "fb_correct",
@@ -28,14 +28,14 @@ define_questions_from_df <- function(qc, df) {
 
   df <- df |>
     dplyr::mutate(category = dplyr::if_else(category == "", qc$category, category)) |>
-    dplyr::mutate(penalty = dplyr::if_else(penalty == "", qc$penalty, penalty)) |>
+    dplyr::mutate(fraction = dplyr::if_else(fraction == "", qc$fraction, fraction)) |>
     dplyr::mutate(author = dplyr::if_else(author == "", qc$author, author)) |>
     dplyr::mutate(fb_correct = dplyr::if_else(fb_correct == "", qc$correct_feedback, fb_correct)) |>
     dplyr::mutate(fb_partially = dplyr::if_else(fb_partially == "", qc$partially_correct_feedback, fb_partially)) |>
     dplyr::mutate(fb_incorrect = dplyr::if_else(fb_incorrect == "", qc$incorrect_feedback, fb_incorrect))
 
-  valid_penalty <- all(!is.na(as.numeric(df$penalty)) & as.numeric(df$penalty) >= 0 & as.numeric(df$penalty) <= 1)
-  stopifnot('Penalty must be a number between 0 and 1.' = valid_penalty == TRUE)
+  valid_fraction <- all(!is.na(as.numeric(df$fraction)) & as.numeric(df$fraction) >= 0 & as.numeric(df$fraction) <= 1)
+  stopifnot('Fraction must be a number between 0 and 1.' = valid_fraction == TRUE)
 
   # check duplicate id values within category
   filtered_df <- df[df$id != "", ]
