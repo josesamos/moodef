@@ -141,13 +141,13 @@ We show the result below.
         <text>Correct.</text>
       </feedback>
     </answer>
-    <answer fraction="-50.000000000000000" format="html">
+    <answer fraction="0" format="html">
       <text>Addition and subtraction.</text>
       <feedback format="html">
         <text>Incorrect.</text>
       </feedback>
     </answer>
-    <answer fraction="-50.000000000000000" format="html">
+    <answer fraction="0" format="html">
       <text>Addition, subtraction, multiplication, division and square root.</text>
       <feedback format="html">
         <text>Incorrect.</text>
