@@ -40,7 +40,7 @@ generate_xml.question_category <- function(qc) {
     orientation <- r$orientation
 
     author <- qc$questions[["author"]][i]
-    penalty <- qc$questions[["penalty"]][i]
+    penalty <- as.numeric(qc$questions[["penalty"]][i])
     idnumber <- qc$questions[["id"]][i]
     fb_general <- qc$questions[["fb_general"]][i]
     fb_correct <- qc$questions[["fb_correct"]][i]
@@ -67,7 +67,8 @@ generate_xml.question_category <- function(qc) {
       type,
       author,
       fb_general,
-      idnumber
+      idnumber,
+      penalty
     )
 
     question_body <- generate_question_body(
@@ -81,7 +82,8 @@ generate_xml.question_category <- function(qc) {
       fb_answer,
       fb_a_values,
       image,
-      image_alt
+      image_alt,
+      penalty
     )
 
     tag_values <- get_non_empty_fields_by_prefix(qc$questions, i, "tag_")

@@ -143,6 +143,7 @@ xml_image <- function(image, image_alt, adapt_images = FALSE, width = NULL, heig
 #' @param author A string, author name to be included in each question that is defined.
 #' @param fb_general A string, general feedback to be included in each question that is defined.
 #' @param idnumber A string, idnumber to be included in each question that is defined.
+#' @param penalty A number between 0 and 1.
 #'
 #' @return A string.
 #' @keywords internal
@@ -155,9 +156,10 @@ xml_questiontext <- function(copyright,
                              image,
                              image_alt,
                              type,
-                             author = '',
-                             fb_general = '',
-                             idnumber = '') {
+                             author,
+                             fb_general,
+                             idnumber,
+                             penalty) {
   # ddmarker image is out of question text
   if (type != "ddmarker") {
     result <- xml_image(image, image_alt, adapt_images, width, height)

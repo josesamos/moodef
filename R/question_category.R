@@ -28,8 +28,7 @@
 #' @param height A integer, height of each image.
 #' @param author A string, author name to be included in each question that is
 #' defined.
-#' @param penalty A number between 0 and 1, which will be divided by the number of
-#' options minus 1.
+#' @param penalty A number between 0 and 1.
 #'
 #' @return A `question_category` object.
 #'
@@ -181,8 +180,7 @@ define_question.question_category <- function(qc,
 #'   where new questions will be added.
 #' @param category A character string specifying the category of the question.
 #' @param type A character string indicating the type of the question.
-#' @param penalty A number between 0 and 1, which will be divided by the number of
-#' options minus 1.
+#' @param penalty A number between 0 and 1.
 #' @param id A unique identifier for the question.
 #' @param name A character string representing the name of the question.
 #' @param author The name of the author of the question.

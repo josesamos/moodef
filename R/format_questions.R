@@ -55,24 +55,55 @@ filter_non_empty_answers <- function(...) {
 #' @param fb_incorrect A string, feedback for incorrect answers.
 #' @param fb_partially A string, feedback for partially correct answers.
 #' @param orientation A string, 'v' or 'h'.
+#' @param fb_answer A string, answer feedback.
+#' @param fb_a_values A vector, rest of answer feedback.
+#' @param image Path to an image file associated with the question.
+#' @param image_alt Alternative text describing the image for accessibility.
+#' @param penalty A number between 0 and 1.
 #'
 #' @return A string containing the question body in XML format.
 #' @keywords internal
-generate_question_body <- function(type, answer, a_values, fb_correct,
-                                   fb_incorrect, fb_partially, orientation,
-                                   fb_answer = '', fb_a_values = NULL,
-                                   image, image_alt) {
-  switch(type,
-         "numerical" = generate_numerical(answer, a_values, fb_answer, fb_a_values),
-         "multichoice" = generate_multichoice(answer, a_values, fb_correct, fb_incorrect, fb_partially, fb_answer, fb_a_values),
-         "ordering" = generate_ordering(answer, a_values, fb_correct, fb_incorrect, fb_partially, orientation),
-         "ddwtos" = generate_ddwtos(answer, a_values, fb_correct, fb_incorrect, fb_partially),
-         "gapselect" = generate_gapselect(answer, a_values, fb_correct, fb_incorrect, fb_partially),
-         "matching" = generate_matching(answer, a_values, fb_correct, fb_incorrect, fb_partially),
-         "essay" = generate_essay(),
-         "truefalse" = generate_truefalse(answer, fb_answer, fb_a_values),
-         "shortanswer" = generate_shortanswer(answer, fb_answer),
-         "ddmarker" = generate_ddmarker(image, image_alt, answer, a_values))
+generate_question_body <- function(type,
+                                   answer,
+                                   a_values,
+                                   fb_correct,
+                                   fb_incorrect,
+                                   fb_partially,
+                                   orientation,
+                                   fb_answer,
+                                   fb_a_values,
+                                   image,
+                                   image_alt,
+                                   penalty) {
+  switch(
+    type,
+    "numerical" = generate_numerical(answer, a_values, fb_answer, fb_a_values),
+    "multichoice" = generate_multichoice(
+      answer,
+      a_values,
+      fb_correct,
+      fb_incorrect,
+      fb_partially,
+      fb_answer,
+      fb_a_values,
+      penalty
+    ),
+    "ordering" = generate_ordering(
+      answer,
+      a_values,
+      fb_correct,
+      fb_incorrect,
+      fb_partially,
+      orientation
+    ),
+    "ddwtos" = generate_ddwtos(answer, a_values, fb_correct, fb_incorrect, fb_partially),
+    "gapselect" = generate_gapselect(answer, a_values, fb_correct, fb_incorrect, fb_partially),
+    "matching" = generate_matching(answer, a_values, fb_correct, fb_incorrect, fb_partially),
+    "essay" = generate_essay(),
+    "truefalse" = generate_truefalse(answer, fb_answer, fb_a_values),
+    "shortanswer" = generate_shortanswer(answer, fb_answer),
+    "ddmarker" = generate_ddmarker(image, image_alt, answer, a_values)
+  )
 }
 
 

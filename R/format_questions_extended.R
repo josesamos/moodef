@@ -35,7 +35,7 @@ define_questions_from_df <- function(qc, df) {
     dplyr::mutate(fb_incorrect = dplyr::if_else(fb_incorrect == "", qc$incorrect_feedback, fb_incorrect))
 
   valid_penalty <- all(!is.na(as.numeric(df$penalty)) & as.numeric(df$penalty) >= 0 & as.numeric(df$penalty) <= 1)
-  stopifnot('Penalty must be between 0 and 1.' = valid_penalty == TRUE)
+  stopifnot('Penalty must be a number between 0 and 1.' = valid_penalty == TRUE)
 
   # check duplicate id values within category
   filtered_df <- df[df$id != "", ]
