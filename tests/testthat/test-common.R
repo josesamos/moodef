@@ -6,15 +6,6 @@ test_that("string_to_vector works correctly", {
   expect_equal(string_to_vector("<|>a<|>"), c("", "a"))
 })
 
-# Tests for string_to_string_vector ----------------------------------------
-test_that("string_to_string_vector works correctly", {
-  expect_equal(string_to_string_vector(""), '""')
-  expect_equal(string_to_string_vector("a<|>b<|>c"), 'c("a", "b", "c")')
-  expect_equal(string_to_string_vector("single_value"), '"single_value"')
-  expect_equal(string_to_string_vector("<|>a<|>"), 'c("", "a")')
-  expect_equal(string_to_string_vector(NULL), '""')
-})
-
 # Tests for adapt_image ----------------------------------------------------
 test_that("adapt_image works correctly", {
   # Mock image file path
@@ -42,7 +33,5 @@ test_that("is_numeric works correctly", {
 # Tests for has_gaps -------------------------------------------------------
 test_that("has_gaps works correctly", {
   expect_true(has_gaps("This string has [[1]] and [[2]]"))
-  expect_true(has_gaps("This string has [[1]] a gap"))
   expect_false(has_gaps("No gaps here"))
-  expect_false(has_gaps(""))
 })

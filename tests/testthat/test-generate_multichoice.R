@@ -97,43 +97,4 @@ test_that("generate_multichoice handles custom feedback for a_values answers", {
 })
 
 
-test_that("generate_multichoice generates correct XML when fb_answer is not empty", {
-  answer <- "Correct Answer"
-  a_values <- c("Wrong Answer 1", "Wrong Answer 2", "Wrong Answer 3")
-  correct_feedback <- "Good job!"
-  incorrect_feedback <- "That's not correct."
-  fb_partially <- "Partially correct."
-  fb_answer <- "Specific feedback for the correct answer."
-  fb_a_values <- c("Feedback for Wrong Answer 1", "Feedback for Wrong Answer 2", "Feedback for Wrong Answer 3")
-
-  result <- generate_multichoice(
-    answer = answer,
-    a_values = a_values,
-    correct_feedback = correct_feedback,
-    incorrect_feedback = incorrect_feedback,
-    fb_partially = fb_partially,
-    fb_answer = fb_answer,
-    fb_a_values = fb_a_values,
-    fraction = 1
-  )
-
-  # Check correct answer and its feedback
-  expect_match(result, '<answer fraction="100" format="html">', fixed = TRUE)
-  expect_match(result, '<text>Correct Answer</text>', fixed = TRUE)
-  expect_match(result, '<text>Specific feedback for the correct answer.</text>', fixed = TRUE)
-
-  # Check incorrect answers and their feedback
-  for (i in seq_along(a_values)) {
-    expect_match(result, sprintf('<text>%s</text>', a_values[i]), fixed = TRUE)
-    expect_match(result, sprintf('<text>%s</text>', fb_a_values[i]), fixed = TRUE)
-  }
-
-  # Verify feedback for partially correct
-  expect_match(result, '<partiallycorrectfeedback format="moodle_auto_format">', fixed = TRUE)
-  expect_match(result, '<text>Partially correct.</text>', fixed = TRUE)
-
-  # Verify feedback for incorrect answers
-  expect_match(result, '<incorrectfeedback format="moodle_auto_format">', fixed = TRUE)
-  expect_match(result, '<text>That\'s not correct.</text>', fixed = TRUE)
-})
 

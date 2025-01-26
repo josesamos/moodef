@@ -5,9 +5,6 @@ test_that("generate_xml", {
     question_category(category = 'Initial test', adapt_images = TRUE) |>
     define_questions_from_csv(file = file)
 
-  xml <- qc |>
-    generate_xml()
-
   qc2 <- qc |>
     generate_xml_file(file = tempfile(fileext = '.xml'))
 
@@ -21,10 +18,6 @@ test_that("generate_xml", {
   qc3 <-
     question_category(category = 'Initial test', adapt_images = TRUE) |>
     define_questions_from_data_frame(df)
-  xml3 <- qc3 |>
-    generate_xml()
 
   expect_equal(qc, qc2)
-
-
 })

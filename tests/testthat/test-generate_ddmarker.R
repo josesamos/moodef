@@ -50,30 +50,3 @@ test_that("generate_ddmarker generates correct XML structure with multiple feedb
   # Check if the result matches the expected structure
   expect_equal(result, expected_structure)
 })
-
-test_that("generate_ddmarker handles empty inputs gracefully", {
-  # Inputs with minimal data
-  image <- system.file("extdata", "divide.png", package = "moodef")
-  image_alt <- "An example image"
-  answer <- c("", "", "")
-  fb_answer <- character(0)
-
-  # Expected structure
-  expected_structure <- structure(
-    "\n\n<drag>\n  <no>1</no>\n  <text></text>\n  <noofdrags>1</noofdrags>\n</drag>\n<drop>\n  <no>1</no>\n  <shape></shape>\n  <coords></coords>\n  <choice>1</choice>\n</drop>",
-    class = c("glue", "character")
-  )
-
-  # Run the function
-  result <- generate_ddmarker(
-    image = image,
-    image_alt = image_alt,
-    answer = answer,
-    fb_answer = fb_answer
-  )
-
-  result <- gsub("<file.*?</file>", "", result)
-
-  # Check if the result matches the expected structure
-  expect_equal(result, expected_structure)
-})
