@@ -26,23 +26,21 @@ define_questions_from_df <- function(qc, df) {
     stopifnot('If an image is included, the associated alt field must also be defined.' = length(invalid_rows) == 0)
   }
 
-  df <- df |>
-    dplyr::mutate(category = dplyr::if_else(category == "", qc$category, category)) |>
-    dplyr::mutate(fraction = dplyr::if_else(fraction == "", qc$fraction, fraction)) |>
-    dplyr::mutate(author = dplyr::if_else(author == "", qc$author, author)) |>
-    dplyr::mutate(fb_correct = dplyr::if_else(fb_correct == "", qc$correct_feedback, fb_correct)) |>
-    dplyr::mutate(fb_partially = dplyr::if_else(fb_partially == "", qc$partially_correct_feedback, fb_partially)) |>
-    dplyr::mutate(fb_incorrect = dplyr::if_else(fb_incorrect == "", qc$incorrect_feedback, fb_incorrect))
+  df <- dplyr::mutate(df, category = dplyr::if_else(category == "", qc$category, category))
+  df <- dplyr::mutate(df, fraction = dplyr::if_else(fraction == "", qc$fraction, fraction))
+  df <- dplyr::mutate(df, author = dplyr::if_else(author == "", qc$author, author))
+  df <- dplyr::mutate(df, fb_correct = dplyr::if_else(fb_correct == "", qc$correct_feedback, fb_correct))
+  df <- dplyr::mutate(df, fb_partially = dplyr::if_else(fb_partially == "", qc$partially_correct_feedback, fb_partially))
+  df <- dplyr::mutate(df, fb_incorrect = dplyr::if_else(fb_incorrect == "", qc$incorrect_feedback, fb_incorrect))
 
   valid_fraction <- all(!is.na(as.numeric(df$fraction)) & as.numeric(df$fraction) >= 0 & as.numeric(df$fraction) <= 1)
   stopifnot('Fraction must be a number between 0 and 1.' = valid_fraction == TRUE)
 
   # check duplicate id values within category
-  filtered_df <- df[df$id != "", ]
-  duplicates <- filtered_df |>
-    dplyr::group_by(category) |>
-    dplyr::summarise(duplicate_ids = list(id[duplicated(id)]), .groups = "drop") |>
-    dplyr::filter(lengths(duplicate_ids) > 0)
+  duplicates <- df[df$id != "", ]
+  duplicates <- dplyr::group_by(duplicates, category)
+  duplicates <- dplyr::summarise(duplicates, duplicate_ids = list(id[duplicated(id)]), .groups = "drop")
+  duplicates <- dplyr::filter(duplicates, lengths(duplicate_ids) > 0)
   if (nrow(duplicates) > 0) {
     warning(paste0(
       "Duplicate 'id' values found for the following 'category' values: ",
@@ -115,9 +113,9 @@ get_non_empty_fields_by_prefix <- function(df, i, prefix) {
   matching_columns <- grep(paste0("^", prefix), names(df), value = TRUE)
 
   # Filter non-empty values in the specified row
-  non_empty_values <- df[i, matching_columns, drop = FALSE] |>
-    dplyr::select(dplyr::where(~ .x != "")) |>
-    unlist(use.names = FALSE)
+  non_empty_values <- df[i, matching_columns, drop = FALSE]
+  non_empty_values <- dplyr::select(non_empty_values, dplyr::where(~ .x != ""))
+  non_empty_values <- unlist(non_empty_values, use.names = FALSE)
 
   return(non_empty_values)
 }
