@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   moodef: moodef.html
-last_built: 2025-01-26T12:24Z
+last_built: 2025-01-26T12:44Z
 urls:
   reference: https://josesamos.github.io/moodef/reference
   article: https://josesamos.github.io/moodef/articles
