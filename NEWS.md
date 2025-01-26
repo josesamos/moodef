@@ -1,4 +1,4 @@
-# moodef (development version)
+# moodef 1.2.0
 
 * Define extended style questions.
 * Include question author.
