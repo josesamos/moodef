@@ -302,7 +302,7 @@ pander::pandoc.table(df, split.table = Inf)
 
 Once available, we can generate all the questions using the `define_questions_from_csv()` function, as shown below.
 
-```{r}
+```{r, eval=FALSE}
 file <- system.file("extdata", "questions.csv", package = "moodef")
 qc <- qc |>
   define_questions_from_csv(file)
@@ -348,7 +348,7 @@ s
 
 Once the definition of the questions in the data frame is finished, we can add it to the `question_category` object using the `define_questions_from_data_frame()` function, as it's shown in the following.
 
-```{r}
+```{r, eval=FALSE}
 qc <- qc |>
   define_questions_from_data_frame(df)
 ```
